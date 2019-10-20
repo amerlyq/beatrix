@@ -26,6 +26,34 @@ fmt-all:
 	    clang-format --verbose -style=file --fallback-style=none -i {} +
 
 
+
+#%SUM: code spelling errors -- detect and suggest variants
+#%REF: https://github.com/codespell-project/codespell
+#%ALT: https://wiki.archlinux.org/index.php/Language_checking
+#%DEP:|community/codespell|
+#%USE: --dictionary ./style/codespell.spl --ignore-words ./style/codespell.bad
+.PHONY: spell
+spell:
+	@codespell --skip='./.git,./_*' --check-filenames --check-hidden \
+	  $(if $(VERBOSE),--summary) \
+	  $(if $(INPLACE),--write-changes) \
+	  $(if $(INTERACTIVE),--interactive 3)
+
+
+
+#%SUM: text spelling errors for docs and comments -- detect and suggest variants
+#%REF: http://aspell.net/man-html/index.html
+#%DEP:|extra/aspell|aspell-{en,ru,uk}|
+.PHONY: aspell
+aspell: | $(btrx)/spell/
+	@aspell-multi '$|' list '*.rst'
+
+.PHONY: aspell-fix
+aspell-fix: | $(btrx)/spell/
+	@aspell-multi '$|' check '*.rst'
+
+
+
 .PHONY: hooks
 hooks: $(btrx)/hooks/pre-push
 	+'$<'

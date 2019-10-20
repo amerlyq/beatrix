@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: check spelling of all files in current directory
+#%USAGE: $ ./$0 ./path/to/spell/ [list|check] '*.rst'
+#%TUT: https://zerokspot.com/weblog/2018/02/28/story-about-spellchecking/
+#%   * https://jamesaimonetti.com/posts/spellcheck-projects-using-aspell-and-makefiles/
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+dst=$(realpath -e "$1")
+act=$2
+ext=$3
+
+findext(){ find . -xtype d -name '_*' -prune -o -name "$ext" "$@"; }
+
+mkdb(){ local lang=$1 sfx=$2
+  local nm="aspell.$lang.p$sfx"
+  [[ -f $dst/$nm ]] || echo "personal_$sfx-1.1 $lang 0 utf-8" > "$dst/$nm"
+  echo "$nm"
+}
+
+chk(){ local lang=$1; shift
+  aspell \
+  --lang="$lang" \
+  --dont-backup \
+  --encoding=utf-8 \
+  --home-dir="$dst" \
+  --personal="$(mkdb "$lang" ws)" \
+  --repl="$(mkdb "$lang" repl)" \
+  "$@"
+}
+
+# BUG:(chk uk list): totally suppresses spelling error (empty stdout)
+# BUG:(chk ru list): when used as standalone "check" -- all english words become unknown
+chkall(){ chk en list | LC_ALL=C sort -u; }
+
+fixall(){ while IFS= read -r f; do
+  </dev/tty chk en check -- "$f"
+done;}
+
+case $act
+in list) findext -exec cat {} + | chkall
+;; check) findext -print | fixall
+;; *) exit 1
+esac
