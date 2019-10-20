@@ -6,6 +6,16 @@
 #%SUMMARY: targets dependent on special auxiliary programs
 #%
 
+#%DEPS:|extra/ctags|
+.PHONY: tags
+tags:
+	tags-gen-cpp . > tags
+
+.PHONY: tags-all
+tags-all:
+	ctags -R
+
+
 #%DEP:|aur/reuse|
 .PHONY: reuse
 reuse:

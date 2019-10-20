@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: generate "tags" file only for C/C++ source code
+#%USAGE: $ ./$0 /path/to/dir..
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+rgx_ignore='_[^/]*'
+
+find_src(){ find "$@" -regextype egrep \
+  -type d -regex ".*/($rgx_ignore)" -prune -o \
+  -type f -regex '.*\.[hc](pp)?' -printf '%P\n'
+}
+
+gen_tags(){ ctags --options=NONE \
+  --excmd='number' --fields='afkmsSt' \
+  --languages='c++,c' --c++-kinds='cdefgmnpstuv' \
+  --file-scope=no -L- -f- 2>/dev/null
+}
+
+find_src "$@" | gen_tags

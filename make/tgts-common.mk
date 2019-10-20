@@ -19,9 +19,3 @@ clean:
 .PHONY: distclean
 distclean:
 	rm -rf --preserve-root '$(_bdir)/'
-
-
-.PHONY: tags
-# tags-all:
-tags:
-	ctags -R
