@@ -69,8 +69,7 @@ ctest:
 
 
 
-.PHONY: gv graphviz
-gv: graphviz
+.PHONY: graphviz
 graphviz: _pfx = $(_bdir)/_gv/g
 graphviz: cmake_args += --graphviz='$(_pfx)'
 graphviz: config

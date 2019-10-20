@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: choose viewer for "graphviz" dot format automatically
+#%USAGE: $ ./$0 *.gv [<file.gv]
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+if xset q &>/dev/null; then
+  if hash xdot &>/dev/null; then
+    function view(){ local dpi
+      dpi=$(xrdb -query | sed -rn '/.*\bdpi:\s+([0-9]+)$/s//\1/p')
+      (( dpi >= 200 )) && export GDK_SCALE=2 GDK_DPI_SCALE=0.5
+      exec 2>/dev/null
+      xdot "$@"
+    }
+  else
+    view(){
+      dot -Tx11 "$@"
+    }
+  fi
+else
+  hash graph-easy &>/dev/null || exit 1
+  view(){
+    local oth='box3d|tab|component|Msquire|plain|underline'
+    sed -r 's/(shape=)('"$oth"')\b/\1box/g' "$@" \
+    | graph-easy \
+    | "${PAGER:-less}"
+  }
+fi
+
+# ALT: $ file --mime-type --brief --dereference -- graph.gv.gz
+zcat --force -- "$@" | view /dev/stdin
