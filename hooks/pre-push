@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: complex hook to verify quality of new commits
+#%USAGE: $ install -Dm755 "$0" "$(git rev-parse --git-dir)/hooks"
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+
+# make fmt
+# make doc
+make
+make test

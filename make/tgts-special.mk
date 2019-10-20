@@ -24,3 +24,19 @@ fmt-all:
 	find . -xtype d -name '_*' -prune -o \
 	  -regextype egrep -regex '.*\.(cpp|hpp|cc|cxx)' -exec \
 	    clang-format --verbose -style=file --fallback-style=none -i {} +
+
+
+.PHONY: hooks
+hooks: $(btrx)/hooks/pre-push
+	+'$<'
+
+
+#%DEPS:|extra/git|
+d_git := $(shell git rev-parse --git-dir)
+ifneq (,$(d_git))
+.PHONY: hooks-install
+# build: hooks-install
+hooks-install: $(d_git)/hooks/pre-push
+$(d_git)/hooks/% :: $(btrx)/hooks/%
+	install -Dm755 '$<' '$@'
+endif
