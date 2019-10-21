@@ -22,6 +22,7 @@ ifeq (,)
 	  -DCMAKE_BUILD_TYPE='$(_bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
 	  -DCMAKE_INSTALL_PREFIX='$(_bdir)/_install' \
+	  -DUSE_SANITIZERS='$(_saint)' \
 
 else
 # 	  -DCMAKE_TOOLCHAIN_FILE='$(f_toolchain)' \
@@ -52,6 +53,19 @@ run: _tgt = run_$(or $(X),$(_run))$(if $(filter-out 0,$(B)),,/fast)
 run: _args = $(if $(W),WRAP='$(W)') $(if $(G),ARGS="--gtest_filter='$(G)'")
 run:
 	+$(CMAKE) --build '$(_bdir)' --target '$(_tgt)' -- $(_args)
+
+
+
+#%NOTE: specialized env vars required by sanitizers in runtime
+.PHONY: saint
+# INFO: decode ASAN backtrace after using "symbolize=0"
+#   $ projects/compiler-rt/lib/asan/scripts/asan_symbolize.py / <./log | c++filt
+saint: export ASAN_OPTIONS := check_initialization_order=1
+# NOTE:(poison_in_dtor=1): required by -fsanitize-memory-use-after-dtor
+saint: export MSAN_OPTIONS := poison_in_dtor=1
+saint: export UBSAN_OPTIONS := print_stacktrace=1
+saint: _saint := $(or $(SANITIZER),$(error "You must specify enabled SANITIZER=..."))
+saint: config build run
 
 
 

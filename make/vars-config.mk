@@ -25,6 +25,7 @@ $(if $(VERBOSE),$(warning 'CC=$(CC) CXX=$(CXX)'))
 # TODO: https://clang-analyzer.llvm.org/scan-build
 # CMAKE := scan-build cmake
 CMAKE := cmake
+SANITIZER ?= memory
 
 
 d_git := $(shell git rev-parse --git-dir)
