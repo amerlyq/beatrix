@@ -6,9 +6,10 @@
 #%SUMMARY: preconfigured targets for cmdline batch processing (OR parallel in recursive make)
 #%
 
-.PHONY: b c gv r t
+.PHONY: b c gv r t x
 b: build
 c: config
 gv: graphviz
 r: run
 t: test
+x: clean

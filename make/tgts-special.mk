@@ -18,6 +18,8 @@ tags-all:
 
 
 #%DEP:|aur/reuse|
+# TODO:DFL: ignore all unknown files -- check license only after they are added to index
+# ALSO: keep current recipe and rename to "reuse-all"
 .PHONY: reuse
 reuse:
 	reuse lint
