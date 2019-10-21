@@ -43,7 +43,11 @@ fixall(){ while IFS= read -r f; do
 done;}
 
 case $act
-in list) findext -exec cat {} + | chkall
+in list)
+  if findext -exec cat {} + | chkall | grep '^'; then
+    >&2 echo ">>> WARN: you must fix above misspeled words by running interactive 'make aspell-fix'"
+    exit 1
+  fi
 ;; check) findext -print | fixall
 ;; *) exit 1
 esac

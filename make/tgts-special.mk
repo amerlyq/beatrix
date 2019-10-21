@@ -73,8 +73,10 @@ hooks: $(btrx)/hooks/pre-push
 #%DEPS:|extra/git|
 ifneq (,$(d_git))
 .PHONY: hooks-install
-# build: hooks-install
-hooks-install: $(d_git)/hooks/pre-push
+hooks-install: $(d_git)/hooks/pre-push  $(d_git)/hooks/pre-commit
 $(d_git)/hooks/% :: $(btrx)/hooks/%
 	install -Dm755 '$<' '$@'
+
+# HACK: always install hooks on any action in make
+$(or $(MAKECMDGOALS),$(.DEFAULT_GOAL)): hooks-install
 endif
