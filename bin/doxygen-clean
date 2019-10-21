@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: export doxygen by patching newly generated Doxyfile
+#%USAGE: $ ./$0 /project/root /build/_doc 0.0.1
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+d_pj=$(readlink -e "$1")
+d_doc=$(readlink -e "$2")
+version=${3:?}
+cfg=$d_doc/Doxyfile
+
+# shellcheck disable=SC2016
+chg() { command perl -i -ws0pe 's|^($k\s*=).*(\\\n\s*.*)*(?=[^\\]\n)|$1 $v|m' -- -k="$1" -v="${*:2}" "$cfg"; }
+chgq() { chg "$1" "\"$2\""; }
+
+doxygen -g "$cfg" >/dev/null
+
+chgq PROJECT_NAME       "${d_pj##*/}"
+chgq PROJECT_NUMBER     "$version"
+chgq OUTPUT_DIRECTORY   "$d_doc"
+chgq INPUT              "$d_pj"
+
+chg FILE_PATTERNS       "*.c"  "*.h"  "*.cpp"  "*.hpp"
+chg EXCLUDE_PATTERNS    "$d_pj/_*"  "$d_pj/test/*" "$d_pj/t/*"
+
+chg TAB_SIZE                4
+chg RECURSIVE               YES
+chg EXTRACT_PRIVATE         YES
+chg EXTRACT_STATIC          YES
+
+chg GENERATE_LATEX          NO
+chg GENERATE_HTML           YES
+chg SEARCHENGINE            NO
+chg SOURCE_BROWSER          NO
+chg GENERATE_TREEVIEW       NO
+chg REFERENCED_BY_RELATION  YES
+chg REFERENCES_RELATION     YES
+
+# REF: https://github.com/vovkos/doxyrest
+chg GENERATE_XML            YES
+# chg XML_OUTPUT              xml-dir
+chg XML_PROGRAMLISTING      NO
+chg CASE_SENSE_NAMES        NO
+chg HIDE_UNDOC_RELATIONS    YES
+chg EXTRACT_ALL             YES
+
+exec doxygen "$cfg"

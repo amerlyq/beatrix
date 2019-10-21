@@ -16,6 +16,7 @@ REF
     https://habr.com/ru/post/461817/
 * READ:(style): https://cmake.org/cmake/help/v3.16/manual/cmake-developer.7.html
 * READ:(large files): https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
+* NICE:E.G. https://github.com/fmtlib/fmt/blob/master/CMakeLists.txt
 
 #]=======================================================================]
 

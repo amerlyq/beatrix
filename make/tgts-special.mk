@@ -5,6 +5,7 @@
 #
 #%SUMMARY: targets dependent on special auxiliary programs
 #%
+$(call &AssertVars,d_git)
 
 #%DEPS:|extra/ctags|
 .PHONY: tags
@@ -70,7 +71,6 @@ hooks: $(btrx)/hooks/pre-push
 
 
 #%DEPS:|extra/git|
-d_git := $(shell git rev-parse --git-dir)
 ifneq (,$(d_git))
 .PHONY: hooks-install
 # build: hooks-install

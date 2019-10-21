@@ -20,3 +20,7 @@ release: config build
 .PHONY: test
 test: _run := testapp
 test: run
+
+
+.PHONY: doc
+doc: doxygen  # sphinx

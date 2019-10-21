@@ -27,6 +27,12 @@ $(if $(VERBOSE),$(warning 'CC=$(CC) CXX=$(CXX)'))
 CMAKE := cmake
 
 
+d_git := $(shell git rev-parse --git-dir)
+ifneq (,$(d_git))
+version := $(shell git --no-pager log --pretty=format:'%ad' --date=short -1 || echo 0)
+endif
+
+
 ### --- Options ---
 # hosts := x86_64 mingw64 arm32 sanitized
 
