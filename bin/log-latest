@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: get latest log in directory
+#%USAGE: $ ./$0 /path/to/logs/
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+d_log=${1:-${LOGRECORD_DIR:?No /path/to/logs/}}
+# TODO: support negative indexes to count from beginning
+ridx=${2-}
+ext=${3:-'*'${LOGRECORD_EXT:-.log}}
+
+find "$d_log" -mindepth 1 -maxdepth 1 -name "$ext" -printf '%T@ %p\n' \
+| LC_ALL=C sort -rnk1 | sed -n "$ridx"'{s/^\S\+\s\+//p;q}'

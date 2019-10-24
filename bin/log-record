@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: record log of wrapped command
+#%USAGE: $ ./$0 /path/to/logs/
+#%DEP:|community/moreutils|: ts
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+ext=${LOGRECORD_EXT:-.log}
+d_log=${LOGRECORD_DIR:-${TMPDIR:-/tmp}/_log}
+tscmd=${LOGRECORD_TSCMD:-"ts -s %.s"}  # HACK:USE: "cat" to remove ts
+
+log=$d_log/$(date +'%Y%m%d_%H%M%S')${ext}
+mkdir -p "$d_log"
+
+
+#%VIEW: $ <"$(log-latest)" log-pretty | less -r
+pretty=()
+command -v log-pretty &>/dev/null && pretty+=( log-pretty )
+[[ -t 1 ]] && ((${#pretty[@]})) && exec > >("${pretty[@]}")
+
+
+# PERF: no bufferization on screen
+# BUG: prints on TTY even when I manually redirect STDOUT to /dev/null
+{ { exec "$@" \
+  | stdbuf -o0 tee -a /dev/tty
+  } 3>&1 1>&2 2>&3 \
+  | stdbuf -o0 tee -a /dev/tty \
+  | sed -u 's/^/|: /'
+} |& $tscmd >> "$log"

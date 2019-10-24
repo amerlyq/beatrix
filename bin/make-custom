@@ -22,6 +22,26 @@ export PATH="${here}:${PATH}"
 export MAKEFLAGS="${MAKEFLAGS-} --no-builtin-rules --no-builtin-variables --no-print-directory"
 export MAKEGUARD=1  # custom flag
 
+export LOGRECORD_DIR="$PWD/_log"
+test "${LOGRECORD_ENABLED:-0}" -gt 0 && wrap=log-record
+
+# ALT:(time -ao f.log): append stats directly to file without printing to screen
+command -v time >/dev/null 2>&1 && timefmt="\
+errcode=%x\
+ elapsed=%e\
+ user=%U\
+ system=%S\
+ maxrss=%M\
+ fsin=%I\
+ fsout=%O\
+ majflt=%F\
+ mnrflt=%R\
+ ctxforce=%c\
+ ctxwait=%w\
+ cmdline=%C\
+" || TIMEFORMAT='time:  %1Uu  %1Ss  %1Re'
+
+# time ${timefmt:+--format="$timefmt" --} \
 exec ${wrap-} \
   "$make" ${silent-} -I "${d_make}" \
   "$@"
