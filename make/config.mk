@@ -9,9 +9,11 @@
 ### --- Toolchain ---
 
 # BET: use toolchain even for native builds
-# toolchain_cmake := $(btrx)/cmake/toolchain-$(triplet).cmake
-# toolchain_mk    := $(btrx)/make/toolchain-$(triplet).mk
+# toolchain_cmake := $(btrx)cmake/toolchain-$(triplet).cmake
+# toolchain_mk    := $(btrx)make/toolchain-$(triplet).mk
 
+# TEMP: override only through "make CXX=..." -- otherwise "./m" and "make" produce different compilers
+# BAD: ignores CXX from environment
 CC ?= clang
 export CC
 
@@ -28,12 +30,6 @@ CMAKE := cmake
 SANITIZER ?= memory
 
 
-d_git := $(shell git rev-parse --git-dir)
-ifneq (,$(d_git))
-version := $(shell git --no-pager log --pretty=format:'%ad' --date=short -1 || echo 0)
-endif
-
-
 ### --- Options ---
 # hosts := x86_64 mingw64 arm32 sanitized
 
@@ -42,4 +38,4 @@ endif
 bcfg := Debug
 bdir := _build-$(CC)-$(bcfg)
 btst := ON
-# force :=
+force := 1

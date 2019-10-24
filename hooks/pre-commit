@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
 # SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
 #
@@ -7,14 +7,5 @@
 #%SUMMARY: cosmetic fixes to new commits
 #%USAGE: $ install -Dm755 "$0" "$(git rev-parse --git-dir)/hooks"
 #%
-set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
-
-make aspell
-make spell
-
-# HACK: suppress output unless got error
-tmp=$(make reuse) || { >&2 cat <<< "$tmp"; exit 1; }
-
-# WARN: source code in workdir is reformatted BUT! commit is unchanged
-#   => (intentionally) manually amend your commit OR make new commit with style format
-make fmt
+set -fCeu
+exec make check-commit

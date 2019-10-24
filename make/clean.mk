@@ -3,11 +3,18 @@
 #
 # SPDX-License-Identifier: MIT
 #
-#%SUMMARY: frequent generic targets for all projects
+#%SUMMARY: different ways to clean build artifacts
 #%
 $(call &AssertVars,bdir version)
 
 _bdir := $(bdir)
+
+
+#%ALIAS
+.PHONY: x z
+x: clean
+z: distclean
+
 
 
 .PHONY: clean
@@ -20,9 +27,3 @@ clean:
 .PHONY: distclean
 distclean:
 	rm -rf --preserve-root '$(_bdir)/'
-
-
-
-.PHONY: doxygen
-doxygen: | $(_bdir)/_doxy/
-	doxygen-clean . '$|' '$(version)'

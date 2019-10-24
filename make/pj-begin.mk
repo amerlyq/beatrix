@@ -14,29 +14,21 @@
 # BUG:(-rR): doesn't have effect on this toplevel makefile ALT:USE: multi-shebang
 # MAKEFLAGS += -rR --no-print-directory
 
+#%WARN: only shells which ends in 'sh' are simplified, otherwise interpreter is used always
+SHELL := $(shell which bash)
+.SHELLFLAGS := -euo pipefail -c
+
 
 ### --- Constants ---
+# HACK:(keep trailing "/" in VAR):
+#  ++ Vim 'gf' can directly open local files by ignoring path prefix
+#  => USE: '$(here:/=)' to access var without trailing '/'
 this := $(lastword $(MAKEFILE_LIST))
-here := $(patsubst %/,%,$(dir $(realpath $(this))))
-btrx := $(patsubst %/,%,$(dir $(here)))
+here := $(dir $(realpath $(this)))
+btrx := $(dir $(here:/=))
 root := $(word $(words $(MAKEFILE_LIST)),_ $(MAKEFILE_LIST))
 d_pj := $(patsubst %/,%,$(dir $(root)))
 
 
-### --- Environment ---
-export PATH := $(btrx)/bin:$(PATH)
-
-
-### --- Functions ---
+# BUG: no error when function misspelled $(call &AssrtVrs,here)
 &AssertVars = $(foreach v,$(1),$(if $($v),,$(error This file requires non-empty var '$v')))
-# &HasProg = $(shell command -v '$(1)' 2>/dev/null)
-# &CheckProgs = $(foreach x,$(1),$(if $(call &HasProg,$x),,$(error This project requires program '$v')))
-
-
-### --- Recipes ---
-.PRECIOUS: %/
-%/: ; +@mkdir -p '$@'
-
-
-.PHONY: all
-all:

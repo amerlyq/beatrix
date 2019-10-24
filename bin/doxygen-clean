@@ -9,8 +9,8 @@
 #%
 set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
 
-d_pj=$(readlink -e "$1")
-d_doc=$(readlink -e "$2")
+d_pj=$(realpath -e "$1")
+d_doc=$(realpath -e "$2")
 version=${3:?}
 cfg=$d_doc/Doxyfile
 

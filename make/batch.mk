@@ -24,3 +24,10 @@ test: run
 
 .PHONY: doc
 doc: doxygen  # sphinx
+
+
+.PHONY: check-commit
+check-commit: aspell spell reuse-all fmt
+
+.PHONY: check-push
+check-push: check-commit doc build run  #test

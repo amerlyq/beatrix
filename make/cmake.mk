@@ -14,6 +14,15 @@ _run  := $(brun)
 cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 
 
+#%ALIAS
+.PHONY: b c gv r t
+b: build
+c: config
+gv: graphviz
+r: run
+t: test
+
+
 .PHONY: config
 config \
 $(_bdir)/CMakeCache.txt:

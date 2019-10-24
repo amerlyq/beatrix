@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: custom make to execute Makefile in the controllable environment
+#%IDEA:ALT: instead of writing logs and timestamps/stats -- simply optimize incremental build time
+#%USAGE: $ ./$0 [make_args]
+#%
+set -fCeu
+
+test "${VERBOSE:-0}" -gt 0 || silent=--silent
+
+this=$(realpath -e "$0")
+here=${this%/*}
+d_make=${here%/*}/make
+
+command -v remake >/dev/null 2>&1 && make='remake' || make='make'
+
+export PATH="${here}:${PATH}"
+export MAKEFLAGS="${MAKEFLAGS-} --no-builtin-rules --no-builtin-variables --no-print-directory"
+export MAKEGUARD=1  # custom flag
+
+exec ${wrap-} \
+  "$make" ${silent-} -I "${d_make}" \
+  "$@"
