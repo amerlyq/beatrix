@@ -17,6 +17,7 @@ include doxygen.mk
 include gdb.mk
 include git.mk
 include log.mk
+include pkgbuild.mk
 include reuse.mk
 include rr.mk
 include tags.mk
