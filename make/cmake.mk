@@ -15,10 +15,12 @@ cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 
 
 #%ALIAS
-.PHONY: b c gv r t
+.PHONY: b c gv lc ll r t
 b: build
 c: config
 gv: graphviz
+lc: list-cachevars
+ll: list-cachevars-all
 r: run
 t: test
 
@@ -39,6 +41,16 @@ else
 # 	  -DCMAKE_SYSROOT='$(STAGING_DIR)' \
 # 	  -DPLATFORM_ARCH='$(ARCH)'
 endif
+
+
+
+.PHONY: list-cachevars
+list-cachevars:
+	$(CMAKE) -L$(if $(VERBOSE),H) '$(_bdir)'
+
+.PHONY: list-cachevars-all
+list-cachevars-all:
+	$(CMAKE) -LA$(if $(VERBOSE),H) '$(_bdir)'
 
 
 

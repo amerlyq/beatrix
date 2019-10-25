@@ -7,6 +7,11 @@
 #%
 $(call &AssertVars,bdir version)
 
+## FIXED: sphinx inline code
+# https://stackoverflow.com/questions/21591107/sphinx-inline-code-highlight
+# /same/dir/as/conf.py/docutils.conf
+#   [restructuredtext parser]
+#   syntax_highlight = short
 
 .PHONY: doxygen
 doxygen: | $(bdir)/_doxy/
