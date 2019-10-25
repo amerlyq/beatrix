@@ -1,4 +1,5 @@
-personal_ws-1.1 en 23 utf-8
+personal_ws-1.1 en 26 utf-8
+Beatus
 CMake
 Dmytro
 ExternalProject
@@ -9,7 +10,9 @@ LicenseRef
 Precompile
 RST
 SPDX
+Viatrix
 aeternum
+beatrix
 bugfix
 buildsystem
 cmake
