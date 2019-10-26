@@ -6,6 +6,10 @@
 #%SUMMARY: preconfigured targets for cmdline batch processing (OR parallel in recursive make)
 #%
 
+#%ALIAS
+.PHONY: cov
+cov: coverage
+
 
 .PHONY: debug
 debug: _bcfg := Debug
@@ -20,6 +24,10 @@ release: config build
 .PHONY: test
 test: _run := testapp
 test: run
+
+
+.PHONY: coverage
+coverage: coverage-html
 
 
 .PHONY: doc

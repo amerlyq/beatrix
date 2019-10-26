@@ -81,7 +81,7 @@ install:
 .PHONY: run
 run: _tgt = run_$(or $(X),$(_run))
 run: _args = $(if $(W),WRAP='$(W)') $(if $(G),ARGS="--gtest_filter='$(G)'")
-run:
+run: coverage-invalidate
 	+$(CMAKE) --build '$(_bdir)' --target '$(_tgt)$(&skiprebuild)' -- $(_args)
 
 
@@ -99,9 +99,11 @@ saint: config build run
 
 
 
-.PHONY: coverage
-coverage:
-	+$(CMAKE) --build '$(_bdir)' --target coverage
+#%USAGE: call "coverage-invalidate" after running tests with enabled coverage
+_covtgts := $(patsubst %,coverage-%,invalidate info html open)
+.PHONY: $(_covtgts)
+$(_covtgts):
+	+$(CMAKE) --build '$(_bdir)' --target '$@'
 
 
 
