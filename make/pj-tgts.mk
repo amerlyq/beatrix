@@ -11,6 +11,7 @@ include aspell.mk
 include batch.mk
 include clang-format.mk
 include clean.mk
+include cmake-format.mk
 include cmake.mk
 include codespell.mk
 include doxygen.mk

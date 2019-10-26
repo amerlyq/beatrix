@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: MIT
 #
-#%SUMMARY: style for large projects
+#%SUMMARY: style for large C/C++ projects
 #%TODO: add all options instead of "based on LLVM" and rename this style to "*-full"
 #%
 Language: Cpp
