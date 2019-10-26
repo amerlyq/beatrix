@@ -34,5 +34,23 @@ endif()
 # TODO: split on debug/release set by: {performance, aim, applicability}
 #   i.e. CMAKE_CXX_FLAGS_{DEBUG,RELEASE,RELWITHDEBINFO}
 # [_] BUG: warning flags are propagated to ext-deps compilation
-string(REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS};${qa_c_warn};${qa_warn}")
-string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS};${qa_cxx_warn};${qa_warn}")
+function(dump_flags_from_var lang var)
+  # RQ:(absolute path): on configure step file is used to build CMakeDetermineCompilerABI_C.bin
+  set(fout "${CMAKE_CURRENT_BINARY_DIR}/${var}.flags")
+  set(flags ${${var}} ${qa_warn})
+  list(SORT flags)
+
+  string(REPLACE ";" "\n" flags "${flags}")
+  file(WRITE "${fout}" "${flags}")
+
+  string(TOUPPER "${lang}" lang)
+  set(dst CMAKE_${lang}_FLAGS)
+  set(${dst} "${${dst}} @${fout}" PARENT_SCOPE)
+endfunction()
+
+
+## ALT: more simple and transparent
+# string(REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS};${qa_c_warn};${qa_warn}")
+# string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS};${qa_cxx_warn};${qa_warn}")
+dump_flags_from_var(C qa_c_warn)
+dump_flags_from_var(CXX qa_cxx_warn)
