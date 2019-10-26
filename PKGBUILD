@@ -16,7 +16,7 @@ license=('MIT' 'Apache-2.0' 'CC-BY-SA-4.0')
 arch=('any')
 
 depends=(
-  clang cmake ctags gdb git moreutils rr tree
+  clang cmake ctags gdb git moreutils ninja rr tree
 
   dcd dfmt dmd dmd-docs dscanner dtools
 )

@@ -7,6 +7,8 @@
 #%
 $(call &AssertVars,bcfg bdir btrx btst brun CMAKE)
 
+# _bgen := Unix Makefiles
+_bgen := Ninja
 _bcfg := $(bcfg)
 _bini := $(or $(bini),$(btrx)cmake/config/default.cmake)
 _bdir := $(bdir)
@@ -20,6 +22,8 @@ tname := x86_64-pc-linux-gnu.cmake
 toolchain := $(btrx)/cmake/toolchain/$(tname)
 
 cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
+
+&skiprebuild := $(if $(filter-out 0,$(B)),,$(if $(filter-out $(_bgen),Ninja),/fast))
 
 
 #%ALIAS
@@ -37,6 +41,7 @@ t: test
 config \
 $(_bdir)/CMakeCache.txt:
 	$(CMAKE) $(cmake_args) \
+	  $(if $(_bgen),-G'$(_bgen)') \
 	  $(if $(_bini),-C'$(_bini)') \
 	  -S'$(d_pj)' \
 	  -B'$(_bdir)' \
@@ -74,10 +79,10 @@ install:
 
 # ALT: install then run :: $(abspath $(_bdir))/_install/bin/main
 .PHONY: run
-run: _tgt = run_$(or $(X),$(_run))$(if $(filter-out 0,$(B)),,/fast)
+run: _tgt = run_$(or $(X),$(_run))
 run: _args = $(if $(W),WRAP='$(W)') $(if $(G),ARGS="--gtest_filter='$(G)'")
 run:
-	+$(CMAKE) --build '$(_bdir)' --target '$(_tgt)' -- $(_args)
+	+$(CMAKE) --build '$(_bdir)' --target '$(_tgt)$(&skiprebuild)' -- $(_args)
 
 
 

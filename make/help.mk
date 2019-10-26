@@ -31,6 +31,7 @@ endif
 
 
 
+# ALT:DEBUG:(Ninja): $ ninja -t targets all
 # TODO:(help-list): annotate each line by comment "#%SUM:" directly over recipe
 # OR: @:$(foreach t,$(_tgts),$(info $t))
 .PHONY: list-targets
