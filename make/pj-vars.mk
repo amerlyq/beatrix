@@ -7,7 +7,7 @@
 #%
 $(call &AssertVars,here)
 
+include args.mk
 include common.mk
-# include args.mk
 include config.mk
 include version.mk

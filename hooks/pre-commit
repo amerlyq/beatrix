@@ -8,4 +8,4 @@
 #%USAGE: $ install -Dm755 "$0" "$(git rev-parse --git-dir)/hooks"
 #%
 set -fCeu
-exec make check-commit
+exec make check-basic

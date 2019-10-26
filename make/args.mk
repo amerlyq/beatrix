@@ -6,6 +6,19 @@
 #%SUMMARY: treat some targets as boolean option switches
 #%
 
+
+# HACK: make recipes (and only recipes) verbose
+@_tv := v verbose
+ifneq (,$(or $(filter $(@_tv),$(MAKECMDGOALS)),$(VERBOSE)))
+export VERBOSE ?= 1
+.PHONY: $(@_tv)
+$(@_tv): $(or $(filter-out $(@_tv),$(MAKECMDGOALS)),$(.DEFAULT_GOAL)) ;
+endif
+
+
+
+# DISABLED: no sane scenario yet
+ifdef 0
 # NOTE: <keywords>: recipes with same names are ignored
 @pltf := target host
 @arch := arm x86_64
@@ -37,3 +50,4 @@ endif
 # endif
 # console::
 #     run-some-command $(CONSOLE_ARGS)
+endif

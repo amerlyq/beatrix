@@ -15,6 +15,10 @@ d_git=${1-}
 #   git --no-pager log --pretty=format:'%ad' --date=short -1 || echo 0
 # OR: rev=$("${git[@]}" rev-list --count HEAD -- '^master')
 
+## ALSO:IDEA: add full hash of each submodule to embed it into ELF
+#  -DGIT_SHA_<PROJECT>=$(git rev-parse --verify --default HEAD)
+#  => makes it possible to reproduce the same build in the same controllable environment
+
 tag=$(git ${d_git:+-C "$d_git"} describe --always --dirty --tags --match '*.*.*')
 
 echo "${tag/-/.}"

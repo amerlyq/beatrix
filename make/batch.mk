@@ -7,7 +7,8 @@
 #%
 
 #%ALIAS
-.PHONY: cov
+.PHONY: ck cov
+ck: check-all
 cov: coverage
 
 
@@ -34,9 +35,8 @@ coverage: coverage-html
 doc: doxygen  # sphinx
 
 
-# RENAME: check-basic/common + check-all
-.PHONY: check-commit
-check-commit: aspell spell reuse-all fmt
+.PHONY: check-basic
+check-basic: aspell spell reuse-all fmt
 
-.PHONY: check-push
-check-push: check-commit doc build run  #test
+.PHONY: check-all
+check-all: check-basic doc build run  #test

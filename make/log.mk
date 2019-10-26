@@ -14,9 +14,9 @@ rmlog: log-latest-remove
 
 
 #%ALIAS
-.PHONY: v
-v: EDITOR := $(or $(PAGER),$(LESS),less -r)
-v: log
+.PHONY: p
+p: EDITOR := $(or $(PAGER),$(LESS),less -r)
+p: log
 
 
 # HACK: skip current log and open previous one

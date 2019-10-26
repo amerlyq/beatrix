@@ -24,6 +24,7 @@ chgq PROJECT_NAME       "${d_pj##*/}"
 chgq PROJECT_NUMBER     "$version"
 chgq OUTPUT_DIRECTORY   "$d_doc"
 chgq INPUT              "$d_pj"
+chg  QUIET              "$( (("${VERBOSE:-0}")) && echo NO || echo YES )"
 
 chg FILE_PATTERNS       "*.c"  "*.h"  "*.cpp"  "*.hpp"
 chg EXCLUDE_PATTERNS    "$d_pj/_*"  "$d_pj/test/*" "$d_pj/t/*"

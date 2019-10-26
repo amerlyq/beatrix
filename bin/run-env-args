@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 #
 #%SUMMARY: augment each running command with cmdline and additional wrappers from ENV
-#%USAGE: $ ./$0 cmd [args]
+#%USAGE: $ [WRAP='gdb --args'] [ARGS='--gtest_filter="*"'] ./$0 cmd [args]
 #%
 set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
 
