@@ -34,6 +34,7 @@ coverage: coverage-html
 doc: doxygen  # sphinx
 
 
+# RENAME: check-basic/common + check-all
 .PHONY: check-commit
 check-commit: aspell spell reuse-all fmt
 

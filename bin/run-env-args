@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: augment each running command with cmdline and additional wrappers from ENV
+#%USAGE: $ ./$0 cmd [args]
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+# Emulator/wrapper -- gdb/valgrind/etc
+wrap=( ${WRAP-} )
+
+# VIZ: append,prepend,replace-{},replace-defaults DFL=append
+args=( ${ARGS-} )
+
+exec "${wrap[@]}" "$@" "${args[@]}"

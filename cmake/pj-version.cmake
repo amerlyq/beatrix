@@ -20,7 +20,7 @@ git_describe(${CMAKE_CURRENT_SOURCE_DIR} PROJECT_VERSION)
 #]=======================================================================]
 
 
-find_program(GIT git)
+find_program(git_exe NAMES git)
 
 
 #%USAGE: catch_or_die_at(output workdir cmd [args])
@@ -41,7 +41,7 @@ endfunction()
 
 function(git_describe repo var)
   # NOTE: usable tags must match /v?\d+\.\d+\.\d+/ -- otherwise use fallback
-  catch_or_die_at(_tag ${repo} ${GIT} describe --always --dirty --tags --match "*.*.*")
+  catch_or_die_at(_tag ${repo} ${git_exe} describe --always --dirty --tags --match "*.*.*")
   string(REGEX MATCH "^[0-9]+\\.[0-9]+(\\.[0-9]+)?([.-][0-9]+)?" _ver ${_tag})
   if(_ver)
     string(REPLACE "-" "." _ver ${_ver})

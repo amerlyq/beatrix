@@ -9,6 +9,8 @@ SUMMARY
 
 Entry point to add warnings flags
 
+TRY:(never use CMAKE_CXX_FLAGS): https://cmake.org/pipermail/cmake/2017-August/066044.html
+
 #]=======================================================================]
 
 # ALT: directly add flags to each of CMAKE vars
