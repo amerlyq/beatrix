@@ -5,11 +5,19 @@
 #
 #%SUMMARY: cmake-specific and user-defined targets
 #%
-$(call &AssertVars,bcfg bdir btst brun CMAKE)
+$(call &AssertVars,bcfg bdir btrx btst brun CMAKE)
 
 _bcfg := $(bcfg)
+_bini := $(or $(bini),$(btrx)cmake/config/default.cmake)
 _bdir := $(bdir)
 _run  := $(brun)
+
+# RQ: to run tests inside installed dir -- you still must know defaults
+#   CASE: not all tools are possible to run as custom commands from inside CMake
+d_install = $(_bdir)/_install
+
+tname := x86_64-pc-linux-gnu.cmake
+toolchain := $(btrx)/cmake/toolchain/$(tname)
 
 cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 
@@ -28,19 +36,15 @@ t: test
 .PHONY: config
 config \
 $(_bdir)/CMakeCache.txt:
-ifeq (,)
-	$(CMAKE) '$(d_pj)' -B'$(_bdir)' $(cmake_args) \
+	$(CMAKE) $(cmake_args) \
+	  $(if $(_bini),-C'$(_bini)') \
+	  -S'$(d_pj)' \
+	  -B'$(_bdir)' \
+	  $(if $(_toolchain),-DCMAKE_TOOLCHAIN_FILE='$(toolchain)') \
+	  -DCMAKE_INSTALL_PREFIX='$(d_install)' \
 	  -DCMAKE_BUILD_TYPE='$(_bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
-	  -DCMAKE_INSTALL_PREFIX='$(_bdir)/_install' \
-	  -DUSE_SANITIZERS='$(_saint)' \
-
-else
-# 	  -DCMAKE_TOOLCHAIN_FILE='$(f_toolchain)' \
-# 	  -DCMAKE_INSTALL_PREFIX='$(STAGING_DIR)/usr' \
-# 	  -DCMAKE_SYSROOT='$(STAGING_DIR)' \
-# 	  -DPLATFORM_ARCH='$(ARCH)'
-endif
+	  -DUSE_SANITIZERS='$(_saint)'
 
 
 
