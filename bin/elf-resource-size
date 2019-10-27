@@ -1,0 +1,48 @@
+#!/usr/bin/gawk -f
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: evaluate size of the named resource embedded into ELF
+#%USAGE: $ $ ./$0 /path/to/resource.o <sym-basename>
+#%DEPS:|binutils/readelf|
+#%ONELINE: $ gawk -vs=AUTOHELP 'BEGIN{x="readelf -s "s".o"; s="_binary_"s; while((x|getline)>0){if($NF==s"_begin")b=strtonum("0x"$2); if($NF==s"_end")e=strtonum("0x"$2)}; print e-b; close(x)}'
+#%
+
+BEGIN {
+  if (ARGC < 3) {
+    print "Err: usage $ ./$0 /path/to/resource.o <sym-basename>" > "/dev/stderr"
+    exit 1
+  }
+
+  obj = ARGV[1]
+
+  if (length(ARGV[2]) > 0) {
+    sym = ARGV[2]
+  } else {
+    sym = obj
+    sub(/^.*\//, "", sym)
+    sub(/\.o$/, "", sym)
+  }
+
+  cmd = "readelf -s '"sym".o'"
+
+  while ( (cmd | getline) > 0) {
+    if ($NF=="_binary_"sym"_start") { b=strtonum("0x"$2); ++B }
+    if ($NF=="_binary_"sym"_end") { e=strtonum("0x"$2); ++E }
+  }
+  close(cmd)
+
+  if (B != 1 || E != 1) {
+    print "Err: symbol",sym,"is not found" > "/dev/stderr"
+    exit 1
+  }
+
+  if (e <= b) {
+    print "Err: resource",sym,"has zero size ["b".."e"]" > "/dev/stderr"
+    exit 1
+  }
+
+  print e - b
+}

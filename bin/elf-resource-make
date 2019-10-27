@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: compile individual resource to ELF object file and C++ header
+#%USAGE:($rc.o + $rc.i): $ ./$0 rc-nm /path/to/readonly-src /path/to/future-rc
+#%
+set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+
+linker=${LINKER:-ld}
+objcopy=${OBJCOPY:-objcopy}
+suffix=.i
+prefix=
+compress=
+text=
+
+# shellcheck disable=SC2214
+while getopts 'hp:s:tz-:' o; do if [[ $o == - ]]
+then o=${OPTARG#-}; o=${o%%=*}; v=${OPTARG#*=}; else declare -n v=OPTARG; fi
+case $o in :|'?') exit 2
+;; h|help) exec sed -rn '1d;/^(.*\s)?#%/s///p' "$0"  #% h = help
+;; p|prefix) prefix=$v    #% p:= prefix | symbols prefix in C code or namespace in C++ code
+;; s|suffix) suffix=$v    #% s:= suffix | header file dot extension DFL=.i
+;; t|text) text=1         #% t = text   | for textual files append trailing NULL (if not present) to form correct C string
+;; z|gzip) compress=gz    #% z = gzip   | compress resource by "gzip"
+;; *) >&2 echo "$0: Err: invalid long option '--$o'"; exit 2
+esac; done; shift $((OPTIND-1))
+
+nm=$1
+src=$2
+rc=$3
+
+sym=${prefix}${nm}
+header=${rc}${suffix}
+rc_rel=$(realpath --relative-to "$PWD" "$rc")
+
+
+## ATT: always copy -- we must run linker in the same dir as file to produce short symbol names
+install -Dm644 "$src" "$rc"
+
+
+# WARN: even with std::string_view.data() we still must insert terminating NULL
+# byte ourselves to compose correct C string (but only if it's a text file)
+if ((text)); then
+  lastbyte=$(tail -c 1 "$rc" | od -An -tu1 -w1 -N1)
+  ((lastbyte)) || truncate -s +1 "$rc"
+fi
+
+
+# NOTE: must unpack large rodata memory in runtime (ATT: can't use std::string_view)
+case $compress in '')
+;; gz) gzip --suffix ".$compress" -- "$rc"; rc+=.$compress
+;; xz) xz --suffix ".$compress" -- "$rc"; rc+=.$compress
+;; *) echo "Err: unknown compress=$compress"; exit 1
+esac
+
+
+"$linker" --relocatable --output="$rc.o" --format=binary "$rc_rel"
+
+
+## ERROR:(_binary_${nm}_size): useless symbol -- becomes relocated in PIE/PIC by base addr despite being *ABS*
+## DISABLED: better keep original names for symbols and provide only std::string_view()
+# --redefine-sym _binary_${nm}_start=${sym}_start
+# --redefine-sym _binary_${nm}_end=${sym}_end
+"$objcopy" \
+  --rename-section .data=.rodata,ALLOC,LOAD,READONLY,DATA,CONTENTS \
+  --strip-symbol "_binary_${nm}_size" \
+  "$rc.o"
+
+
+symsz=$(elf-resource-size "$rc.o" "$sym")
+symsz+=${symsz:+L}
+
+set +o noclobber
+cat> "$header" <<EOT
+// vim:ft=cpp
+//%SUMMARY:(template): included resource file
+// ${nm} = '${src}'
+
+#if __cplusplus < 201703L
+#include <stddef.h>
+
+extern const char _binary_${sym}_start[];
+extern const char _binary_${sym}_end[];
+// BAD:(relocated): extern const size_t _binary_${sym}_size;
+static size_t const _binary_${sym}_size = ${symsz};
+
+#else
+#include <string_view>
+
+extern const char _binary_${sym}_start[];
+extern const char _binary_${sym}_end[];
+constexpr size_t _binary_${sym}_size = ${symsz};
+constexpr auto ${sym} = std::string_view(_binary_${sym}_start, _binary_${sym}_size);
+
+#endif
+EOT
