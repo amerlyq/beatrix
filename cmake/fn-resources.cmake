@@ -153,7 +153,7 @@ function(make_resource nm src)
     COMMAND
       ${CMAKE_COMMAND} -E env LINKER=${CMAKE_LINKER} OBJCOPY=${CMAKE_OBJCOPY}
         ${mkrc_cmd} -- ${nm} ${src} ${rc}
-    DEPENDS ${src}
+    DEPENDS ${mkrc_exe} ${src}
     WORKING_DIRECTORY ${dir}
     COMMENT "Generating embedded resource '${nm}'"
     VERBATIM

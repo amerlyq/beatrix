@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: extract help ("//%" comments) from sources into single file
+#%USAGE: $ ./$0 /path/to/dst-help srcfiles..
+#%
+set -o errexit -o errtrace -o noglob -o nounset -o pipefail
+
+dst=$1
+shift
+
+grep -Phroe '(^%|//%)\K.*' -- "$@" > "$dst.tmp"
+
+diff -q "$dst" "$dst.tmp" &>/dev/null || mv ${VERBOSE:+-v} -fT "$dst.tmp" "$dst"

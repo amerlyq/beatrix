@@ -25,6 +25,7 @@ find_program(git_exe NAMES git)
 
 #%USAGE: catch_or_die_at(output workdir cmd [args])
 function(catch_or_die_at var dir)
+  # ERROR! without full re-configure will embed old version into source files when developing
   execute_process(
     COMMAND ${ARGN}
     WORKING_DIRECTORY ${dir}

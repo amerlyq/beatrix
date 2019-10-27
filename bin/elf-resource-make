@@ -71,7 +71,6 @@ esac
 
 
 symsz=$(elf-resource-size "$rc.o" "$sym")
-symsz+=${symsz:+L}
 
 set +o noclobber
 cat> "$header" <<EOT
@@ -85,15 +84,17 @@ cat> "$header" <<EOT
 extern const char _binary_${sym}_start[];
 extern const char _binary_${sym}_end[];
 // BAD:(relocated): extern const size_t _binary_${sym}_size;
-static size_t const _binary_${sym}_size = ${symsz};
+static size_t const _binary_${sym}_size = ${symsz:?}L;
 
 #else
 #include <string_view>
 
+// BAD:FIND: how to hide these inner symbols -- limit presence to this header only
 extern const char _binary_${sym}_start[];
 extern const char _binary_${sym}_end[];
-constexpr size_t _binary_${sym}_size = ${symsz};
-constexpr auto ${sym} = std::string_view(_binary_${sym}_start, _binary_${sym}_size);
+inline constexpr size_t _binary_${sym}_size = ${symsz:?}L;
+
+inline constexpr auto ${sym} = std::string_view(_binary_${sym}_start, _binary_${sym}_size);
 
 #endif
 EOT

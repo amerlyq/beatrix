@@ -12,7 +12,7 @@
 # CHECK! grep output "no changes" and exit error if not
 .PHONY: fmt
 fmt:
-	! git clang-format | grep -vxF 'no modified files to format'
+	! git clang-format | grep -vxF -e 'no modified files to format' -e "clang-format did not modify any files"
 
 
 
