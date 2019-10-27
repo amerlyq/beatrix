@@ -29,6 +29,9 @@ $(if $(VERBOSE),$(warning 'CC=$(CC) CXX=$(CXX)'))
 CMAKE := cmake
 SANITIZER ?= memory
 
+$(if $(W),$(eval 'export WRAP := $(W)'))
+$(if $(G),$(eval 'export ARGS := --gtest_filter=$(G)'))
+
 
 ### --- Options ---
 # hosts := x86_64 mingw64 arm32 sanitized

@@ -80,7 +80,6 @@ install:
 # ALT: install then run :: $(abspath $(_bdir))/_install/bin/main
 .PHONY: run
 run: _tgt = run.$(or $(X),$(_run))
-run: _args = $(if $(W),WRAP='$(W)') $(if $(G),ARGS="--gtest_filter='$(G)'")
 run: coverage-invalidate
 	+$(CMAKE) --build '$(_bdir)' --target '$(_tgt)$(&skiprebuild)' -- $(_args)
 

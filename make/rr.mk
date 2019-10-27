@@ -32,7 +32,7 @@ export _RR_TRACE_DIR := $(TMPDIR)/rr
 # WARN! rr forces your application's threads to execute on a single core
 #%DATA: $_RR_TRACE_DIR/application-$n
 .PHONY: rr-record
-rr-record: W := rr record
+rr-record: export WRAP += rr record
 # BAD:(order of deps): must create dir before running
 rr-record: $(_RR_TRACE_DIR)/ run
 
