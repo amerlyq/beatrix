@@ -7,6 +7,7 @@
 # Maintainer: Dmytro Kolomoiets <amerlyq@gmail.com>
 #
 # shellcheck shell=bash disable=SC2034,SC2154
+pkgbase=beatrix
 pkgname=beatrix-dev
 pkgver=0.1
 pkgrel=1
@@ -21,12 +22,19 @@ depends=(
   dcd dfmt dmd dmd-docs dscanner dtools
 )
 
-d_pj=${startdir%/*/*}
+## AUR:
+optdepends=(
+  reuse
+  rr
+  cmake-format-airy-git
+)
 
 package() {
-  cd "$d_pj/beatrix" || exit
-  # make PREFIX=/usr DESTDIR="${pkgdir}" install
-  install -Dm644 -t "${pkgdir}/usr/share/licenses/beatrix" -- \
-    $(printf 'LICENSES/%s.txt\n' "${license[@]}")
-  install -Dm644 -t "${pkgdir}/usr/share/doc/beatrix" -- README.rst
+  d_pj=${startdir%/*/*/*}/beatrix
+  prefix=$pkgdir/usr
+  datadir=$prefix/share
+  cd "$d_pj" || exit
+  # make install prefix="$prefix"
+  install -Dm644 -t "$datadir/licenses/$pkgbase" -- $(printf 'LICENSES/%s.txt\n' "${license[@]}")
+  install -Dm644 -t "$datadir/doc/$pkgbase" -- README.rst
 }

@@ -13,12 +13,12 @@ cov: coverage
 
 
 .PHONY: debug
-debug: _bcfg := Debug
+debug: bcfg := Debug
 debug: config build
 
 
 .PHONY: release
-release: _bcfg := RelWithDebInfo
+release: bcfg := RelWithDebInfo
 release: config build
 
 

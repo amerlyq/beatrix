@@ -7,8 +7,6 @@
 #%
 $(call &AssertVars,bdir version)
 
-_bdir := $(bdir)
-
 
 #%ALIAS
 .PHONY: x z
@@ -19,11 +17,11 @@ z: distclean
 
 .PHONY: clean
 clean:
-	if test -d '$(_bdir)'; then find -H '$(_bdir)' -mindepth 1 -maxdepth 1 \
+	if test -d '$(bdir)'; then find -H '$(bdir)' -mindepth 1 -maxdepth 1 \
 	  -xtype d -name '_*' -prune -o -exec rm -rf {} +; fi
 
 
 
 .PHONY: distclean
 distclean:
-	rm -rf --preserve-root '$(_bdir)/'
+	rm -rf --preserve-root '$(bdir)/'

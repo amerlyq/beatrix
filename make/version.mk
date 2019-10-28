@@ -8,9 +8,14 @@
 $(call &AssertVars,d_pj)
 
 
-version = $(shell git-pj-version '$(d_pj)')
+version = $(shell git-pj-version '$(d_pj)' $(1))
 
 
 .PHONY: version
 version:
+	$(info $(call version,only))
+
+
+.PHONY: version-full
+version-full:
 	$(info $(version))

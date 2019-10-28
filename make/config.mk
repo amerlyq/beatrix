@@ -20,7 +20,7 @@ export CC
 CXX ?= clang++
 export CXX
 
-$(if $(VERBOSE),$(warning 'CC=$(CC) CXX=$(CXX)'))
+$(if $(VERBOSE),$(shell >&2 echo 'CC=$(CC) CXX=$(CXX)'))
 
 
 ### --- Environment ---
@@ -38,6 +38,8 @@ $(if $(G),$(eval 'export ARGS := --gtest_filter=$(G)'))
 
 
 ### --- Arguments ---
+# bgen := Unix Makefiles
+bgen := Ninja
 bcfg := Debug
 bdir := _build-$(CC)-$(bcfg)
 btst := ON

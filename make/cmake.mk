@@ -7,24 +7,24 @@
 #%
 $(call &AssertVars,bcfg bdir btrx btst brun CMAKE)
 
-# _bgen := Unix Makefiles
-_bgen := Ninja
-_bcfg := $(bcfg)
-_bini := $(or $(bini),$(btrx)cmake/config/default.cmake)
-_bdir := $(bdir)
-_run  := $(brun)
+bini := $(btrx)cmake/config/default.cmake
 
 # RQ: to run tests inside installed dir -- you still must know defaults
 #   CASE: not all tools are possible to run as custom commands from inside CMake
-d_install = $(_bdir)/_install
+# INFO:(system): DFL=/usr
+prefix = $(bdir)/_install
 
 tname := x86_64-pc-linux-gnu.cmake
 toolchain := $(btrx)/cmake/toolchain/$(tname)
 
 cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 
-&skiprebuild := $(if $(filter-out 0,$(B)),,$(if $(filter-out $(_bgen),Ninja),/fast))
+&skiprebuild := $(if $(filter-out 0,$(B)),,$(if $(filter-out $(bgen),Ninja),/fast))
 
+
+# ATT! target .SECONDEXPANSION affects all recipes till the end of Makefile
+# FAIL: expands only prerequisites, but not targets !!!
+# .SECONDEXPANSION:
 
 #%ALIAS
 .PHONY: b c gv lc ll r t
@@ -39,15 +39,15 @@ t: test
 
 .PHONY: config
 config \
-$(_bdir)/CMakeCache.txt:
+$(bdir)/CMakeCache.txt:
 	$(CMAKE) $(cmake_args) \
-	  $(if $(_bgen),-G'$(_bgen)') \
-	  $(if $(_bini),-C'$(_bini)') \
+	  $(if $(bgen),-G'$(bgen)') \
+	  $(if $(bini),-C'$(bini)') \
 	  -S'$(d_pj)' \
-	  -B'$(_bdir)' \
+	  -B'$(bdir)' \
 	  $(if $(_toolchain),-DCMAKE_TOOLCHAIN_FILE='$(toolchain)') \
-	  -DCMAKE_INSTALL_PREFIX='$(d_install)' \
-	  -DCMAKE_BUILD_TYPE='$(_bcfg)' \
+	  -DCMAKE_INSTALL_PREFIX='$(prefix)' \
+	  -DCMAKE_BUILD_TYPE='$(bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
 	  -DUSE_SANITIZERS='$(_saint)'
 
@@ -55,33 +55,34 @@ $(_bdir)/CMakeCache.txt:
 
 .PHONY: list-cachevars
 list-cachevars:
-	$(CMAKE) -L$(if $(VERBOSE),H) '$(_bdir)'
+	$(CMAKE) -L$(if $(VERBOSE),H) '$(bdir)'
 
 .PHONY: list-cachevars-all
 list-cachevars-all:
-	$(CMAKE) -LA$(if $(VERBOSE),H) '$(_bdir)'
+	$(CMAKE) -LA$(if $(VERBOSE),H) '$(bdir)'
 
 
 
+## WARN:NEED:(.SECONDEXPANSION): prerequisites
 # VisualStudio: --target myapp --config Release --clean-first
 # BET:(-- -j '$(shell nproc)'): propagate top-level "make -j4" OR user ENV VARs by using "+$(CMAKE)"
 .PHONY: build
-build: $(_bdir)/CMakeCache.txt
-	+$(CMAKE) --build '$(_bdir)'
+build: $(bdir)/CMakeCache.txt
+	+$(CMAKE) --build '$(bdir)'
 
 
 
 .PHONY: install
 install:
-	+$(CMAKE) --build '$(_bdir)' --target install
+	+$(CMAKE) --build '$(bdir)' --target install
 
 
 
-# ALT: install then run :: $(abspath $(_bdir))/_install/bin/main
+# ALT: install then run :: $(abspath $(bdir))/_install/bin/main
 .PHONY: run
-run: _tgt = run.$(or $(X),$(_run))
+run: _tgt = run.$(or $(X),$(brun))
 run: coverage-invalidate
-	+$(CMAKE) --build '$(_bdir)' --target '$(_tgt)$(&skiprebuild)' -- $(_args)
+	+$(CMAKE) --build '$(bdir)' --target '$(_tgt)$(&skiprebuild)' -- $(_args)
 
 
 
@@ -102,20 +103,20 @@ saint: config build run
 _covtgts := $(patsubst %,coverage-%,invalidate info html open)
 .PHONY: $(_covtgts)
 $(_covtgts):
-	+$(CMAKE) --build '$(_bdir)' --target '$@'
+	+$(CMAKE) --build '$(bdir)' --target '$@'
 
 
 
 ## BAD: always rebuilds whole project and never runs tests at all
-##   $ ctest --build-and-test '$(d_pj)' '$(_bdir)' --build-generator "Unix Makefiles" --build-nocmake --build-noclean --output-on-failure --build-project runtests
+##   $ ctest --build-and-test '$(d_pj)' '$(bdir)' --build-generator "Unix Makefiles" --build-nocmake --build-noclean --output-on-failure --build-project runtests
 .PHONY: ctest
 ctest:
-	+$(CMAKE) --build '$(_bdir)' --target testapp -- ARGS="--output-on-failure"
+	+$(CMAKE) --build '$(bdir)' --target testapp -- ARGS="--output-on-failure"
 
 
 
 .PHONY: graphviz
-graphviz: _pfx = $(_bdir)/_gv/g
+graphviz: _pfx = $(bdir)/_gv/g
 graphviz: cmake_args += --graphviz='$(_pfx)'
 graphviz: config
 	find '$(_pfx)' -type f -name 'g*' -execdir mv '{}' '{}.gv' \;

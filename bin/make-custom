@@ -20,7 +20,6 @@ command -v remake >/dev/null 2>&1 && make='remake' || make='make'
 
 export PATH="${here}:${PATH}"
 export MAKEFLAGS="${MAKEFLAGS-} --no-builtin-rules --no-builtin-variables --no-print-directory"
-export MAKEGUARD=1  # custom flag
 
 export LOGRECORD_DIR="$PWD/_log"
 test "${LOGRECORD_ENABLED:-0}" -gt 0 && wrap=log-record

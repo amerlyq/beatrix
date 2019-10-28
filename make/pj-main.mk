@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: MIT
 #
-:; exec "$(dirname "$(readlink -e "$0")")"/beatrix/bin/make-custom --file="$0" "$@"
+:; m=$(readlink -e "$0") && exec "${d:=${m%/*}}"/beatrix/bin/make-custom -C "$d" -f "$m" MAKEGUARD="$0" "$@" || exit
 #
 #%SUMMARY: project control center
 #%USAGE: $ ./$0 [VERBOSE=1] [-W mytgt|-B|--always-make]
@@ -20,7 +20,7 @@ $(subst ,, ) := $(subst ,, )
 this := $(lastword $(MAKEFILE_LIST))
 here := $(patsubst %/,%,$(dir $(this)))
 make := $(here)/beatrix/bin/make-custom
-envp := (append (environ) (list "MAKEFLAGS=$(MAKEFLAGS)"))
+envp := (let () (setenv "MAKEGUARD" "$(this)") (setenv "MAKEFLAGS" "$(MAKEFLAGS)") (environ))
 args := $(subst \|,$( ),$(patsubst %,"%",$(subst \$( ),\|,$(MAKECMDGOALS) $(MAKEOVERRIDES))))
 $(guile (execle "$(make)" $(envp) "$(make)" "--file=$(this)" $(args)))
 else

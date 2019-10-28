@@ -35,6 +35,12 @@ hooks-install:
 	  -- '$(btrx)hooks/pre-push' '$(btrx)hooks/pre-commit'
 
 
-# HACK: always install hooks on any action in make
+## HACK: always install hooks when doing any (allowed) action in make
 # BUG: must depend only on known targets -- otherwise make starts accepting even unknown ones
 # $(or $(MAKECMDGOALS),$(.DEFAULT_GOAL)): hooks-install
+@hook_triggers := config build
+@hooks := hooks-install
+# ALT: @hooks := $(filter $(@hooks),$(_tgts))
+ifneq (,$(@hooks))
+$(filter-out $(@hooks),$(@hook_triggers)): $(@hooks)
+endif

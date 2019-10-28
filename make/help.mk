@@ -22,14 +22,6 @@ _tgts := $(shell sed -rn 's/^([a-z][-a-z0-9.]*):(\s.*|$$)/\1/p' $(MAKEFILE_LIST)
 # endif
 
 
-# HACK: always install hooks when doing any (allowed) action in make
-_always_run := hooks-install
-_mixin := $(filter $(_always_run),$(_tgts))
-ifneq (,$(_mixin))
-$(filter-out $(_mixin),$(_tgts)): $(_mixin)
-endif
-
-
 
 # ALT:DEBUG:(Ninja): $ ninja -t targets all
 # TODO:(help-list): annotate each line by comment "#%SUM:" directly over recipe
