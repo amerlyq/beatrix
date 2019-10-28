@@ -1,12 +1,16 @@
-personal_ws-1.1 en 45 utf-8
+personal_ws-1.1 en 54 utf-8
 Beatus
+CFG
 CMP
 CMake
+CodeChecker
 DEV
 DSO
 Dmytro
+Ericsson
 ExternalProject
 FileCopyrightText
+Fuchia
 GitLab
 HOWTO
 JIT
@@ -17,6 +21,7 @@ Pre
 Precompile
 RST
 SPDX
+SyntasticCheck
 TODO
 Viatrix
 aeternum
@@ -25,7 +30,9 @@ backend
 beatrix
 bugfix
 buildsystem
+clangd
 cmake
+codechecker
 conan
 config
 constexpr
@@ -39,7 +46,9 @@ lfs
 libs
 lifecycle
 llvm
+pseudoxml
 relicensed
+rst
 runtime
 src
 submodules

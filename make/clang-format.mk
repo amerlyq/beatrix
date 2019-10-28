@@ -5,6 +5,7 @@
 #
 #%SUMMARY: reformat C/C++ source code
 #%DEP:|extra/clang|
+#%ONLINE: interactive config composer REF: https://clangformat.com/
 #%
 
 # CHECK:WARN: source code in workdir is reformatted BUT! commit is unchanged

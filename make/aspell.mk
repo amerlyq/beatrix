@@ -10,6 +10,11 @@
 $(call &AssertVars,btrx)
 
 
+#%ALIAS
+.PHONY: af
+af: aspell-fix
+
+
 .PHONY: aspell
 aspell: | $(btrx)spell/
 	@aspell-multi '$|' list '*.rst'
