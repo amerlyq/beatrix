@@ -14,8 +14,13 @@ set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
 dst=$(realpath -e "$1")
 act=$2
 ext=$3
+cached=${4-}
 
-findext(){ find . -xtype d -name '_*' -prune -o -name "$ext" "$@"; }
+if [[ ${cached} ]]; then
+  findext(){ git -C . diff-index -z HEAD --name-only --diff-filter=d --cached "$ext"; }
+else
+  findext(){ find . -xtype d -name '_*' -prune -o -name "$ext" -print0; }
+fi
 
 mkdb(){ local lang=$1 sfx=$2
   local nm="aspell.$lang.p$sfx"
@@ -44,10 +49,10 @@ done;}
 
 case $act
 in list)
-  if findext -exec cat {} + | chkall | grep '^'; then
-    >&2 echo ">>> WARN: you must fix above misspeled words by running interactive 'make aspell-fix'"
+  if findext | xargs -0 cat | chkall | grep '^'; then
+    >&2 echo ">>> WARN: you must fix above misspeled words by running interactive 'm af' OR 'make aspell-fix'"
     exit 1
   fi
-;; check) findext -print | fixall
+;; check) findext | tr \\0 \\n | fixall
 ;; *) exit 1
 esac

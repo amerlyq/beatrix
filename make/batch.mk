@@ -36,7 +36,7 @@ doc: doxygen  # sphinx
 
 
 .PHONY: check-basic
-check-basic: aspell spell reuse-all fmt
+check-basic: aspell-index spell reuse-all fmt
 
 .PHONY: check-all
 check-all: check-basic doc build run  #test

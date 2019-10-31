@@ -11,14 +11,19 @@ $(call &AssertVars,btrx)
 
 
 #%ALIAS
-.PHONY: af
+.PHONY: af aspell
 af: aspell-fix
+aspell: aspell-all
 
 
-.PHONY: aspell
-aspell: | $(btrx)spell/
+.PHONY: aspell-index
+aspell-index: | $(btrx)spell/
+	@aspell-multi '$|' list '*.rst' 1
+
+
+.PHONY: aspell-all
+aspell-all: | $(btrx)spell/
 	@aspell-multi '$|' list '*.rst'
-
 
 
 .PHONY: aspell-fix
