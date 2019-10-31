@@ -1,4 +1,4 @@
-personal_ws-1.1 en 54 utf-8
+personal_ws-1.1 en 57 utf-8
 Beatus
 CFG
 CMP
@@ -46,8 +46,11 @@ lfs
 libs
 lifecycle
 llvm
+oneline
 pseudoxml
 relicensed
+repo
+repos
 rst
 runtime
 src
