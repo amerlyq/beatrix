@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: MIT
 #
 #%SUMMARY: check project to be compliant with REUSE v3.0+ Specification and SPDX v2.1+ annotations
+#%USAGE:REF: https://reuse.readthedocs.io/en/stable/usage.html
 #%DEP:|aur/reuse|
 #%HACK:|moreutils/chronic|: suppress output unless got error
 #%

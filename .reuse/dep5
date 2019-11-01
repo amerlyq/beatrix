@@ -1,0 +1,6 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: beatrix
+Upstream-Contact: Dmytro Kolomoiets <amerlyq@gmail.com>
+Source: https://github.com/amerlyq/beatrix
+License: MIT
+Copyright: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors

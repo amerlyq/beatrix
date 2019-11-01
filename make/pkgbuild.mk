@@ -9,6 +9,8 @@
 #%
 $(call &AssertVars,bdir pkgname)
 
+## IDEA: embed HOST owner as packager into built .tar.xz packages
+# export PACKAGER := $(shell git config --get user.name) <$(shell git config --get user.email)>
 
 #%ALIAS (incremental aggregation)
 .PHONY: pkg pkgs
