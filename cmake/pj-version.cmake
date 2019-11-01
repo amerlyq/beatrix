@@ -9,8 +9,26 @@ SUMMARY
 
 Retrieve semantic version tag of requested repo in format "0.0.0[-rN][-g0347861][-dirty]"
 
-WARNING: using git to derive values will fail for builds from *.tar.gz sources!
-TODO: load vars from cfg file if there is no git
+DEV: explicit verbatim versioning:
+
+* Use dedicated file VERSION per each project/module root -- containing full tag (like above)
+* Populate both CMake "PROJECT_VERSION" and PKGBUILD "pkgver()" by reading that file
+* Fallback to git version if file is nonexistent OR git version was forcefully overridden
+* FAIL:(git): can't derive values when using *.tar.gz sources without .git folder
+* FAIL:(git): provides common version of whole repo instead of per-component
+* BAD:(version): must git tag new commits manually by same VERSION (duplicated info)
+* NEED:(git-tag-update hook): tag whole repo commit if main project ./version > last tag
+  (where "./" == in whichever folder beatrix tools run)
+* BUT: monorepos may have tag version as whole different from each individual product
+* MAYBE:IDEA: create named tags to coexist :: "beatrix-0.1.0" and "myproject-0.0.2"
+
+
+ALT::
+
+    file(GENERATE OUTPUT ... CONTENT "$<CONFIG>")
+    configure_file(.../VERSION ${PROJECT_SOURCE_DIR}/VERSION @ONLY)
+    install(EXPORT...)
+
 
 USAGE
 -----

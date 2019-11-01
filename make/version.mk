@@ -19,3 +19,8 @@ version:
 .PHONY: version-full
 version-full:
 	$(info $(version))
+
+
+.PHONY: VERSION
+VERSION:
+	$(file > $@,$(version))

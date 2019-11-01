@@ -5,6 +5,7 @@
 #
 #%SUMMARY: text spelling errors for docs and comments -- detect and suggest variants
 #%REF: http://aspell.net/man-html/index.html
+#%TUT: https://lists.gnu.org/archive/html/aspell-user/2011-09/msg00012.html
 #%DEP:|extra/aspell|aspell-{en,ru,uk}|
 #%
 $(call &AssertVars,btrx)
