@@ -11,16 +11,16 @@
 #%
 set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
 
-dst=$(realpath -e "$1")
-act=$2
-ext=$3
-cached=${4-}
+mode=$1
+dst=$(realpath -e "$2")
+act=$3
+ext=$4
 
-if [[ ${cached} ]]; then
-  findext(){ git -C . diff-index -z HEAD --name-only --diff-filter=d --cached "$ext"; }
-else
-  findext(){ find . -xtype d -name '_*' -prune -o -name "$ext" -print0; }
-fi
+case $mode
+in index) findext(){ git -C . diff-index -z HEAD --name-only --diff-filter=d --cached "$ext"; }
+;; all) findext(){ find . -xtype d -name '_*' -prune -o -name "$ext" -print0; }
+;; *) echo "Err: mode=$mode"; exit 2
+esac
 
 mkdb(){ local lang=$1 sfx=$2
   local nm="aspell.$lang.p$sfx"
@@ -36,6 +36,7 @@ chk(){ local lang=$1; shift
   --home-dir="$dst" \
   --personal="$(mkdb "$lang" ws)" \
   --repl="$(mkdb "$lang" repl)" \
+  --add-extra-dicts="$PWD/doc/aspell.en.pws" \
   "$@"
 }
 

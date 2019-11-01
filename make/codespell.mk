@@ -13,8 +13,8 @@
 
 
 #%USE: --dictionary ./style/codespell.spl --ignore-words ./style/codespell.bad
-.PHONY: spell
-spell: $(btrx)spell/codespell.ignore
+.PHONY: codespell
+codespell: $(btrx)spell/codespell.ignore
 	@codespell --check-filenames --check-hidden \
 	  --skip='./.git,./_*' --ignore-words '$<' \
 	  $(if $(VERBOSE),--summary) \
