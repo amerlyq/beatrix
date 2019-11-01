@@ -37,9 +37,11 @@ r: run
 t: test
 
 
+
+# USAGE:(rebuild): $ make config -B
 .PHONY: config
-config \
-$(bdir)/CMakeCache.txt:
+config: $(bdir)/--configure--
+$(bdir)/--configure--:
 	$(CMAKE) $(cmake_args) \
 	  $(if $(bgen),-G'$(bgen)') \
 	  $(if $(bini),-C'$(bini)') \
@@ -50,6 +52,7 @@ $(bdir)/CMakeCache.txt:
 	  -DCMAKE_BUILD_TYPE='$(bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
 	  -DUSE_SANITIZERS='$(_saint)'
+	@touch -- '$@'
 
 
 
@@ -67,7 +70,7 @@ list-cachevars-all:
 # VisualStudio: --target myapp --config Release --clean-first
 # BET:(-- -j '$(shell nproc)'): propagate top-level "make -j4" OR user ENV VARs by using "+$(CMAKE)"
 .PHONY: build
-build: $(bdir)/CMakeCache.txt
+build: $(bdir)/--configure--
 	+$(CMAKE) --build '$(bdir)'
 
 
