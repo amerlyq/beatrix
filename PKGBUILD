@@ -17,13 +17,16 @@ license=('MIT' 'Apache-2.0' 'CC-BY-SA-4.0')
 arch=('any')
 
 depends=(
-  clang cmake ctags gdb git moreutils ninja rr tree
+  clang cmake ctags gdb git moreutils ninja tree
+
+  gcovr
 
   dcd dfmt dmd dmd-docs dscanner dtools
 )
 
 ## AUR:
 optdepends=(
+  # lcov  # NEED: lcov>1.14 REF: https://github.com/gentoo/gentoo/pull/12760
   reuse
   rr
   cmake-format-airy-git

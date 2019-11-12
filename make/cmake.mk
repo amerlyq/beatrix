@@ -102,14 +102,6 @@ saint: config build run
 
 
 
-#%USAGE: call "coverage-invalidate" after running tests with enabled coverage
-_covtgts := $(patsubst %,coverage-%,invalidate info html open)
-.PHONY: $(_covtgts)
-$(_covtgts):
-	+$(CMAKE) --build '$(bdir)' --target '$@'
-
-
-
 ## BAD: always rebuilds whole project and never runs tests at all
 ##   $ ctest --build-and-test '$(d_pj)' '$(bdir)' --build-generator "Unix Makefiles" --build-nocmake --build-noclean --output-on-failure --build-project runtests
 .PHONY: ctest

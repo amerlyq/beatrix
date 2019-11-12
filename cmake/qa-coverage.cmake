@@ -10,10 +10,16 @@ SUMMARY
 Coverage report generator
 
 USAGE
--------
+-----
 
 Run all necessary executables (main/tests), then manually refresh stampfile by
 the custom command "make coverage-invalidate"
+
+REF
+---
+
+* https://stackoverflow.com/questions/13116488/detailed-guide-on-using-gcov-with-cmake-cdash
+* https://github.com/bilke/cmake-modules/blob/master/CodeCoverage.cmake
 
 #]=======================================================================]
 

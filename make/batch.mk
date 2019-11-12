@@ -7,9 +7,8 @@
 #%
 
 #%ALIAS
-.PHONY: ck cov
+.PHONY: ck
 ck: check-all
-cov: coverage
 
 
 .PHONY: debug
@@ -25,10 +24,6 @@ release: config build
 .PHONY: test
 test: _run := testapp
 test: run
-
-
-.PHONY: coverage
-coverage: coverage-html
 
 
 .PHONY: doc

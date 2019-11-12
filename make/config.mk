@@ -25,6 +25,7 @@ $(if $(VERBOSE),$(shell >&2 echo 'CC=$(CC) CXX=$(CXX)'))
 
 ### --- Environment ---
 # TODO: https://clang-analyzer.llvm.org/scan-build
+# ATT! you must rebuild project to scan it e.g. scan-build make -B
 # CMAKE := scan-build cmake
 CMAKE := cmake
 SANITIZER ?= memory
