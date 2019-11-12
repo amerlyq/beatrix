@@ -8,7 +8,7 @@
 #%TUT: https://lists.gnu.org/archive/html/aspell-user/2011-09/msg00012.html
 #%DEP:|extra/aspell|aspell-{en,ru,uk}|
 #%
-$(call &AssertVars,btrx)
+$(call &AssertVars,btrx d_pj)
 
 
 #%ALIAS
@@ -17,6 +17,12 @@ as: aspell-index
 af: aspell-index-fix
 asa: aspell-all
 asf: aspell-all-fix
+
+
+BEATRIX_ASPELL_PRIVATE := $(d_pj)/beatrix-private/aspell.en.pws
+ifneq (,$(wildcard $(BEATRIX_ASPELL_PRIVATE)))
+export BEATRIX_ASPELL_PRIVATE
+endif
 
 
 .PHONY: aspell-index

@@ -5,7 +5,7 @@
 #
 #%SUMMARY: different ways to clean build artifacts
 #%
-$(call &AssertVars,bdir version)
+$(call &AssertVars,bdir)
 
 
 #%ALIAS

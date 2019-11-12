@@ -8,7 +8,9 @@
 $(call &AssertVars,d_pj)
 
 
-version = $(shell git-pj-version '$(d_pj)' $(1))
+version = $(or $(shell git-pj-version '$(d_pj)' $(1)),\
+  $(error "Must have at least one symver tag for versioning to work\
+  ( e.g. add tag by 'git tag 0.0.1' )"))
 
 
 .PHONY: version
