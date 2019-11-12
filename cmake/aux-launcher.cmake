@@ -33,7 +33,14 @@ endif()
 # endif()
 
 
-function(run_target_file tgt)
+function(add_runnable_targets)
+  foreach(tgt IN LISTS ARGN)
+    add_runnable_alias(${tgt})
+  endforeach()
+endfunction()
+
+
+function(add_runnable_alias tgt)
   get_target_property(srcs ${tgt} SOURCES)
   add_custom_target(run.${tgt}
     COMMENT "run.${tgt} ${ARGN}"
