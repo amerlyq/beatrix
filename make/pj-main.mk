@@ -28,8 +28,8 @@ unexport MAKEGUARD
 .DEFAULT_GOAL = build
 #%DEP:|airy/kirie|: for srcexec scripts per each module
 # BAD: installs "kirie" alongside "coastline"
-pkgname := coastline
-pkgabbr := cl
+pkgname := $(error "[placeholder]: must replace whole value by actual package name")
+pkgabbr := $(error "[placeholder]: must replace whole value by actual abbreviation")
 # include /usr/lib/kirie.mk
 
 include pj-begin.mk

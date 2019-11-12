@@ -13,8 +13,9 @@
 
 
 #%ALIAS
-.PHONY: g
-g: gdb-run
+.PHONY: g gdb
+g: gdb
+gdb: gdb-run
 
 
 #%DEPS:|extra/gdb|

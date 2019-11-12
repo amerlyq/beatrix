@@ -27,12 +27,16 @@ pkg-beatrix: beatrix/PKGBUILD
 pkgs: pkg-$(pkgname)
 pkg-$(pkgname): PKGBUILD
 
+ifeq (pkgs,$(filter pkgs,$(MAKECMDGOALS)))
+pkg-$(pkgname): | pkg-beatrix
+endif
 
 #%USE: $ makepkg [ENVVAR=...]
 # ALT(--force): --needed | $(if $(INTERACTIVE),,--noconfirm) | export BUILDDIR := $(bdir)
 # THINK: using '-C' for clean builds (re-dld all src)
+# OPT:(--install): to immediately affect host system
 &dpkg = $(abspath $(bdir)/_pkg/$(dir $<))
 pkg-beatrix \
 pkg-$(pkgname):
 	install -vCDm644 -t '$(&dpkg)' '$<'
-	env -C '$(&dpkg)' -- makepkg --syncdeps --clean --install $(if $(force),--force) $(_args) >/dev/tty
+	env -C '$(&dpkg)' -- makepkg --syncdeps --clean $(if $(force),--force) $(_args) >/dev/tty
