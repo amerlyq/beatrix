@@ -5,6 +5,7 @@
 #
 #%SUMMARY: git hooks and other goodies
 #%DEPS:|extra/git|
+#%USAGE: prevent installation :: $ INSTALL_HOOKS=0 make ...
 #%
 $(call &AssertVars,btrx root)
 
@@ -35,6 +36,8 @@ hooks-install:
 	  -- '$(btrx)hooks/pre-push' '$(btrx)hooks/pre-commit'
 
 
+ifneq (0,$(INSTALL_HOOKS))
+
 ## HACK: always install hooks when doing any (allowed) action in make
 # BUG: must depend only on known targets -- otherwise make starts accepting even unknown ones
 # $(or $(MAKECMDGOALS),$(.DEFAULT_GOAL)): hooks-install
@@ -43,4 +46,6 @@ hooks-install:
 # ALT: @hooks := $(filter $(@hooks),$(_tgts))
 ifneq (,$(@hooks))
 $(filter-out $(@hooks),$(@hook_triggers)): $(@hooks)
+endif
+
 endif

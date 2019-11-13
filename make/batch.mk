@@ -11,16 +11,6 @@
 ck: check-all
 
 
-.PHONY: debug
-debug: bcfg := Debug
-debug: config build
-
-
-.PHONY: release
-release: bcfg := RelWithDebInfo
-release: config build
-
-
 .PHONY: test
 test: _run := testapp
 test: run

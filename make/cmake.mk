@@ -22,10 +22,6 @@ cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 &skiprebuild := $(if $(filter-out 0,$(B)),,$(if $(filter-out $(bgen),Ninja),/fast))
 
 
-# ATT! target .SECONDEXPANSION affects all recipes till the end of Makefile
-# FAIL: expands only prerequisites, but not targets !!!
-# .SECONDEXPANSION:
-
 #%ALIAS
 .PHONY: b c gv lc ll r t
 b: build
@@ -41,12 +37,15 @@ t: test
 # USAGE:(rebuild): $ make config -B
 .PHONY: config
 config: $(bdir)/--configure--
-$(bdir)/--configure--:
+
+# OR:RENAME: %/_stamp/--AAA---
+%/--configure--:
+	echo $(bdir)
 	$(CMAKE) $(cmake_args) \
 	  $(if $(bgen),-G'$(bgen)') \
 	  $(if $(bini),-C'$(bini)') \
 	  -S'$(d_pj)' \
-	  -B'$(bdir)' \
+	  -B'$*' \
 	  $(if $(_toolchain),-DCMAKE_TOOLCHAIN_FILE='$(toolchain)') \
 	  -DCMAKE_INSTALL_PREFIX='$(prefix)' \
 	  -DCMAKE_BUILD_TYPE='$(bcfg)' \
@@ -65,8 +64,6 @@ list-cachevars-all:
 	$(CMAKE) -LA$(if $(VERBOSE),H) '$(bdir)'
 
 
-
-## WARN:NEED:(.SECONDEXPANSION): prerequisites
 # VisualStudio: --target myapp --config Release --clean-first
 # BET:(-- -j '$(shell nproc)'): propagate top-level "make -j4" OR user ENV VARs by using "+$(CMAKE)"
 .PHONY: build

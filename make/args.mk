@@ -8,12 +8,44 @@
 
 
 # HACK: make recipes (and only recipes) verbose
-@_tv := v verbose
-ifneq (,$(or $(filter $(@_tv),$(MAKECMDGOALS)),$(VERBOSE)))
-export VERBOSE ?= 1
-.PHONY: $(@_tv)
-$(@_tv): $(or $(filter-out $(@_tv),$(MAKECMDGOALS)),$(.DEFAULT_GOAL)) ;
-endif
+opt_v = $(opt_verbose)
+define opt_verbose =
+VERBOSE ?= 1
+export VERBOSE
+endef
+
+
+# ALT:BAD! per-tgt "bdir" is ambiguous on cmdline :: $ make release doxygen
+opt_dbg = $(opt_debug)
+define opt_debug =
+bcfg := Debug
+endef
+
+
+opt_rel = $(opt_release)
+define opt_release =
+bcfg := RelWithDebInfo
+endef
+
+
+define opt_clang =
+CC := clang
+CXX := clang++
+endef
+
+
+define opt_gcc =
+CC := gcc
+CXX := g++
+endef
+
+
+@@all := $(patsubst opt_%,%,$(filter opt_%,$(.VARIABLES)))
+@@opts := $(filter $(@@all),$(MAKECMDGOALS))
+$(foreach o,$(@@opts),$(eval $(opt_$(o))))
+
+.PHONY: $(@@opts)
+$(@@opts): $(or $(filter-out $(@@all),$(MAKECMDGOALS)),$(.DEFAULT_GOAL)) ;
 
 
 

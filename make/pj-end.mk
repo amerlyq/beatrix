@@ -11,3 +11,10 @@ include help.mk
 
 # NOTE: skip rebuilding of all included files
 $(MAKEFILE_LIST):: ;
+
+
+## HACK: placed at the end to reduce affected area by second expansion
+##   <= BAD: broken locality of tgts deps
+# ATT! target .SECONDEXPANSION affects all recipes till the end of Makefile
+# WARN: expands only prerequisites, but not targets !!!
+# .SECONDEXPANSION:

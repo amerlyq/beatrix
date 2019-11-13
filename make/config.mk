@@ -41,7 +41,7 @@ $(if $(G),$(eval 'export ARGS := --gtest_filter=$(G)'))
 ### --- Arguments ---
 # bgen := Unix Makefiles
 bgen := Ninja
-bcfg := Debug
+bcfg ?= Debug
 bdir := _build-$(CC)-$(bcfg)
 btst := ON
 force := 1
