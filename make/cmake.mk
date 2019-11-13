@@ -23,9 +23,10 @@ cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 
 
 #%ALIAS
-.PHONY: b c gv lc ll r t
+.PHONY: b c cc gv lc ll r t
 b: build
 c: config
+cc: config-refresh
 gv: graphviz
 lc: list-cachevars
 ll: list-cachevars-all
@@ -35,23 +36,23 @@ t: test
 
 
 # USAGE:(rebuild): $ make config -B
-.PHONY: config
+# ALT:FAIL:(%/_stamp/--AAA---): can't mix normal (alias) and implicit rules
+.PHONY: config config-refresh
 config: $(bdir)/--configure--
-
-# OR:RENAME: %/_stamp/--AAA---
-%/--configure--:
+config-refresh \
+$(bdir)/--configure--:
 	echo $(bdir)
 	$(CMAKE) $(cmake_args) \
 	  $(if $(bgen),-G'$(bgen)') \
 	  $(if $(bini),-C'$(bini)') \
 	  -S'$(d_pj)' \
-	  -B'$*' \
+	  -B'$(bdir)' \
 	  $(if $(_toolchain),-DCMAKE_TOOLCHAIN_FILE='$(toolchain)') \
 	  -DCMAKE_INSTALL_PREFIX='$(prefix)' \
 	  -DCMAKE_BUILD_TYPE='$(bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
 	  -DUSE_SANITIZERS='$(_saint)'
-	@touch -- '$@'
+	@touch -- '$(bdir)/--configure--'
 
 
 
@@ -95,7 +96,7 @@ saint: export ASAN_OPTIONS := check_initialization_order=1
 saint: export MSAN_OPTIONS := poison_in_dtor=1
 saint: export UBSAN_OPTIONS := print_stacktrace=1
 saint: _saint := $(or $(SANITIZER),$(error "You must specify enabled SANITIZER=..."))
-saint: config build run
+saint: config-refresh build run
 
 
 

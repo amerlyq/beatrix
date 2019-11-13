@@ -105,8 +105,8 @@ IndentWidth: 4
 UseTab: Never
 
 # Nested define directives must be indented by 1 space each -- to emphasize and attract attention
-#   BAD: clang reuses "IndentWidth: 4" for this; must endure and use less nested defines...
-IndentPPDirectives: AfterHash
+#   BAD:(AfterHash): clang reuses "IndentWidth: 4" for this; must endure and use less nested defines...
+IndentPPDirectives: None
 
 # Useful after headers list, between classes and unrelated functions
 # BUT: for nicely distributed classes/functions by files default "1" must be enough

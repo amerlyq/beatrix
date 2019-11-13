@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: MIT
 #
 #%SUMMARY: project defaults (common variables)
+#%DEV:IDEA: targets "make {def|define} bcfg=..." to change/store "config.mk" defaults in pj root
+#%  ALSO:NEED: ignored "personal.mk" to override project-wide settings by private uncommitted settings
 #%
 
 ### --- Toolchain ---
