@@ -47,3 +47,4 @@ bcfg ?= Debug
 bdir := _build-$(CC)-$(bcfg)
 btst := ON
 force := 1
+cmpt :=

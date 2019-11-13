@@ -19,6 +19,7 @@ include codespell.mk
 include doxygen.mk
 include gdb.mk
 include git.mk
+include install.mk
 include log.mk
 include pkgbuild.mk
 include reuse.mk

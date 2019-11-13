@@ -85,12 +85,6 @@ build: $(bdir)/--configure--
 
 
 
-.PHONY: install
-install:
-	+$(CMAKE) --build '$(bdir)' --target install
-
-
-
 # ALT: install then run :: $(abspath $(bdir))/_install/bin/main
 .PHONY: run
 run: _tgt = run.$(or $(X),$(brun))
