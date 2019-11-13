@@ -17,6 +17,8 @@
 #%
 $(call &AssertVars,bdir CMAKE)
 
+&at = $(shell realpath --relative-to='$(or $2,.)' -- '$(strip $1)')
+
 
 #%ALIAS
 .PHONY: cov coverage covx
@@ -28,9 +30,11 @@ covx: coverage-clean
 #%DOC: https://www.gcovr.com/en/stable/
 #%BUG: segfault with Clang -- use GCC for coverage :: $ m b r cov CC=gcc CXX=g++
 # * http://lists.llvm.org/pipermail/llvm-bugs/2013-May/028304.html
+# BUG:BAD: stores temporary .gcov files inside SRC dir (which may be read-only)
+#   CHG! store inside bdir near *.gcda itself
 .PHONY: coverage
-coverage:
-	gcovr --print-summary --keep --root='$(d_pj)' -- '$(bdir)'
+coverage: | $(bdir)/_coverage/
+	$(CMAKE) -E chdir '$|' gcovr --print-summary --root='$(call &at,$(d_pj),$|)' -- '$(call &at,$(bdir),$|)'
 
 
 
