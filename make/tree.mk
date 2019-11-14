@@ -7,9 +7,9 @@
 #%DEPS:|extra/tree|
 #%
 
-#%ALIAS
-.PHONY: l
-l: tree-build-dirs
+.PHONY: hb
+#%ALIAS: [filesystem]
+hb: tree-build-dirs     # list all build dirs
 
 
 .PHONY: tree

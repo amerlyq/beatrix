@@ -11,10 +11,10 @@ $(call &AssertVars,LOGNAME)
 
 # TODO: source GDB frontend (e.g. peda/etc) into RR controlled GDB environment
 
-#%ALIAS
 .PHONY: rec play
-rec: rr-record
-play: rr-replay
+#%ALIAS: [debug]    # run and replay process image in GDB
+rec: rr-record      # record process history to disk
+play: rr-replay     # replay process history in GDB
 
 
 #%DEPS:|aur/rr|

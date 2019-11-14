@@ -8,9 +8,12 @@
 #%
 $(call &AssertVars,root &VIEW)
 
-#%ALIAS
-.PHONY: h
-h: list-targets
+.PHONY: h ha hc hl
+#%ALIAS: [help]         #[help and introspection]
+h: help                 # shortcut to call default composite help
+ha: list-aliases        # short aliases to long commands with comments
+hc: list-commands-paged # list all commands in multiple columns
+hl: list-commands       # list all commands in single sorted column
 
 
 _tgts := $(shell sed -rn 's/^([a-z][-a-z0-9.]*):(\s.*|$$)/\1/p' $(MAKEFILE_LIST) | sort -u)
@@ -22,21 +25,35 @@ _tgts := $(shell sed -rn 's/^([a-z][-a-z0-9.]*):(\s.*|$$)/\1/p' $(MAKEFILE_LIST)
 # endif
 
 
-
-# ALT:DEBUG:(Ninja): $ ninja -t targets all
+# DEV:(args.mk): "make help ai" => grep annotation from "make list-aliases"
 # TODO:(help-list): annotate each line by comment "#%SUM:" directly over recipe
-# OR: @:$(foreach t,$(_tgts),$(info $t))
-.PHONY: list-targets
-list-targets:
+#%SUM: "help" is actually short summary with long annotated list of commands aliases
+.PHONY: help
+help: help-main list-aliases
+
+
+
+.PHONY: list-commands
+list-commands:
+	@:$(foreach t,$(_tgts),$(info $t))
+
+
+
+.PHONY: list-commands-paged
+list-commands-paged:
 	@printf '%s\n' $(_tgts) | column -c '$(shell tput cols)'
 
 
 
+# MAYBE:DEV: use file basename instead of ALIAS comment :: "package.mk" -> "[package]"
 # OR: find -name '*.mk' -print0 | xargs -0 awk ...
 .PHONY: list-aliases
 list-aliases: _args := $(MAKEFILE_LIST)
 list-aliases:
-	awk '/^#%ALIAS/,/^\s*$$/{if(/^[a-z][-a-z0-9.]*:/)print}' $(MAKEFILE_LIST)
+	@awk '/^#%ALIAS/,/^\s*$$/{ \
+	  if(/^#%ALIAS/){sub(/\S+\s*/,"");printf("\n%s\n",$$0)}; \
+	  if(/^[a-z][-a-z0-9.]*:[^=]+(#|$$)/)print"  "$$0; \
+	}' $(MAKEFILE_LIST) | column -Lt -s'#' -o' |'
 
 
 
@@ -46,7 +63,7 @@ help-debug:
 
 
 
-.PHONY: help help-all
+.PHONY: help-main help-all
 help-all: _args := $(MAKEFILE_LIST)
-help help-all:
+help-main help-all:
 	@sed -rn '/^(.*\s)?#%/s///p' $(or $(_args),$(root))

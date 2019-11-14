@@ -9,6 +9,7 @@
 #
 #%SUMMARY: project control center
 #%USAGE: $ ./$0 [VERBOSE=1] [-W mytgt|-B|--always-make]
+#%     * $ ./$0 help
 #%HACK: create build dirs in current dir but use sources from registered repo
 #%   $ cd /ram/cache && [m|/path/to/Makefile] b
 #%HACK: enable zsh completion

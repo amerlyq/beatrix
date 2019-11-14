@@ -1,4 +1,4 @@
-personal_ws-1.1 en 72 utf-8
+personal_ws-1.1 en 73 utf-8
 ArchLinux
 Beatus
 CFG
@@ -37,6 +37,7 @@ cd
 clangd
 cmake
 codechecker
+compdef
 conan
 config
 constexpr

@@ -11,12 +11,12 @@
 $(call &AssertVars,btrx d_pj)
 
 
-#%ALIAS
 .PHONY: as af asa asf
-as: aspell-index
-af: aspell-index-fix
-asa: aspell-all
-asf: aspell-all-fix
+#%ALIAS: [aspell]       #[check text spelling]
+as: aspell-index        # check only files added to "git index"
+af: aspell-index-fix    # fix files from "git index" in TUI and add corrections to "beatrix" dicts
+aS: aspell-all          # check all files in project indiscriminately
+aF: aspell-all-fix      # fix spelling in all files (private words must be manually added to project private dict)
 
 
 BEATRIX_ASPELL_PRIVATE := $(d_pj)/beatrix-private/aspell.en.pws

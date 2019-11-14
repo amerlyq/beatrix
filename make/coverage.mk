@@ -20,10 +20,10 @@ $(call &AssertVars,bdir CMAKE)
 &at = $(shell realpath --relative-to='$(or $2,.)' -- '$(strip $1)')
 
 
-#%ALIAS
 .PHONY: cov coverage covx
-cov: coverage
-covx: coverage-clean
+#%ALIAS: [coverage]     #[code coverage]
+cov: coverage           # print coverage summary (RQ: run tests before that)
+covx: coverage-clean    # reset runtime coverage statistic
 
 
 #%ALT:BET:PERF:(fastcov=100x): https://github.com/RPGillespie6/fastcov

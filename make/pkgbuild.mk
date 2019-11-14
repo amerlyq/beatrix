@@ -12,9 +12,10 @@ $(call &AssertVars,bdir pkgname)
 ## IDEA: embed HOST owner as packager into built .tar.xz packages
 # export PACKAGER := $(shell git config --get user.name) <$(shell git config --get user.email)>
 
-#%ALIAS (incremental aggregation)
 .PHONY: pkg pkgs
-pkg: pkg-$(pkgname)
+#%ALIAS: [packaging]    #[create native package for host]
+pkg: pkg-$(pkgname)     # only package project itself
+pkgs:                   # package everything together with beatrix (clean system dev environment)
 
 
 .PHONY: pkg-beatrix

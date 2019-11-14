@@ -22,16 +22,18 @@ cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
 &skiprebuild := $(if $(filter-out 0,$(B)),,$(if $(filter-out $(bgen),Ninja),/fast))
 
 
-#%ALIAS
-.PHONY: b c cc gv lc ll r t
-b: build
-c: config
-cc: config-refresh
-gv: graphviz
-lc: list-cachevars
-ll: list-cachevars-all
-r: run
-t: test
+.PHONY: b c cc gv lc lC lt lT r t
+#%ALIAS: [cmake]            #[cmake-related stuff]
+b: build                    # build project inside: bdir=./_build-gcc-Debug/
+c: config                   # configurate cmake with generator: bgen=Ninja
+cc: config-refresh          # reconfigurate cmake (e.g. to apply new env vars)
+gv: graphviz                # generate cmake projects dependency graph
+lc: list-cachevars          # list cmake variables cached inside build dir
+lC: list-cachevars-all      #  ... together with advanced (hidden) categories
+lt: list-targets            # list project generated build targets
+lT: list-targets-all        #  ... together with cmake auto-generated default targets
+r: run                      # run chosen executable of current project: brun=Main
+t: test                     # run testapp with unit tests (RQ: btst=ON)
 
 
 
@@ -63,6 +65,16 @@ list-cachevars:
 .PHONY: list-cachevars-all
 list-cachevars-all:
 	$(CMAKE) -LA$(if $(VERBOSE),H) '$(bdir)'
+
+
+.PHONY: list-targets
+list-targets:
+	ninja -C '$(bdir)' -t targets
+
+.PHONY: list-targets-all
+list-targets-all:
+	ninja -C '$(bdir)' -t targets all
+
 
 
 # VisualStudio: --target myapp --config Release --clean-first

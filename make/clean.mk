@@ -8,10 +8,10 @@
 $(call &AssertVars,bdir)
 
 
-#%ALIAS
 .PHONY: x z
-x: clean
-z: distclean
+#%ALIAS: [cleanup]      #[build directory clean-up]
+x: clean                # clean build artifacts (but keep /_*/ matching custom dirs)
+z: distclean            # remove everything together with build folder itself
 
 
 

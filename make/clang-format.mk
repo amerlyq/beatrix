@@ -8,10 +8,10 @@
 #%ONLINE: interactive config composer REF: https://clangformat.com/
 #%
 
-#%ALIAS
 .PHONY: fmt fmti
-fmt: clang-format-all
-fmti: clang-format-index
+#%ALIAS: [clang]            #[code formatting]
+fmt: clang-format-all       # reformat all C/C++ source files
+fmti: clang-format-index    # reformat only files added to "git index"
 
 
 

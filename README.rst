@@ -18,6 +18,23 @@ into the collection of the ugly over-complicated crutches in the long while :(
 Accompanied by components examples from **beatrix-templates**: https://github.com/amerlyq/beatrix-templates/
 
 
+
+USAGE
+=====
+
+Aliases are friends of rapid development:
+
+.. code-block:: bash
+
+   alias m='remake'
+   compdef m=remake
+
+   # OR:
+   alias m='make'
+   compdef m=make
+
+
+
 INSTALL
 =======
 

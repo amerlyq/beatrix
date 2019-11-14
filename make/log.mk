@@ -7,10 +7,10 @@
 #%
 
 #%ALIAS
-.PHONY: e log rmlog
+.PHONY: e log logx rmlog
 e: log
 log: log-latest-edit
-rmlog: log-latest-remove
+logx rmlog: log-latest-remove
 
 
 #%ALIAS

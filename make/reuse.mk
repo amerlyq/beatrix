@@ -11,7 +11,7 @@
 
 #%ALIAS
 .PHONY: reuse
-reuse: reuse-all
+reuse: reuse-all    # fsfe-reuse tool to check SPDX annotations compliance
 
 
 ## INFO:
