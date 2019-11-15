@@ -15,10 +15,12 @@ hb: tree-build-dirs     # list all build dirs
 .PHONY: tree
 tree: export LC_ALL=C
 tree:
-	tree --noreport -aAC --prune --matchdirs --dirsfirst -I '_*|.*' -- .
+	tree --noreport -aAC --prune --matchdirs --dirsfirst \
+	  -I '_*|.*' -- . | sed -rz 's/\n?$$/\n/'
 
 
 # MAYBE: ... | tail -n +2
 .PHONY: tree-build-dirs
 tree-build-dirs:
-	tree --noreport -aAC -L 1 --prune --matchdirs --dirsfirst -P '_*' -- .
+	tree --noreport -aAC --prune --matchdirs --dirsfirst \
+	  -L 1 -P '_*' -- . | sed -rz 's/\n?$$/\n/'

@@ -47,12 +47,13 @@ list-commands-paged:
 
 # MAYBE:DEV: use file basename instead of ALIAS comment :: "package.mk" -> "[package]"
 # OR: find -name '*.mk' -print0 | xargs -0 awk ...
+# OLD: print only aliases :: if(/^[a-z][-a-z0-9.]*:[^=]+(#|$$)/)
 .PHONY: list-aliases
 list-aliases: _args := $(MAKEFILE_LIST)
 list-aliases:
 	@awk '/^#%ALIAS/,/^\s*$$/{ \
-	  if(/^#%ALIAS/){sub(/\S+\s*/,"");printf("\n%s\n",$$0)}; \
-	  if(/^[a-z][-a-z0-9.]*:[^=]+(#|$$)/)print"  "$$0; \
+	  if(/^#%ALIAS/){sub(/\S+\s*/,"");printf("\n%s\n",$$0)} \
+	  else if(length($$0)){print"  "$$0} \
 	}' $(MAKEFILE_LIST) | column -Lt -s'#' -o' |'
 
 

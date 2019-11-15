@@ -6,21 +6,23 @@
 #%SUMMARY: view operational logs
 #%
 
-#%ALIAS
-.PHONY: e log logx rmlog
+.PHONY: e p log logx rmlog
+#%ALIAS [logging]
 e: log
+p: log-latest-view
 log: log-latest-edit
 logx rmlog: log-latest-remove
 
 
-#%ALIAS
-.PHONY: p
-p: EDITOR := $(or $(PAGER),$(LESS),less -r)
-p: log
-
 
 # HACK: skip current log and open previous one
 &lastlog = $(shell log-latest '' 2)
+
+
+.PHONY: log-latest-view
+log-latest-view: EDITOR := $(or $(PAGER),$(LESS),less -r)
+log-latest-view: log-latest-edit
+
 
 
 .PHONY: log-latest-edit

@@ -12,8 +12,8 @@
 #   FIND: will it help for MinGW/Android builds to distribute your own libc ?
 
 
-#%ALIAS
 .PHONY: g gdb
+#%ALIAS: [debug]
 g: gdb
 gdb: gdb-run
 
