@@ -26,10 +26,14 @@ build: $(bdir)/--configure--
 
 
 
+# WARN! must always launch executable targets exclusively through CMake
+#   <= to generate timestamps, etc. and run dependent actions (e.g. coverage)
 # ALT: install then run :: $(abspath $(bdir))/_install/bin/main
+# THINK: add dependency on "$(bdir)/--configure--" to prevent error "build dir does not exists" or not
+# TRY:DEV: combine "run" with "build" into generic "cmake-target" :: $(if $(_tgt),--taget $(_tgt)..)
 .PHONY: run
 run: _tgt = run.$(or $(X),$(brun))
-run: coverage-invalidate
+run: $(bdir)/--configure--
 	+$(CMAKE) --build '$(bdir)' --target '$(_tgt)$(&skiprebuild)' -- $(_args)
 
 

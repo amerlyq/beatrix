@@ -33,6 +33,7 @@ endif()
 # endif()
 
 
+# THINK:RENAME: add_custom_launcher(...)
 function(add_runnable_targets)
   foreach(tgt IN LISTS ARGN)
     add_runnable_alias(${tgt})
@@ -41,14 +42,26 @@ endfunction()
 
 
 function(add_runnable_alias tgt)
+  get_target_property(type ${tgt} TYPE)
+  if(NOT type STREQUAL EXECUTABLE)
+    # BAD: must create workaround for LibExec pattern to also work
+    message(FATAL_ERROR "add_runnable_*(${tgt}) is only available for executables")
+  endif()
   get_target_property(srcs ${tgt} SOURCES)
   add_custom_target(run.${tgt}
     COMMENT "run.${tgt} ${ARGN}"
     COMMAND ${launcher_exe} $<TARGET_FILE:${tgt}> ${ARGN}
+    COMMAND ${CMAKE_COMMAND} -E touch ${tgt}.lastrun
+    # DISABLED: provide separate "add_custom_command" for "run_once."
+    # BYPRODUCTS ${tgt}.lastrun
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     SOURCES ${srcs}
     USES_TERMINAL
     VERBATIM
   )
   add_dependencies(run.${tgt} ${tgt})
+  # HACK: crappy workaround to allow global dependencies on artifacts produced
+  #   by target in runtime e.g. coverage-report => .gcda
+  # FAIL: results in regeneration of whole next chain of "add_custom_command" deps
+  # add_custom_target(lastrun.${tgt} DEPENDS ${tgt}.lastrun)
 endfunction()

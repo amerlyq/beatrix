@@ -49,6 +49,7 @@ $(bdir)/--configure--:
 	  -DCMAKE_INSTALL_PREFIX='$(prefix)' \
 	  -DCMAKE_BUILD_TYPE='$(bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
+	  -DUSE_COVERAGE='$(brun)' \
 	  -DUSE_SANITIZERS='$(_saint)' \
 	  $(cmake_args)
 	@touch -- '$(bdir)/--configure--'
