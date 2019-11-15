@@ -6,7 +6,7 @@
 #
 ---
 # Checks:             'clang-diagnostic-*,clang-analyzer-*'
-Checks:             '*,-modernize-use-trailing-return-type'
+Checks:             '*,-modernize-use-trailing-return-type,-llvm-header-guard,-hicpp-*,-android-*'
 WarningsAsErrors:   ''
 HeaderFilterRegex:  '.*'
 AnalyzeTemporaryDtors: false
@@ -18,6 +18,8 @@ CheckOptions:
     value:           '0'
   - key:             cppcoreguidelines-explicit-virtual-functions.IgnoreDestructors
     value:           '1'
+  - key:             cppcoreguidelines-macro-usage.AllowedRegexp
+    value:           '^TRACE_*'
   - key:             cppcoreguidelines-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
     value:           '1'
   - key:             google-readability-braces-around-statements.ShortStatementLines

@@ -22,11 +22,17 @@ REF
 * https://github.com/bilke/cmake-modules/blob/master/CodeCoverage.cmake
 
 #]=======================================================================]
+include_guard(DIRECTORY)
+
 
 #%ALIAS(opt)
 option(USE_COVERAGE "Enable producing coverage reports" ON)
+if(NOT USE_COVERAGE)
+  return()
+endif()
 
 option(BEATRIX_COVERAGE_ENABLE "Enable producing coverage reports" ${USE_COVERAGE})
+
 
 set(BEATRIX_COVERAGE_DIR ${CMAKE_BINARY_DIR}/_coverage
   CACHE PATH "Directory to store coverage report")

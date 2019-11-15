@@ -12,6 +12,20 @@ Entry point to add warnings flags
 TRY:(never use CMAKE_CXX_FLAGS): https://cmake.org/pipermail/cmake/2017-August/066044.html
 
 #]=======================================================================]
+include_guard(DIRECTORY)
+
+
+option(USE_WERROR "Treat warnings as errors" ON)
+if(USE_WERROR)
+  add_compile_options(-Werror)
+endif()
+
+option(USE_WARNINGS "Extra compilation warnings" ON)
+if(NOT USE_WARNINGS)
+  return()
+endif()
+
+
 
 # ALT: directly add flags to each of CMAKE vars
 #   BAD: repeated flags from "*-both" will be specified twice

@@ -25,4 +25,6 @@ export PATH := $(btrx)bin:$(PATH)
 
 
 .PHONY: all
-all:
+all: \
+  check-all \
+  graphviz

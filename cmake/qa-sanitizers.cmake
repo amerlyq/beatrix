@@ -13,17 +13,19 @@ REF
 :/aeternum/languages/cxx/clang.nou
 
 #]=======================================================================]
+include_guard(GLOBAL)
+
 
 set(USE_SANITIZERS "" CACHE STRING "Code santitizers (only tested on Clang)")
 set_property(CACHE USE_SANITIZERS PROPERTY STRINGS ";address;memory;thread;UB")
+if(NOT USE_SANITIZERS)
+  return()
+endif()
 
 
 #%BAD! some sanitizers conflict with each other => build each separately
 set(qa_saint)
-if(NOT USE_SANITIZERS)
-  return()
-
-elseif(USE_SANITIZERS STREQUAL "address")
+if(USE_SANITIZERS STREQUAL "address")
   list(APPEND qa_saint -fsanitize=address -fsanitize-address-use-after-scope)
 
 elseif(USE_SANITIZERS STREQUAL "memory")
