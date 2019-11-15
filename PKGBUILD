@@ -24,6 +24,7 @@ depends=(
   dcd dfmt dmd dmd-docs dscanner dtools
 )
 
+# FIND: how to force aur-utils install both AUR deps and local PKGBUILDs from beatrix itself
 ## AUR:
 optdepends=(
   # lcov  # NEED: lcov>1.14 REF: https://github.com/gentoo/gentoo/pull/12760

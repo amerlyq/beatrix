@@ -8,6 +8,15 @@
 #%DEP:|aur/reuse|
 #%HACK:|moreutils/chronic|: suppress output unless got error
 #%
+#
+# INFO: fsfe-reuse always treats submodules as inseparable part of single SPDX Project/Package
+#   => impossible to pass REUSEv3.0 for both cases of cloned submodules and main repo only (RQ: different license lists)
+#     i.e. if submodules aren't initialized/cloned -- whole your repo is dysfunctional
+#   HACK:MAYBE: use symlinks to submodule-only licenses FAIL: dangling symlinks are still detected
+#   ALT:SEE:REQ:(--recursive): allow separate license list for submodules and main repo
+#     https://github.com/fsfe/reuse-docs/issues/36
+#     https://github.com/fsfe/reuse-tool/issues/29
+#
 
 #%ALIAS
 .PHONY: reuse
