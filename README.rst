@@ -26,11 +26,15 @@ Aliases are friends of rapid development:
 
 .. code-block:: bash
 
-   alias m='remake'
-   compdef m=remake
+   # OR: alias ttime='command time --format "%ee %Uu %Ss ♏%MkB %F▲%R▼ %O↑%I↓kB/s %c⚙%w ε%x↵" -- '
+   alias ttime='command time --format "%ee %Uu %Ss rss=%MkB flt=%F+%R io=%O+%IkB/s ctx=%c+%w err=%x" -- '
+   alias mm='ttime m'
+   if command -v remake >/dev/null 2>&1; then
+     alias m='remake'
+   else
+     alias m='make'
+   fi
 
-   # OR:
-   alias m='make'
    compdef m=make
 
 

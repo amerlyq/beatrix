@@ -8,20 +8,7 @@
 #%  rebuild $ make cc
 #%     ALT: $ make config -B
 #%
-$(call &AssertVars,bcfg bdir btrx btst CMAKE)
-
-bini := $(btrx)cmake/config/default.cmake
-
-# RQ: to run tests inside installed dir -- you still must know defaults
-#   CASE: not all tools are possible to run as custom commands from inside CMake
-# INFO:(system): DFL=/usr
-prefix = $(bdir)/_install
-
-tname := x86_64-pc-linux-gnu.cmake
-toolchain := $(btrx)/cmake/toolchain/$(tname)
-
-cmake_args += $(if $(VERBOSE),-Wdev -Wno-error=dev)
-
+$(call &AssertVars,bcfg bdir bini bpfx btst CMAKE)
 
 .PHONY: c cc cg ct lc lC lt lT
 #%ALIAS: [configure]        #[configuration and generation steps]
@@ -36,17 +23,23 @@ lt: list-targets            # list project generated build targets
 lT: list-targets-all        #  ... together with cmake auto-generated default targets
 
 
+cmake_cmd = $(CMAKE) \
+  $(if $(VERBOSE),-Wdev -Wno-error=dev) \
+  $(if $(WARN),--warn-uninitialized --warn-unused-vars) \
+  $(if $(DEBUG),--debug-output)
+
+
 
 # ALT:FAIL:(%/_stamp/--AAA---): can't mix normal (alias) and implicit rules
 .PHONY: config config-refresh
 config: $(bdir)/--configure--
 config-refresh \
 $(bdir)/--configure--:
-	$(CMAKE) -S'$(d_pj)' -B'$(bdir)' \
+	$(cmake_cmd) -S'$(d_pj)' -B'$(bdir)' \
 	  $(if $(bgen),-G'$(bgen)') \
 	  $(if $(bini),-C'$(bini)') \
-	  $(if $(_toolchain),-DCMAKE_TOOLCHAIN_FILE='$(toolchain)') \
-	  -DCMAKE_INSTALL_PREFIX='$(prefix)' \
+	  $(if $(toolchain_cmake),-DCMAKE_TOOLCHAIN_FILE='$(toolchain_cmake)') \
+	  -DCMAKE_INSTALL_PREFIX='$(bpfx)' \
 	  -DCMAKE_BUILD_TYPE='$(bcfg)' \
 	  -DBUILD_TESTING='$(btst)' \
 	  -DUSE_COVERAGE='$(brun)' \

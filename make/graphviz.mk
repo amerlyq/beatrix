@@ -15,6 +15,8 @@ gv: graphviz                # generate cmake projects dependency graph
 
 
 # MAYBE:BET:RENAME: use more generic target "analyze-deps[-view]"
+# TODO: additional analysis from "ninja -t list" -> {browse,deps,graph,...}
+
 .PHONY: graphviz
 graphviz: _pfx = $(bdir)/_gv/g
 graphviz: cmake_args += --graphviz='$(_pfx)'

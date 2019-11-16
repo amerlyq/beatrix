@@ -9,6 +9,7 @@ $(call &AssertVars,here)
 
 include aspell.mk
 include batch.mk
+include build.mk
 include clang-format.mk
 include clang-tidy.mk
 include clean.mk
@@ -17,7 +18,6 @@ include codespell.mk
 include configure.mk
 include coverage.mk
 include doxygen.mk
-include flow.mk
 include gdb.mk
 include git.mk
 include graphviz.mk
@@ -26,6 +26,7 @@ include log.mk
 include pkgbuild.mk
 include reuse.mk
 include rr.mk
+include run.mk
 include sanitizers.mk
 include tags.mk
 include tree.mk

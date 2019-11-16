@@ -5,7 +5,7 @@
 #
 #%SUMMARY: install artifacts of current build type
 #%
-$(call &AssertVars,prefix bdir CMAKE)
+$(call &AssertVars,bpfx bdir CMAKE)
 
 
 .PHONY: i ia ic id ip ir it ix
@@ -57,20 +57,23 @@ install-all: \
 ## ALT: +$(CMAKE) --build '$(bdir)' --target install
 #  OR: cmake -DCOMPONENT=development -P cmake_install.cmake
 #  OR: https://cmake.org/pipermail/cmake/2008-June/022516.html
+# ALSO:(opt): --prefix "${i:=$bdir/_install}"
 .PHONY: install
 install-develop \
 install-package \
 install-runtime \
 install:
-	+$(CMAKE) --install '$(bdir)'$(if $(INSTALL_STRIP), --strip)$(if $(cmpt), --component $(cmpt))
+	+$(CMAKE) --install '$(bdir)' \
+	  $(if $(STRIP),--strip) \
+	  $(if $(cmpt),--component $(cmpt))
 
 
 .PHONY: install-clean
 install-clean:
-	test ! -d '$(prefix)' || find -H '$(prefix)' -delete
+	test ! -d '$(bpfx)' || find -H '$(bpfx)' -delete
 
 
 .PHONY: install-tree
 install-tree: export LC_ALL=C
 install-tree:
-	tree --noreport -aAC --prune --matchdirs --dirsfirst -- '$(prefix)'
+	tree --noreport -aAC --prune --matchdirs --dirsfirst -- '$(bpfx)'
