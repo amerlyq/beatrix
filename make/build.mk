@@ -35,6 +35,8 @@ build: $(bdir)/--configure--
 ## FAIL:(cmake --clean-first): always cleans whole project
 #   ALT: $ cmake -P CMakeFiles/foo.dir/cmake_clean.cmake
 #   BET: $ ninja -t clean <targets>
+# TRY:(ADDITIONAL_CLEAN_FILES):SEE: https://gitlab.kitware.com/cmake/cmake/issues/19341
+#   https://gitlab.kitware.com/cmake/cmake/issues/17074
 .PHONY: build-clean
 build-clean: $(bdir)/--configure--
 	+$(CMAKE) --build '$(bdir)' -- -t clean $(tgt)

@@ -11,6 +11,9 @@ Entry point to add warnings flags
 
 TRY:(never use CMAKE_CXX_FLAGS): https://cmake.org/pipermail/cmake/2017-August/066044.html
 
+ALSO:READ: Comparing GCC and Clang security features [LWN.net]
+  https://lwn.net/Articles/798913/
+
 #]=======================================================================]
 include_guard(DIRECTORY)
 

@@ -52,7 +52,7 @@ done;}
 
 case $act
 in list)
-  if findext | xargs -0 cat | chkall | grep '^'; then
+  if findext | xargs -0 cat | awk '/^\.\. code-block::/{h=1;next} /^\S/{h=0} !h{print}' | chkall | grep '^'; then
     >&2 echo ">>> WARN: you must fix above misspeled words by running interactive 'm af' OR 'make aspell-fix'"
     exit 1
   fi

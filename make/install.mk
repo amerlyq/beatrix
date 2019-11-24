@@ -53,11 +53,14 @@ install-all: \
   install-runtime \
 
 
+&tgtinstall = $(if $(tgt),$(tgt)$(if $(filter Ninja,$(bgen)),/install))
+
 ## NOTE: env var "VERBOSE" implies flag "--verbose"
 ## ALT: +$(CMAKE) --build '$(bdir)' --target install
 #  OR: cmake -DCOMPONENT=development -P cmake_install.cmake
 #  OR: https://cmake.org/pipermail/cmake/2008-June/022516.html
 # ALSO:(opt): --prefix "${i:=$bdir/_install}"
+# FIND: install only chosen targets MAYBE: only Ninja -- pass as cmdline args
 .PHONY: install
 install-develop \
 install-package \
@@ -65,7 +68,9 @@ install-runtime \
 install:
 	+$(CMAKE) --install '$(bdir)' \
 	  $(if $(STRIP),--strip) \
-	  $(if $(cmpt),--component $(cmpt))
+	  $(if $(cmpt),--component $(cmpt)) \
+	  $(&tgtinstall)
+
 
 
 .PHONY: install-clean

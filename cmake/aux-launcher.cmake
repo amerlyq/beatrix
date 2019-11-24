@@ -41,6 +41,8 @@ function(add_runnable_targets)
 endfunction()
 
 
+# TRY: maybe my launcher is not needed :: https://cgold.readthedocs.io/en/latest/tutorials/tests.html
+#   <= generally CTest can be used and universal launcher of targets with arguments by group/regex
 function(add_runnable_alias tgt)
   get_target_property(type ${tgt} TYPE)
   if(NOT type STREQUAL EXECUTABLE)

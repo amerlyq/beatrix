@@ -29,6 +29,7 @@ $(if $(VERBOSE),$(shell >&2 echo 'CC=$(CC) CXX=$(CXX)'))
 
 
 ### --- Environment ---
+# MOVE: combine with other launchers like "cmake-gui"
 # TODO: https://clang-analyzer.llvm.org/scan-build
 # ATT! you must rebuild project to scan it e.g. scan-build make -B
 # CMAKE := scan-build cmake

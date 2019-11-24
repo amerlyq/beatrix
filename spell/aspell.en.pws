@@ -1,4 +1,4 @@
-personal_ws-1.1 en 73 utf-8
+personal_ws-1.1 en 75 utf-8
 ArchLinux
 Beatus
 CFG
@@ -32,6 +32,7 @@ aurutils
 backend
 beatrix
 bugfix
+bugtrackers
 buildsystem
 cd
 clangd
@@ -57,6 +58,7 @@ libexec
 libs
 lifecycle
 llvm
+middleware
 oneline
 pseudoxml
 rebase

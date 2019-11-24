@@ -11,6 +11,9 @@ Native linux toolchain
 
   READ:SEIZE: https://cliutils.gitlab.io/modern-cmake/chapters/features/utilities.html
 
+  SEIZE: Collection of CMake toolchains (GCC, Visual Studio, iOS, Android, Clang analyzer, sanitizers etc.)
+    https://github.com/ruslo/polly
+
 USAGE
 -----
 

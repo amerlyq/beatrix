@@ -64,6 +64,14 @@ help-debug:
 
 
 
+# THINK: how to provide information about pipeline in useful way ?
+# MAYBE: generate gui/tui graphviz ?
+.PHONY: help-flow
+help-flow:
+	echo configure -> build -> test -> run -> check -> package ...
+
+
+
 .PHONY: help-main help-all
 help-all: _args := $(MAKEFILE_LIST)
 help-main help-all:

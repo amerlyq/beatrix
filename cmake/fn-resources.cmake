@@ -85,6 +85,8 @@ function(make_resource_from_each)
   set(datatype TEXT)
 
   # INFO: can alternate LOCAL/GLOBAL and TEXT/BINARY inside arguments list
+  # TRY: replace by cmake_parse_arguments()
+  #   https://cmake.org/cmake/help/latest/command/cmake_parse_arguments.html
   foreach(src IN LISTS ARGN)
     if(src STREQUAL LOCAL OR src STREQUAL GLOBAL)
       set(scope ${src})
