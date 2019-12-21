@@ -42,5 +42,5 @@ errcode=%x\
 
 # time ${timefmt:+--format="$timefmt" --} \
 exec ${wrap-} \
-  "$make" ${silent-} -I "${d_make}" \
+  "$make" ${silent-} -I "${here%/*}" -I "${d_make}" \
   "$@"

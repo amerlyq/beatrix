@@ -7,8 +7,10 @@
 #%
 $(call &AssertVars,d_pj)
 
+_here := $(dir $(lastword $(MAKEFILE_LIST)))
 
-version = $(or $(shell git-pj-version '$(d_pj)' $(1)),\
+
+version = $(or $(shell $(_here)from-git '$(d_pj)' $(1)),\
   $(error "Must have at least one symver tag for versioning to work\
   ( e.g. add tag by 'git tag 0.0.1' )"))
 

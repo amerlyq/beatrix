@@ -19,6 +19,10 @@ SHELL := $(shell which bash)
 .SHELLFLAGS := -euo pipefail -c
 
 
+# BUG: no error when function misspelled $(call &AssrtVrs,here)
+&AssertVars = $(foreach v,$(1),$(if $($v),,$(error This file requires non-empty var '$v')))
+
+
 ### --- Constants ---
 # HACK:(keep trailing "/" in VAR):
 #  ++ Vim 'gf' can directly open local files by ignoring path prefix
@@ -28,7 +32,3 @@ here := $(dir $(realpath $(this)))
 btrx := $(dir $(here:/=))
 root := $(word $(words $(MAKEFILE_LIST)),_ $(MAKEFILE_LIST))
 d_pj := $(patsubst %/,%,$(dir $(root)))
-
-
-# BUG: no error when function misspelled $(call &AssrtVrs,here)
-&AssertVars = $(foreach v,$(1),$(if $($v),,$(error This file requires non-empty var '$v')))

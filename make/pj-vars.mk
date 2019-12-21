@@ -10,4 +10,4 @@ $(call &AssertVars,here)
 include args.mk
 include common.mk
 include config.mk
-include version.mk
+include version/mod.mk

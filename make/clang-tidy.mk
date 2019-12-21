@@ -11,6 +11,8 @@
 #%ALIAS: [clang]            #[code modernizing]
 tidy: clang-tidy-all        # modernize all C/C++ source files
 
+# BUG: clang-tidy is run on everything -- even on all committed unrelated .cpp which weren't added to buildsystem
+#   TRY: using exclusively integration to CMake
 
 # BUG: error: no such file or directory: '@/path/to/_build-clang-Debug/qa_cxx_warn.flags' [clang-diagnostic-error]
 #   => must ignore this cmdline argument somehow or train clang-tidy to read such cmdarg-files
