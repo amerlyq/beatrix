@@ -1,0 +1,24 @@
+SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+IDEA: call it regularly to build graph/reports of project progress
+NICE: you will be able to correct some constants on the fly by comparing predicted efforts estimation and actually spent by your team
+
+
+REF
+  http://wiki.c2.com/?LinesOfCode
+  https://en.wikipedia.org/wiki/Source_lines_of_code
+
+USE
+  |community/sloccount|
+    https://www.dwheeler.com/sloccount/
+
+ALT
+  https://www.dwheeler.com/sloc/
+  https://github.com/AlDanial/cloc
+
+DEV
+  Code: $ LC_ALL=C sloccount $(find -type d -regex '.*/\(tests?\)' -prune -o -type f -regex '.*\.[hc]\(pp\)?' -print)
+  Tests: $ LC_ALL=C sloccount $(find -type f -regex '.*/tests?/.*\.[hc]\(pp\)?' -print)
