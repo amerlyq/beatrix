@@ -1,0 +1,13 @@
+SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+IDEA: separate "beatrix" into ::
+  *beatrix-core* -- external templates installed system-wide
+  *beatrix-mods* -- locally-modifyable *core* overlay
+  *beatrix-tools* -- single global package to install
+    BUT: isn't *beatrix-tools* === *airy* ???  => after all *airy* is collection of tools/configs/scripts
+      <= still we need easier way to reuse *airy* modules inside independent projects
+      <= without littering the host system i.e. using aka ~virtualenv~ but for whole micro-host tools overlay with C++ and CMake
+    NOTE: the only difference between two: *generic user/developer system* vs *system for specific <kind|lang> of project*

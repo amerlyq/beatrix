@@ -1,3 +1,8 @@
+SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
 ADD local hooks to affect all your local repos
   https://medium.com/@nicklee1/prepending-your-git-commit-messages-with-user-story-ids-3bfea00eab5a
   $ git config --global init.templatedir '~/.git-templates'
