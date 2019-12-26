@@ -7,6 +7,7 @@
 #%REF: http://aspell.net/man-html/index.html
 #%TUT: https://lists.gnu.org/archive/html/aspell-user/2011-09/msg00012.html
 #%DEP:|extra/aspell|aspell-{en,ru,uk}|
+#%ALT:(sphinx+enchant): https://superuser.com/questions/287088/spell-checking-restructuredtext
 #%
 $(call &AssertVars,btrx d_pj)
 

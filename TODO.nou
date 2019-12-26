@@ -15,3 +15,14 @@ Module
       + easy install()
       - non-STD file structure
       - must manually sync dirname and cfgname
+
+
+Tools
+  Debug / Profiling
+    [_] VIZ https://cppcon.org/class-2019-debugging-and-profiling-cpp-code-on-linux/
+    +++ [_] TUT:SECU: https://blog.talosintelligence.com/2016/11/crashing-stacks-without-squishing-bugs.html
+  GDB
+    [_] READ: https://wiki.documentfoundation.org/Development/How_to_debug
+    [_] BLOG https://tromey.com/blog/?cat=17
+  radare2
+    [_] https://r2wiki.readthedocs.io/en/latest/tools/radare2/

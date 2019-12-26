@@ -1,4 +1,4 @@
-personal_ws-1.1 en 75 utf-8
+personal_ws-1.1 en 81 utf-8
 ArchLinux
 Beatus
 CFG
@@ -36,6 +36,7 @@ bugtrackers
 buildsystem
 cd
 clangd
+cli
 cmake
 codechecker
 compdef
@@ -44,13 +45,17 @@ config
 constexpr
 cpp
 cpplint
+ctx
 customizations
 deps
+dev
 disfunct
 filesystem
 func
+gdb
 gitmodules
 init
+io
 jekyll
 kirie
 lfs
@@ -72,5 +77,6 @@ src
 submodule
 submodules
 subtree
+ttime
 txt
 usr

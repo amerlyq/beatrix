@@ -19,9 +19,10 @@ arch=('any')
 depends=(
   clang cmake ctags gdb git moreutils ninja tree
 
-  gcovr
+  gcovr codespell
 
-  dcd dfmt dmd dmd-docs dscanner dtools
+  ## DEV:(opt): enable when each *mod* will contain "mod.d" part
+  # dcd dfmt dmd dmd-docs dscanner dtools
 )
 
 # FIND: how to force aur-utils install both AUR deps and local PKGBUILDs from beatrix itself
