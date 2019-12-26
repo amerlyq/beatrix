@@ -28,7 +28,7 @@ build: $(bdir)/--configure--
 	  $(if $(JOBS),--parallel $(JOBS)) \
 	  $(if $(CLEAN),--clean-first) \
 	  $(if $(tgt),--target $(tgt:%=%$(&skiprebuild))) \
-	  $(if $(build_args),-- $(build_args))
+	  $(if $(build.args),-- $(build.args))
 
 
 

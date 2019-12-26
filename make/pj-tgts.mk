@@ -18,7 +18,7 @@ include codespell.mk
 include configure.mk
 include coverage.mk
 include doxygen.mk
-include gdb.mk
+include gdb/mod.mk
 include git.mk
 include graphviz.mk
 include install.mk

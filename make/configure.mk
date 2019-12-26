@@ -14,7 +14,7 @@ $(call &AssertVars,bcfg bdir bini bpfx btst CMAKE)
 #%ALIAS: [configure]        #[configuration and generation steps]
 c: config                   # configure cmake with generator: bgen=Ninja
                             # {reconfigure cmake} (e.g. to apply new env vars)
-cc: config-cli              #  ... by command line interface (CLI) USAGE: $ make cc cmake_args="-D'KEY=VALUE' ..."
+cc: config-cli              #  ... by command line interface (CLI) USAGE: $ make cc cmake.args="-D'KEY=VALUE' ..."
 cg: config-gui              #  ... by graphical user interface (GUI)
 ct: config-tui              #  ... by terminal user interface (TUI)
 lc: list-cachevars          # list cmake variables cached inside build dir
@@ -44,7 +44,7 @@ $(bdir)/--configure--:
 	  -DBUILD_TESTING='$(btst)' \
 	  -DUSE_COVERAGE='$(brun)' \
 	  -DUSE_SANITIZERS='$(_saint)' \
-	  $(cmake_args)
+	  $(cmake.args)
 	@touch -- '$(bdir)/--configure--'
 
 

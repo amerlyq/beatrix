@@ -6,7 +6,7 @@
 beatrix
 #######
 
-Tools to bootstrap and control complex C/C++/D projects.
+Buildsystem plug-ins integrated with rudimentary IDE to control complex C/C++/D projects from CLI.
 
 .. note::
    Etymology: "beatrix" (/beɪətrɪks/) -- lat. "Beatus + Viatrix", en. "Blessed Traveller".
@@ -15,7 +15,7 @@ Tools to bootstrap and control complex C/C++/D projects.
 Still, I must begrudgingly admit, I'm deeply aware how it will unavoidably transform
 into the collection of the ugly over-complicated crutches in the long while :(
 
-Accompanied by components examples from **beatrix-templates**: https://github.com/amerlyq/beatrix-templates/
+Accompanied by the components examples from **beatrix-templates**: https://github.com/amerlyq/beatrix-templates/
 
 
 
@@ -37,6 +37,10 @@ Aliases are friends of rapid development:
 
    compdef m=make
 
+
+Variables transformation chain::
+
+   gdb:  W -> run.wrap -> .run.wrap -> WRAP
 
 
 INSTALL

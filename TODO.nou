@@ -1,0 +1,17 @@
+SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+Module
+  structure
+    :/version/mod.mk
+      + STD ifc
+      - multiple mod files opened in vim -- all have the same name (hard to navigate)
+      - excessive suffix in make/cmake :: include(version/mod)
+    :/version/version.mk
+      + unique file names
+      + easy install()
+      - non-STD file structure
+      - must manually sync dirname and cfgname

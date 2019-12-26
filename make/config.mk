@@ -36,9 +36,8 @@ $(if $(VERBOSE),$(shell >&2 echo 'CC=$(CC) CXX=$(CXX)'))
 CMAKE := cmake
 SANITIZER ?= memory
 
-# FIXME: append run_args and run_wrap
-$(if $(W),$(eval 'export WRAP := $(W)'))
-$(if $(G),$(eval 'export ARGS := --gtest_filter=$(G)'))
+$(if $(W),$(eval run.wrap := $(W)))
+$(if $(G),$(eval run.args := --gtest_filter='$(G)'))
 
 
 ### --- Options ---
@@ -50,7 +49,7 @@ $(if $(G),$(eval 'export ARGS := --gtest_filter=$(G)'))
 # FIXME: treat separately cmdline args $(p|pfx) from global vars $(bpfx|gpfx),
 #   optional recipe keys $(opfx) and temporary internals-override only $(_pfx)
 # i.e. use {pfx -> gpfx -> _pfx -> opfx} to prevent parasitic overrides
-# ALSO:DEV(shortcuts): @b=build_args, @c=cmake_args, A=@r=run_args W=@w=run_wrap G=@g=gtest_args X=brun T=g_tgts
+# ALSO:DEV(shortcuts): @b=build.args, @c=cmake.args, A=@r=run.args W=@w=run.wrap G=@g=gtest.args X=brun T=g_tgts
 bcfg ?= Debug
 bdir := _build-$(CC)-$(bcfg)
 # bgen := Unix Makefiles

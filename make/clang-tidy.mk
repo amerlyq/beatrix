@@ -19,7 +19,7 @@ tidy: clang-tidy-all        # modernize all C/C++ source files
 #   ::: HACK:FIXED: generate separate "compile_commands.json" for clang-tidy without '@...' aggregated flags file
 .PHONY: clang-tidy
 clang-tidy: bdir := $(bdir)/_tidy
-clang-tidy: cmake_args += -DBUILD_TESTING=OFF -DUSE_WARNINGS=OFF -DUSE_COVERAGE=OFF -DUSE_SANITIZERS=OFF
+clang-tidy: cmake.args += -DBUILD_TESTING=OFF -DUSE_WARNINGS=OFF -DUSE_COVERAGE=OFF -DUSE_SANITIZERS=OFF
 clang-tidy: config-refresh
 	find '$(abspath $(d_pj))' -xtype d -name '_*' -prune -o \
 	  -regextype egrep -regex '.*\.(c|h|cc|hh|cpp|hpp|cxx|hxx)' -exec \

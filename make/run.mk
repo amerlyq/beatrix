@@ -23,8 +23,8 @@ t: test                     # run testapp with unit tests :: RQ(cmake configure)
 #   CASE: not all tools are possible to run as custom commands from inside CMake
 .PHONY: run
 run: tgt = run.$(or $(X),$(brun))
-run: export ARGS := $(run_args)
-run: export WRAP := $(run_wrap)
+run: export ARGS = $(run.args)
+run: export WRAP = $(run.wrap)
 run: build
 
 

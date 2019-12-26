@@ -19,7 +19,7 @@ gv: graphviz                # generate cmake projects dependency graph
 
 .PHONY: graphviz
 graphviz: _pfx = $(bdir)/_gv/g
-graphviz: cmake_args += --graphviz='$(_pfx)'
+graphviz: cmake.args += --graphviz='$(_pfx)'
 graphviz: config-refresh
 	find '$(_pfx)' -type f -name 'g*' -execdir mv '{}' '{}.gv' \;
 	graphviz-view '$(_pfx).gv'

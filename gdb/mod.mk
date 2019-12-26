@@ -20,5 +20,5 @@ gdb: gdb-run
 
 #%DEPS:|extra/gdb|
 .PHONY: gdb-run
-gdb-run: export WRAP += gdb -q --args
+gdb-run: run.wrap += gdb -q --args
 gdb-run: run
