@@ -25,6 +25,7 @@ include install.mk
 include log.mk
 include pkgbuild.mk
 include reuse.mk
+include r2/mod.mk
 include rr/mod.mk
 include run.mk
 include sanitizers.mk
