@@ -1,0 +1,17 @@
+TODO: test suite
+  <= compare aliases and generated cmdlines w/o running them
+  <= can even mock ifc -- i.e. sequence of creating dirs, building and then running
+
+MAYBE: use "make --dry-run"
+  ALT: replace SHELL var to output only cmdlines
+
+DEV: single contiguous file with blocks "cmd -- output" separated by empty line
+e.g:
+  $ make r
+  cmake --build '_build-clang-Debug' \
+     \
+     \
+    --target run.Main \
+  ...
+
+  +. then I can print "diff -u" on test failure
