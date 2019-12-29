@@ -4,14 +4,19 @@
 # SPDX-License-Identifier: MIT
 #
 #%SUMMARY: reformat C/C++ source code
+#%NEED: config in project root :: $ make clang-format-install
 #%DEP:|extra/clang|
 #%ONLINE: interactive config composer REF: https://clangformat.com/
 #%
+$(call &AssertVars,d_pj &here)
 
-.PHONY: fmt fmti
+
+
+.PHONY: fmt fmti clang-format
 #%ALIAS: [clang]            #[code formatting]
-fmt: clang-format-all       # reformat all C/C++ source files
+fmt: clang-format           # reformat all C/C++ source files
 fmti: clang-format-index    # reformat only files added to "git index"
+clang-format: clang-format-all
 
 
 
@@ -24,8 +29,25 @@ clang-format-index:
 
 
 
+# FIXME: don't rely on ".clang-format" in project root
+#   -- always use config directly from this dir (or from user private overlay)
 .PHONY: clang-format-all
 clang-format-all:
 	find . -xtype d -name '_*' -prune -o \
 	  -regextype egrep -regex '.*\.(cpp|hpp|cc|cxx)' -exec \
 	    clang-format --verbose -style=file --fallback-style=none -i {} +
+
+
+
+# NOTE: install config to be available for external IDE
+# EXPL: this installation is "additional" i.e. not required
+.PHONY: clang-format-install
+clang-format-install: $(&here)cfg/vertical.yaml
+	ln -srviT '$<' '$(d_pj)/.clang-format'
+
+
+# FAIL! global private var with same name becomes overriden
+# .cfg := $(&here)cfg/vertical.yaml
+# .PHONY: clang-format-install
+# clang-format-install:
+# 	ln -srviT '$(.cfg)' '$(d_pj)/.clang-format'
