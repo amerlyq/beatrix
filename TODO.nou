@@ -15,6 +15,23 @@ Module
       + easy install()
       - non-STD file structure
       - must manually sync dirname and cfgname
+        ~ BUT: I already do that for C++ anyway :: :/folder/ + project() + .cpp + class{}
+    :/_dev/lib/make/version.mk (symlink)
+      = manually maintained intermediate installation prefix of symlinks
+      + include as prefix for no-install development
+      + installation list =is fs itself= instead of obscure scripts
+      + copy-dereference symlinks list when installing *beatrix* for real
+      - must manually sync fs changes to :/_dev/
+    :/_build/beatrix.mk (generate)
+      = similarly to CMake+ninja generate "single file ruleset"
+      + simple one file interface
+      + single file is faster
+      - additional intermediate step (complexity)
+      - namespace conflicts
+    ../_build/_prefix/lib/make/version.mk (dev-install)
+      OR: :/_prefix/lib/make/version.mk
+      = install to beatrix-static OR pj-local prefix
+
 
 
 Tools
