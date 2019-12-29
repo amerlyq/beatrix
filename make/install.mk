@@ -78,7 +78,12 @@ install-clean:
 	test ! -d '$(bpfx)' || find -H '$(bpfx)' -delete
 
 
+# RENAME: "tree-install" -- group by "<intent> of exploration" instead of dst-centering
+#   !! you can't place it directly into *tree* mod because *install* may be disabled as whole
+#   == this is scattered <extension> compared to condensed basic "tree-..." group
+#   <= you must know where to place files/functions (framework) to make them discovered
 .PHONY: install-tree
 install-tree: export LC_ALL=C
 install-tree:
-	tree --noreport -aAC --prune --matchdirs --dirsfirst -- '$(bpfx)'
+	tree --noreport -aAC --prune --matchdirs --dirsfirst \
+	  -- '$(bpfx)' | sed -rz 's/\n?$$/\n/'

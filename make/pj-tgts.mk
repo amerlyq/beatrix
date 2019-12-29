@@ -30,4 +30,4 @@ include r2/mod.mk
 include rr/mod.mk
 include run.mk
 include sanitizers.mk
-include tree.mk
+include tree/mod.mk
