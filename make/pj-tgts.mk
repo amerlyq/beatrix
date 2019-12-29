@@ -17,6 +17,7 @@ include cmake-format.mk
 include codespell.mk
 include configure.mk
 include coverage.mk
+include ctags/mod.mk
 include doxygen.mk
 include gdb/mod.mk
 include git.mk
@@ -29,5 +30,4 @@ include r2/mod.mk
 include rr/mod.mk
 include run.mk
 include sanitizers.mk
-include tags.mk
 include tree.mk

@@ -5,7 +5,7 @@
 #
 #%SUMMARY: generate documentation
 #%
-$(call &AssertVars,bdir version)
+$(call &AssertVars,bdir)
 
 ## FIXED: sphinx inline code
 # https://stackoverflow.com/questions/21591107/sphinx-inline-code-highlight

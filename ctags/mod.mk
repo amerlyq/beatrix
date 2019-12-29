@@ -6,16 +6,22 @@
 #%SUMMARY: generate tag files for Vim/etc
 #%DEPS:|extra/ctags|
 #%
+$(call &AssertVars,&here)
 
 
 .PHONY: tags
-tags:
-	tags-gen-cpp . > tags
+#%ALIAS: [aux]
+tags: ctags-cpp
+
+
+.PHONY: ctags-cpp
+ctags-cpp: $(&here)gen-cpp
+	'$<' . > tags
 
 
 
-.PHONY: tags-all
-tags-all:
+.PHONY: ctags-all
+ctags-all:
 	ctags -R
 
 

@@ -21,6 +21,7 @@ SHELL := $(shell which bash)
 
 # BUG: no error when function misspelled $(call &AssrtVrs,here)
 &AssertVars = $(foreach v,$(1),$(if $($v),,$(error This file requires non-empty var '$v')))
+override &here = $(dir $(lastword $(MAKEFILE_LIST)))
 
 
 ### --- Constants ---
