@@ -18,7 +18,7 @@ include codespell/mod.mk
 include configure.mk
 include coverage.mk
 include ctags/mod.mk
-include doxygen.mk
+include doxygen/mod.mk
 include gdb/mod.mk
 include git.mk
 include graphviz.mk

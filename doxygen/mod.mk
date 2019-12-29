@@ -5,7 +5,7 @@
 #
 #%SUMMARY: generate documentation
 #%
-$(call &AssertVars,bdir)
+$(call &AssertVars,bdir &here)
 
 ## FIXED: sphinx inline code
 # https://stackoverflow.com/questions/21591107/sphinx-inline-code-highlight
@@ -13,6 +13,21 @@ $(call &AssertVars,bdir)
 #   [restructuredtext parser]
 #   syntax_highlight = short
 
+
+.PHONY: doxy
+#%ALIAS: [doc]
+doxy: doxygen
+
+
+
 .PHONY: doxygen
 doxygen: | $(bdir)/_doxy/
-	doxygen-clean . '$|' '$(version)'
+	'$(&here)gen-clean' . '$|' '$(&version)'
+
+
+
+# BAD:CMP: dep "$(.doxy)" is unnecessary for .PHONY and makes readability really bad
+# .doxy := $(&here)gen-clean
+# .PHONY: doxygen
+# doxygen: $(.doxy) | $(bdir)/_doxy/
+# 	'$<' . '$|' '$(&version)'

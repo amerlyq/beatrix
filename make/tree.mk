@@ -12,6 +12,8 @@
 hb: tree-build-dirs     # list all build dirs
 
 
+# THINK: also filter-out "beatrix" folder to show only user's files
+#   <= BUT: unneeded if "beatrix" becomes standalone app instead of embedding into pj
 .PHONY: tree
 tree: export LC_ALL=C
 tree:
