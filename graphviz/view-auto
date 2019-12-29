@@ -6,6 +6,7 @@
 #
 #%SUMMARY: choose viewer for "graphviz" dot format automatically
 #%USAGE: $ ./$0 *.gv [<file.gv]
+#%DEPS:|extra/graphviz|,|community/xdot|,|aur/perl-graph-easy|
 #%
 set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
 

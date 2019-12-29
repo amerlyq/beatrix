@@ -21,7 +21,7 @@ include ctags/mod.mk
 include doxygen/mod.mk
 include gdb/mod.mk
 include git.mk
-include graphviz.mk
+include graphviz/mod.mk
 include install.mk
 include log.mk
 include pkgbuild.mk

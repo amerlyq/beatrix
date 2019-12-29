@@ -13,6 +13,8 @@ $(call &AssertVars,bdir &here)
 #   [restructuredtext parser]
 #   syntax_highlight = short
 
+.doxy := $(&here)gen-clean
+
 
 .PHONY: doxy
 #%ALIAS: [doc]
@@ -20,14 +22,14 @@ doxy: doxygen
 
 
 
+# BAD:CMP: dep "$(.doxy)" is unnecessary for .PHONY and makes recipe transparency really bad
 .PHONY: doxygen
-doxygen: | $(bdir)/_doxy/
-	'$(&here)gen-clean' . '$|' '$(&version)'
+doxygen: $(.doxy) | $(bdir)/_doxy/
+	'$<' . '$|' '$(&version)'
 
 
 
-# BAD:CMP: dep "$(.doxy)" is unnecessary for .PHONY and makes readability really bad
-# .doxy := $(&here)gen-clean
+# ALT:FAIL: $(&here) must be called outside of recipe to catch current dir !!!
 # .PHONY: doxygen
-# doxygen: $(.doxy) | $(bdir)/_doxy/
-# 	'$<' . '$|' '$(&version)'
+# doxygen: | $(bdir)/_doxy/
+# 	'$(&here)gen-clean' . '$|' '$(&version)'

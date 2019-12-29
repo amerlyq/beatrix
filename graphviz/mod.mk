@@ -5,21 +5,28 @@
 #
 #%SUMMARY: show components dependency graph in graphviz
 #%
-$(call &AssertVars,bdir)
+$(call &AssertVars,bdir &here)
+
+.gview := $(&here)view-auto
 
 
-.PHONY: gv
+.PHONY: gvg gv
 #%ALIAS: [graphviz]         #[components dependency graph]
-gv: graphviz                # generate cmake projects dependency graph
+gvg: graphviz-gen           # generate cmake projects dependency graph
+gv: graphviz-main           # view main deps file by graphviz
 
 
 
 # MAYBE:BET:RENAME: use more generic target "analyze-deps[-view]"
 # TODO: additional analysis from "ninja -t list" -> {browse,deps,graph,...}
 
-.PHONY: graphviz
-graphviz: _pfx = $(bdir)/_gv/g
-graphviz: cmake.args += --graphviz='$(_pfx)'
-graphviz: config-refresh
+.PHONY: graphviz-gen
+graphviz-gen: _pfx = $(bdir)/_gv/g
+graphviz-gen: cmake.args += --graphviz='$(_pfx)'
+graphviz-gen: config-refresh
 	find '$(_pfx)' -type f -name 'g*' -execdir mv '{}' '{}.gv' \;
-	graphviz-view '$(_pfx).gv'
+
+
+graphviz-main: _pfx = $(bdir)/_gv/g
+graphviz-main:
+	'$(.gview)' '$(_pfx).gv'
