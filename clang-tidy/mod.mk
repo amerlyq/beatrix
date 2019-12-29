@@ -4,12 +4,14 @@
 # SPDX-License-Identifier: MIT
 #
 #%SUMMARY: modernize C/C++ source code
+#%NEED: config in project root :: $ make clang-tidy-install
 #%DEP:|extra/clang|
 #%
 
-.PHONY: tidy
+.PHONY: tidy-cxx clang-tidy
 #%ALIAS: [clang]            #[code modernizing]
-tidy: clang-tidy-all        # modernize all C/C++ source files
+tidy-cxx: clang-tidy        # modernize all C/C++ source files
+clang-tidy: clang-tidy-all
 
 # BUG: clang-tidy is run on everything -- even on all committed unrelated .cpp which weren't added to buildsystem
 #   TRY: using exclusively integration to CMake
@@ -54,3 +56,11 @@ clang-tidy-prof: clang-tidy
 .PHONY: list-clang-tidy
 list-clang-tidy:
 	clang-tidy --list-checks -checks='*'
+
+
+
+# NOTE: install config to be available for external IDE
+# EXPL: this installation is "additional" i.e. not required
+.PHONY: clang-tidy-install
+clang-tidy-install: $(&here)cfg/custom.yaml
+	ln -srviT '$<' '$(d_pj)/.clang-tidy'

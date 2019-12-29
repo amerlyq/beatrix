@@ -20,6 +20,11 @@ test: run
 doc: doxygen  # sphinx
 
 
+# EXPL: tidy everything -- all languages of project at once
+.PHONY: tidy
+tidy: tidy-cxx
+
+
 .PHONY: check-basic
 check-basic: \
   aspell-index \

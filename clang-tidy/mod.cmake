@@ -23,6 +23,9 @@ What’s wrong with the CMake integration?
   - This may actually be a missing feature in clang-tidy, which lacks something like -fdiagnostic-colors.
 
 
+FAIL!(mod.cmake): must distinguish "mod.cmake" as reimpl of "mod.mk" targets collection from "<using>.cmake" required code
+
+
 #]=======================================================================]
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

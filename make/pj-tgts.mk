@@ -11,7 +11,7 @@ include aspell/mod.mk
 include batch.mk
 include build.mk
 include clang-format/mod.mk
-include clang-tidy.mk
+include clang-tidy/mod.mk
 include clean.mk
 include cmake-format/mod.mk
 include codespell/mod.mk
