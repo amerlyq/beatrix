@@ -13,7 +13,7 @@ include build.mk
 include clang-format.mk
 include clang-tidy.mk
 include clean.mk
-include cmake-format.mk
+include cmake-format/mod.mk
 include codespell/mod.mk
 include configure.mk
 include coverage.mk

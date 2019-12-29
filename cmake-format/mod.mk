@@ -6,10 +6,18 @@
 #%SUMMARY: reformat CMake configuration files
 #%DEP:|aur/cmake-format|
 #%
-$(call &AssertVars,btrx)
+$(call &AssertVars,&here)
+
 
 .PHONY: fmt-cmake
-fmt-cmake:
+#%ALIAS: [aux]
+fmt-cmake: cmake-format
+
+
+
+# THINK: skip and don't format embedded "beatrix" pj
+.PHONY: cmake-format
+cmake-format: $(&here)cfg/closure.py
 	find . -xtype d -name '_*' -prune -o \
 	  \( -name '*.cmake' -o -name 'CMakeLists.txt' \) -exec \
-	    cmake-format --config-files '$(btrx)/style/cmake-format-closure' --in-place -- {} +
+	    cmake-format --config-files '$<' --in-place -- {} +
