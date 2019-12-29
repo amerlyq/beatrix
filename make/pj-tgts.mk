@@ -24,7 +24,7 @@ include graphviz.mk
 include install.mk
 include log.mk
 include pkgbuild.mk
-include reuse.mk
+include reuse/mod.mk
 include r2/mod.mk
 include rr/mod.mk
 include run.mk
