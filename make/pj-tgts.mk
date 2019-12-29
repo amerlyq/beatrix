@@ -7,7 +7,7 @@
 #%
 $(call &AssertVars,here)
 
-include aspell.mk
+include aspell/mod.mk
 include batch.mk
 include build.mk
 include clang-format.mk

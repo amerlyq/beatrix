@@ -12,14 +12,21 @@
 $(call &AssertVars,btrx d_pj)
 
 
-.PHONY: as af asa asf
+.PHONY: as af asa asf spell
 #%ALIAS: [aspell]       #[check text spelling]
 as: aspell-index        # check only files added to "git index"
 af: aspell-index-fix    # fix files from "git index" in TUI and add corrections to "beatrix" dicts
 aS: aspell-all          # check all files in project indiscriminately
 aF: aspell-all-fix      # fix spelling in all files (private words must be manually added to project private dict)
+spell: aspell-all
 
 
+.aspell := $(&here)multi-lang
+dictdir := $(&here)
+.dicts  := $(dictdir)aspell.en.prepl $(dictdir)aspell.en.pws
+
+# RENAME: "beatrix.cfg/" .vs. "beatrix-overlay"
+#   THINK:(overlay/extend): use envvar with pathlist similar to "$XDG_DATA_DIRS"
 BEATRIX_ASPELL_PRIVATE := $(d_pj)/beatrix-private/aspell.en.pws
 ifneq (,$(wildcard $(BEATRIX_ASPELL_PRIVATE)))
 export BEATRIX_ASPELL_PRIVATE
@@ -27,20 +34,20 @@ endif
 
 
 .PHONY: aspell-index
-aspell-index: | $(btrx)spell/
-	@aspell-multi index '$|' list '*.rst'
+aspell-index: $(.aspell) $(.dicts) | $(dictdir)
+	@'$<' index '$|' list '*.rst'
 
 
 .PHONY: aspell-index-fix
-aspell-index-fix: | $(btrx)spell/
-	@aspell-multi index '$|' check '*.rst'
+aspell-index-fix: $(.aspell) $(.dicts) | $(dictdir)
+	@'$<' index '$|' check '*.rst'
 
 
 .PHONY: aspell-all
-aspell-all: | $(btrx)spell/
-	@aspell-multi all '$|' list '*.rst'
+aspell-all: $(.aspell) $(.dicts) | $(dictdir)
+	@'$<' all '$|' list '*.rst'
 
 
 .PHONY: aspell-all-fix
-aspell-all-fix: | $(btrx)spell/
-	@aspell-multi all '$|' check '*.rst'
+aspell-all-fix: $(.aspell) $(.dicts) | $(dictdir)
+	@'$<' all '$|' check '*.rst'
