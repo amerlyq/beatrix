@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+#
+# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY: testsuite to call tests from all available *mods*
+#%USAGE: $ ./$0 [testfilter(glob)]
+#%E.G:
+#%  $ ./$0 'tree/*'
+#%  $ ./$0 'b?s*'
+#%  $ ./$0 '*/12'
+#%
+(( $#functions[CHECK] )) || source ${0:h}/check.zsh 'beatrix/t/all-all'
+
+if [[ ${1-} == - ]] { shift; DRYRUN $@; exit }
+
+testfilter=${1-}
+
+cd $d_btrx
+for t in */t/*.zsh; do
+  GROUP $t
+  source $t
+done

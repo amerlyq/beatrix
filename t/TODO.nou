@@ -1,17 +1,24 @@
-TODO: test suite
-  <= compare aliases and generated cmdlines w/o running them
-  <= can even mock ifc -- i.e. sequence of creating dirs, building and then running
+SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
 
-MAYBE: use "make --dry-run"
-  ALT: replace SHELL var to output only cmdlines
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
 
-DEV: single contiguous file with blocks "cmd -- output" separated by empty line
-e.g:
-  $ make r
-  cmake --build '_build-clang-Debug' \
-     \
-     \
-    --target run.Main \
-  ...
+TODO
+  [_] THINK:DEV: parallel test execution
+  [_] DEV: allow test range '3-6,!5,1' => testset {1 3 4 6}
+    TRY: maybe extended ZSH globs already allow at least numeric ranges
 
-  +. then I can print "diff -u" on test failure
+
+CHANGELOG testsuite framework
+  2019-12-30 [X] compare aliases and generated cmdlines w/o running them
+    <= can even mock ifc -- i.e. sequence of creating dirs, building and then running
+  2019-12-30 [X] MAYBE: use "make --dry-run"
+    ALT: replace SHELL var to output only cmdlines :: $ make SHELL='printf' .SHELLFLAGS='%s\\n'
+  2019-12-30 [X] DEV: single contiguous file with blocks "cmd -- output" separated by empty line
+    ::: BET: scattered per-mod tests
+    e.g:
+      $ make r
+      cmake --build '_build-clang-Debug' \
+        --target run.Main
+      ...
+  2019-12-30 [X] print "diff -u" on test failure
