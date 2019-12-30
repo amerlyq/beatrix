@@ -39,6 +39,7 @@ list-commands:
 
 
 
+# MAYBE:BET: use ZSH "print -c/-C"
 .PHONY: list-commands-paged
 list-commands-paged:
 	@printf '%s\n' $(_tgts) | column -c '$(shell tput cols)'

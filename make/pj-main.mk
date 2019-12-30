@@ -14,7 +14,7 @@
 #%   $ cd /ram/cache && [m|/path/to/Makefile] b
 #%HACK: enable zsh completion
 #%   $ alias m='make' || compdef m=make && export PATH="$PWD:$PATH"
-#%FIXME: rewrite whole control panel to "D-lang" srcexec file (OR: perl ?)
+#%FIXME: rewrite whole control panel to "D-lang" srcexec file (OR: perl ? BET: zsh)
 #%
 ifndef MAKEGUARD
 $(subst ,, ) := $(subst ,, )

@@ -4,6 +4,15 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 -----
 
 
+WARN! it seems pj root Makefile is so messy because *beatrix* purpose is unclear
+  ~~ user always wants to extend beatrix in their own code (?wrong suggestion?)
+    -- moreover he wants to be able to run ./Makefile and have logging, and...
+  ~~ for performance and flexibility we "directly source beatrix"
+    <= not totally the same as "using as library"
+    => clean compact interface is nowhere to be found
+
+
+
 Module
   structure
     :/version/mod.mk
