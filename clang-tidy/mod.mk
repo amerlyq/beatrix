@@ -8,10 +8,9 @@
 #%DEP:|extra/clang|
 #%
 
-.PHONY: tidy-cxx clang-tidy
+.PHONY: tidy-cxx
 #%ALIAS: [clang]            #[code modernizing]
-tidy-cxx: clang-tidy        # modernize all C/C++ source files
-clang-tidy: clang-tidy-all
+tidy-cxx: clang-tidy-all    # modernize all C/C++ source files
 
 # BUG: clang-tidy is run on everything -- even on all committed unrelated .cpp which weren't added to buildsystem
 #   TRY: using exclusively integration to CMake

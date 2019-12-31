@@ -33,13 +33,18 @@ check-basic: \
   clang-format-index
 
 
+# ALT(#test): use "run" with brun=test
+# BAD: "doc" target creates dubious "_build-clang-Debug/_doxy" directory in *beatrix*
 # BUT: "clang-tidy-all" is very slow
 #   MAYBE: use more lightweight "check-most" for git-push-hook, and run "tidy" only by explicit "check-all" ?
+# BAD! can't gradually accumulate targets throughout all files -- because order matters
+#   ALT: split targets between barriers and force dependency on barrier
 .PHONY: check-all
 check-all: \
   aspell-all \
   codespell \
   reuse-all \
+  test-self \
   clang-tidy-all \
   clang-format-all \
   doc \

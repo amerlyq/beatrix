@@ -5,13 +5,12 @@
 #
 #%SUMMARY: run executables of built project
 #%
-$(call &AssertVars,bdir brun CMAKE)
+$(call &AssertVars,brun CMAKE)
 
 
-.PHONY: r t
+.PHONY: r
 #%ALIAS: [run]              #[REPL flow]
 r: run                      # run chosen executable of current project: brun=Main
-t: test                     # run testapp with unit tests :: RQ(cmake configure): btst=ON
 
 
 
@@ -40,11 +39,3 @@ run-gpu: run
 # .PHONY: run-gpu-prio
 # run-gpu-prio: CMAKE := sudo nice -n -4 taskset --cpu-list 0-8:2 $(CMAKE)
 # run-gpu-prio: run
-
-
-
-## BAD: always rebuilds whole project and never runs tests at all
-##   $ ctest --build-and-test '$(d_pj)' '$(bdir)' --build-generator "Unix Makefiles" --build-nocmake --build-noclean --output-on-failure --build-project runtests
-.PHONY: ctest
-ctest:
-	+$(CMAKE) --build '$(bdir)' --target testapp -- ARGS="--output-on-failure"

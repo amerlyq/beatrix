@@ -46,7 +46,7 @@ clang-format-install: $(&here)cfg/vertical.yaml
 	ln -srviT '$<' '$(d_pj)/.clang-format'
 
 
-# FAIL! global private var with same name becomes overriden
+# FAIL! global private var with same name becomes overridden
 # .cfg := $(&here)cfg/vertical.yaml
 # .PHONY: clang-format-install
 # clang-format-install:

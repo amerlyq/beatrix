@@ -8,4 +8,7 @@
 #%USAGE: $ install -Dm755 "$0" "$(git rev-parse --git-dir)/hooks"
 #%
 set -fCeu
+
+# BUG: pre-push hook must finish under ~1min
+#   otherwise established server connection (to receive remote hash before hook) will timeout
 exec make check-all
