@@ -50,9 +50,9 @@ function CHECK { local nm expect output errcode=0 errdiff=0
 
   # DEV: add colors based on passed/failed tests
   if ((colorize)); then
-    print -Pf '%s[%s]%s $ %s\n' '%K{default}%F{green}%B' $nm '%b%f%k' "$make $*"
+    print -rPf '%s[%s]%s $ %s\n' '%K{default}%F{green}%B' $nm '%b%f%k' "$make $*"
   else
-    print -f '[%s] $ %s\n' $nm "$make $*"
+    print -rf '[%s] $ %s\n' $nm "$make $*"
   fi
 
   expect=$(cat)
@@ -63,7 +63,12 @@ function CHECK { local nm expect output errcode=0 errdiff=0
   # INFO: on error print "/path/to/test:lnum" pointing to calling function (to verify text for comparison)
   #   SRC: https://unix.stackexchange.com/questions/453144/functions-calling-context-in-zsh-equivalent-of-bash-caller
   # FIXME: if COLOR_ALWAYS==1 then use "diff --color=always" instead of colordiff (it has bug and unexpectedly disables color)
+  # EXPL:(--ignore-trailing-space): trailing spaces are stripped from testfiles anyway
+  #   ALSO: --ignore-space-change --ignore-all-space --suppress-blank-empty
   $diff --color=auto --unified=0 \
+    --ignore-tab-expansion \
+    --ignore-trailing-space \
+    --ignore-blank-lines \
     --label "FAILED errcode=$errcode" \
     --label "EXPECT ${funcfiletrace[1]:A}" \
     -- /dev/fd/3  3<<<$output \
@@ -71,9 +76,9 @@ function CHECK { local nm expect output errcode=0 errdiff=0
     || { errdiff=$?
       # ENH: only print when VERBOSE=1 OR GENERATE=1
       print -P '%F{10}'
-      print "CHECK $* <<'EOT'\n$output\nEOT"
-      print -P '%f'
-      print "---"
+      print -r "CHECK $* <<'EOT'"
+      print -r $output
+      print -P "EOT\n%f\n---"
     }
 
   # NOTE: global statistics for summary
@@ -108,6 +113,7 @@ function PRETTY { sed -u "
 "; }
 
 
+export TESTSUITE=1
 [[ -t 1 ]] && exec > >(PRETTY)
 GROUP ${1:-${ZSH_ARGZERO:A}}
 trap SUMMARY EXIT

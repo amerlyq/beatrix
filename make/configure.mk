@@ -35,7 +35,8 @@ cmake_cmd = $(CMAKE) \
 config: $(bdir)/--configure--
 config-refresh \
 $(bdir)/--configure--:
-ifneq (,$(wildcard ./CMakeLists.txt))
+# FAIL: can't unit-test this any less ugly
+ifneq (,$(or $(filter-out 0,$(TESTSUITE)),$(wildcard ./CMakeLists.txt)))
 	$(cmake_cmd) -S'$(d_pj)' -B'$(bdir)' \
 	  $(if $(bgen),-G'$(bgen)') \
 	  $(if $(bini),-C'$(bini)') \

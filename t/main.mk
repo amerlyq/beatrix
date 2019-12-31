@@ -11,7 +11,7 @@ pkgabbr := bx-t
 include pj-begin.mk
 include pj-vars.mk
 
-brun := testsuite
+brun := main
 
 include pj-tgts.mk
 include pj-end.mk

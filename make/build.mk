@@ -25,8 +25,11 @@ bf: build-force             # force rebuild of whole project or :: tgt='a b..'
 # DEV:ALSO: use different recipe if found ./configure OR ./meson.build
 .PHONY: build
 build: $(bdir)/--configure--
-ifneq (,$(wildcard ./CMakeLists.txt))
-	+$(CMAKE) --build '$(bdir)' \
+# FAIL: can't unit-test this any less ugly
+#   ?? MAYBE:BET: convert recipe to "print-only" instead of disabling it completely ??
+# REM:FAIL: leading "+" is required for "make inside cmake inside make" -- but it prevents testsuite dry-run
+ifneq (,$(or $(filter-out 0,$(TESTSUITE)),$(wildcard ./CMakeLists.txt)))
+	$(CMAKE) --build '$(bdir)' \
 	  $(if $(JOBS),--parallel $(JOBS)) \
 	  $(if $(CLEAN),--clean-first) \
 	  $(if $(tgt),--target $(tgt:%=%$(&skiprebuild))) \
