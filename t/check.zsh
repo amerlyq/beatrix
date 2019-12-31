@@ -10,15 +10,23 @@
 #%
 set -o errexit -o noclobber -o nounset -o pipefail
 
-(( $#commands[${make::=remake}] ))    || (( $#commands[${make::=make}] ))
-(( $#commands[${diff::=colordiff}] )) || (( $#commands[${diff::=diff}] ))
+colorize=
+[[ -t 1 ]] && colorize=1
+((${COLOR_ALWAYS:+1})) && colorize=1
+
+
+(( $#commands[${make::=remake}] )) || (( $#commands[${make::=make}] ))
+((colorize)) && (( $#commands[${diff::=colordiff}] )) || (( $#commands[${diff::=diff}] ))
+
 
 # ALT?("(%)"): "ZSH_ARGZERO" :: https://stackoverflow.com/questions/35677745/zsh-get-filename-of-the-script-that-called-a-function
 # BUT: "$0" inside sourced script -- is path to that script, not main executable ?
 #   ??? FIND: what the difference between "$0" and "${(%)}"
 d_btrx=${${(%):-%x}:A:h:h}
+d_git=$(git rev-parse --git-dir)
 numpassed=0
 numfailed=0
+
 
 # NOTE: mock-like ifc -- expect all called cmds printed in determined order
 function DRYRUN {
@@ -29,8 +37,7 @@ function DRYRUN {
     --file=$d_btrx/t/main.mk \
     -I $d_btrx \
     -I $d_btrx/make \
-    $@ \
-  |& sed "s|$d_btrx|:|g"
+    $@
 }
 
 # NOTE: when $1 is "-..." use it as testname (description)
@@ -42,7 +49,7 @@ function CHECK { local nm expect output errcode=0 errdiff=0
   [[ $nm != ${~testfilter:-*} ]] && return
 
   # DEV: add colors based on passed/failed tests
-  if [[ -t 1 ]] || ((${COLOR_ALWAYS:+1})); then
+  if ((colorize)); then
     print -Pf '%s[%s]%s $ %s\n' '%K{default}%F{green}%B' $nm '%b%f%k' "$make $*"
   else
     print -f '[%s] $ %s\n' $nm "$make $*"
@@ -61,7 +68,13 @@ function CHECK { local nm expect output errcode=0 errdiff=0
     --label "EXPECT ${funcfiletrace[1]:A}" \
     -- /dev/fd/3  3<<<$output \
        /dev/fd/4  4<<<$expect \
-    || errdiff=$?
+    || { errdiff=$?
+      # ENH: only print when VERBOSE=1 OR GENERATE=1
+      print -P '%F{10}'
+      print "CHECK $* <<'EOT'\n$output\nEOT"
+      print -P '%f'
+      print "---"
+    }
 
   # NOTE: global statistics for summary
   (( (errcode||errdiff) ? ++numfailed : ++numpassed))
@@ -78,7 +91,7 @@ function GROUP {
 }
 
 function SUMMARY {
-  if [[ -t 1 ]] || ((${COLOR_ALWAYS:+1})); then
+  if ((colorize)); then
     print -Pf ' %s:SUMMARY:%s %s%d%s passed, %s%d%s failed\n' \
       '%{%F{62}%B%}' '%{%b%f%}' \
       '%{%F{green}%}' $numpassed '%{%f%}' \
@@ -89,5 +102,12 @@ function SUMMARY {
   exit $(( !!numfailed ))
 }
 
+function PRETTY { sed -u "
+  s|$d_btrx|:|g
+  s|$HOME|~|g
+"; }
+
+
+[[ -t 1 ]] && exec > >(PRETTY)
 GROUP ${1:-${ZSH_ARGZERO:A}}
 trap SUMMARY EXIT

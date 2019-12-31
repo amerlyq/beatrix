@@ -8,11 +8,12 @@
 $(call &AssertVars,&here bdir)
 
 
-.PHONY: t tc ts
+.PHONY: t tc ts tS
 #%ALIAS: [test]
 t: test                     # run testapp with unit tests :: RQ(cmake configure): btst=ON
 tc: ctest                   # run testsuite registered in CTest
 ts: test-self               # execute build system glue self-testing suite
+tS: test-self-gen           # generate testsuite for space-separate targets in VAR self.args='...'
 
 
 
@@ -23,11 +24,19 @@ ctest:
 	+$(CMAKE) --build '$(bdir)' --target testapp -- ARGS="--output-on-failure"
 
 
+# USAGE: create new testsuite for cmdline
+#  A) create new testfile, place "exec </dev/null" on top, add all "CHECK cmd...",
+#    then run testsuite and append suggested "CHECK" blocks for broken tests
+#  B) ALT: pick all necessary targets and directly redirect generated output to file
+.PHONY: test-self-gen
+test-self-gen: self.mod := -
+test-self-gen: test-self
+
 
 .PHONY: test-self
 test-self:
 
 ifneq (,$(wildcard $(&here)/testsuite))
 test-self: $(&here)/testsuite
-	'$<' $(self.args)
+	'$<' $(self.mod) $(self.args)
 endif
