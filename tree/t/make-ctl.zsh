@@ -10,3 +10,10 @@ CHECK tree <<'EOT'
 tree --noreport -aAC --prune --matchdirs --dirsfirst \
   -I '_*|.*' -- . | sed -rz 's/\n?$/\n/'
 EOT
+
+# ALT:HACK:(lseek): http://www.zsh.org/mla/users/2018/msg00558.html
+for x in hb tree-build-dirs
+CHECK $x <<'EOT'
+tree --noreport -aAC --prune --matchdirs --dirsfirst \
+  -L 1 -P '_*' -- . | sed -rz 's/\n?$/\n/'
+EOT
