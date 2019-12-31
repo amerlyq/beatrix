@@ -17,6 +17,8 @@ set -o errexit -o noclobber -o nounset -o pipefail
 # BUT: "$0" inside sourced script -- is path to that script, not main executable ?
 #   ??? FIND: what the difference between "$0" and "${(%)}"
 d_btrx=${${(%):-%x}:A:h:h}
+numpassed=0
+numfailed=0
 
 # NOTE: mock-like ifc -- expect all called cmds printed in determined order
 function DRYRUN {
@@ -32,22 +34,37 @@ function DRYRUN {
 }
 
 # NOTE: when $1 is "-..." use it as testname (description)
-function CHECK { local out; ((++testindex))
-  local nm="$testgroup/$testlang/$testsys/$testindex"
+function CHECK { local nm expect output errcode=0 errdiff=0
+  ((++testindex))
+  nm="$testgroup/$testlang/$testsys/$testindex"
   [[ $1 == -* ]] && nm+=/${1:1} && shift
   [[ $1 == -- ]] && shift
   [[ $nm != ${~testfilter:-*} ]] && return
 
-  printf '[%s] $ %s\n' $nm "$make $*"
-  out=$(DRYRUN -- $@)
+  # DEV: add colors based on passed/failed tests
+  if [[ -t 1 ]] || ((${COLOR_ALWAYS:+1})); then
+    print -Pf '%s[%s]%s $ %s\n' '%K{default}%F{green}%B' $nm '%b%f%k' "$make $*"
+  else
+    print -f '[%s] $ %s\n' $nm "$make $*"
+  fi
 
+  expect=$(cat)
+  output=$(DRYRUN -- $@ 2>&1) || errcode=$?
+
+  # NOTE: showing diff in reversed order to highlight _what you must change_ to fix the problem
+  #   ALSO: to highlight "output" output in RED and place it before "expected"
   # INFO: on error print "/path/to/test:lnum" pointing to calling function (to verify text for comparison)
   #   SRC: https://unix.stackexchange.com/questions/453144/functions-calling-context-in-zsh-equivalent-of-bash-caller
-  $diff --color=auto \
-    --unified=0 \
-      --label "EXPECT ${funcfiletrace[1]:A}" \
-      --label ACTUAL \
-    -- /dev/stdin /dev/fd/3  3<<<$out
+  # FIXME: if COLOR_ALWAYS==1 then use "diff --color=always" instead of colordiff (it has bug and unexpectedly disables color)
+  $diff --color=auto --unified=0 \
+    --label "FAILED errcode=$errcode" \
+    --label "EXPECT ${funcfiletrace[1]:A}" \
+    -- /dev/fd/3  3<<<$output \
+       /dev/fd/4  4<<<$expect \
+    || errdiff=$?
+
+  # NOTE: global statistics for summary
+  (( (errcode||errdiff) ? ++numfailed : ++numpassed))
 }
 
 # NOTE: define current global test group from path to testfile
@@ -60,4 +77,17 @@ function GROUP {
   testsys=${${testfile:t:r}#*-}     # VIZ: ctl, ide, mod
 }
 
+function SUMMARY {
+  if [[ -t 1 ]] || ((${COLOR_ALWAYS:+1})); then
+    print -Pf ' %s:SUMMARY:%s %s%d%s passed, %s%d%s failed\n' \
+      '%{%F{62}%B%}' '%{%b%f%}' \
+      '%{%F{green}%}' $numpassed '%{%f%}' \
+      '%{%F{red}%}' $numfailed '%{%f%}'
+  else
+    print " :SUMMARY: $numpassed passed, $numfailed failed"
+  fi
+  exit $(( !!numfailed ))
+}
+
 GROUP ${1:-${ZSH_ARGZERO:A}}
+trap SUMMARY EXIT

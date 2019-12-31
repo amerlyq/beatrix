@@ -2,14 +2,57 @@ SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contribut
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -----
+%%%% Test-Suite Framework
 
-TODO
+%% ARCH
   [_] THINK:DEV: parallel test execution
+  [_] THINK:SEP: merge or split :: "test", "t" and "self" ("beatrix")
+    [_] MAYBE if merged → use "t/self.zsh" to test glue, to distinguish from "t/mod.zsh" for cli
+  [_] RENAME: "check.zsh" -> "mod.zsh" because this file contains the very essence of "t" *mod* itself
+    -=> inevitably you must rename "mod.mk" -> "cli.mk" to prevent logical collisions
+  [_] RENAME? "t" -> "test" if same *mod*/folder will be used also for user tests
+  [_] RENAME? "t/make-ctl.zsh" -> "t/ctl.mk.zsh" to have the same basename for source and test
+  [_] RENAME? "./testsuite" -> "./self-testing" because compiled "testsuite" app will be used for C++ tests...
+  [_] ALT: create :/self/mod.mk to facilitate testing of current project's build system glue
+    ALSO: place there other control-related features intended for overridement by user
+  [_] THINK:BET? replace :/t/main.mk by directly using :/Makefile OR keep them separated for tests robustness ?
+
+
+%% ARGS
   [_] DEV: allow test range '3-6,!5,1' => testset {1 3 4 6}
     TRY: maybe extended ZSH globs already allow at least numeric ranges
+  [_] DEV: bang-reversed glob to skip matching tests
+    FIND: maybe ZSH extglob syntax already has something similar
+    e.g. 3.27: What are these `^' and `~' pattern characters, anyway?
+      http://zsh.sourceforge.net/FAQ/zshfaq03.html#l44
+  [_] DEV: support comma-separated list of globs -- split and test one-by-one
 
 
-CHANGELOG testsuite framework
+%% INTEG
+  [_] TODO: git pre-push hook for beatrix itself to not break Travis
+  [_] TODO: integrate with TravisCI in separate branch (for git push --force), then merge
+    FIND: test travis configuration locally to debug problems
+  [_] TRY: place beatrix-wide tests from pre-hook into "t/t/" e.g. t/t/reuse.zsh
+    NOTE! it's different from "reuse/t/make-ctl.zsh" -- because it actually _runs_ its cmds
+
+
+%% ENH
+  [_] DEV: prepend stderr by "|:" like in airy -- instead of plain mixing
+  [_] SEIZE: ideas from "@/radare2-regressions" repo
+  [_] IMPL: verify expected dirs/files are created after actually running ops
+    ALT: run custom aux function defined around each "CHECK test..."
+      BET? run each separate test as function altogether
+    BUT: testsuite is "pure" -- "make --dry-run" must not generate side-effects
+      <= therefore such dirs/files checks are *only* necessary when actually _running_ cmds
+
+
+CHANGELOG
+  2019-12-30 [X] reversed ordering of diff to show wrong new output in RED and right old one in GREN
+  2019-12-30 [X] print cmd execution errcode ::: inside diff
+  2019-12-30 [X] optionally specify testname
+  2019-12-30 [X] colorize passed/failed tests in summary
+  2019-12-30 [X] print summary statistics on exit
+  2019-12-30 [X] run all tests and count failed instead of failing on very first error
   2019-12-30 [X] compare aliases and generated cmdlines w/o running them
     <= can even mock ifc -- i.e. sequence of creating dirs, building and then running
   2019-12-30 [X] MAYBE: use "make --dry-run"

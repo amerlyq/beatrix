@@ -13,7 +13,7 @@
 #%
 (( $#functions[CHECK] )) || source ${0:h}/check.zsh 'beatrix/t/all-all'
 
-if [[ ${1-} == - ]] { shift; DRYRUN $@; exit }
+if [[ ${1-} == - ]] { shift; DRYRUN $@; trap - EXIT; exit }
 
 testfilter=${1-}
 
