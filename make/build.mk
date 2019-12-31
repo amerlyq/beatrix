@@ -22,13 +22,16 @@ bf: build-force             # force rebuild of whole project or :: tgt='a b..'
 
 
 # ALSO:(VisualStudio): --config Release
+# DEV:ALSO: use different recipe if found ./configure OR ./meson.build
 .PHONY: build
 build: $(bdir)/--configure--
+ifneq (,$(wildcard ./CMakeLists.txt))
 	+$(CMAKE) --build '$(bdir)' \
 	  $(if $(JOBS),--parallel $(JOBS)) \
 	  $(if $(CLEAN),--clean-first) \
 	  $(if $(tgt),--target $(tgt:%=%$(&skiprebuild))) \
 	  $(if $(build.args),-- $(build.args))
+endif
 
 
 

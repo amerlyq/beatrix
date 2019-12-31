@@ -35,6 +35,7 @@ cmake_cmd = $(CMAKE) \
 config: $(bdir)/--configure--
 config-refresh \
 $(bdir)/--configure--:
+ifneq (,$(wildcard ./CMakeLists.txt))
 	$(cmake_cmd) -S'$(d_pj)' -B'$(bdir)' \
 	  $(if $(bgen),-G'$(bgen)') \
 	  $(if $(bini),-C'$(bini)') \
@@ -46,6 +47,7 @@ $(bdir)/--configure--:
 	  -DUSE_SANITIZERS='$(_saint)' \
 	  $(cmake.args)
 	@touch -- '$(bdir)/--configure--'
+endif
 
 
 
