@@ -11,7 +11,23 @@ SPDX-License-Identifier: CC-BY-SA-4.0
   [_] RENAME: "check.zsh" -> "mod.zsh" because this file contains the very essence of "t" *mod* itself
     -=> inevitably you must rename "mod.mk" -> "cli.mk" to prevent logical collisions
   [_] RENAME? "t" -> "test" if same *mod*/folder will be used also for user tests
+    BET?USE: "t" for external shell tests and "test" for internal source code tests
   [_] RENAME? "t/make-ctl.zsh" -> "t/ctl.mk.zsh" to have the same basename for source and test
+    BUT: "mod.zsh.zsh" becomes confusing and "zsh.zsh.zsh" is plainly convoluting (if we use :/zsh/zsh.mk naming scheme)
+      <= on the other side, name "zsh-mod.zsh" is not much better ...
+    ? do we need ".zsh" extension at all ? -- is there any possibility to have both ./make-ctl.{zsh,py} tests at the same time ?
+      === extension decides test framework for which these tests were written
+      BUT: what if we have multiple different alternative testframeworks written in ZSH ?
+      BAD: hard to gather all tests ./t/make-ctl.{zsh,py} from same directory but for only single framework
+      BET: use different folders for tests written for different testframeworks :: ./t ./t2 ./test ./pytest
+    ? how about "focused" pj-struct ? -- is there any workflow justifying tests of multiple frameworks kept in same dir ?
+      ? keep shell tests "t" and src tests "test" in same dir -- because we keep src files for "ide" and "mod" in same dir ?
+    ! KISS -- for "t" we test *piece of cmdline ifc* implemented in some *file* with limitation of its *lang* of choice
+      => if ifc the same -> I need only single *set* of shell tests in "t"
+      => if each alt lang impl the same *feature* in single file -> we can share the same test file (named after that feature)
+      => if *mod* dir is strictly binded to *feature* -> we share *purpose*-based file name between both src and test files
+    [_] BET? "t/make-ctl.zsh" -> "t/ctl" <frontend>
+      == pass parameter to short-named test to pick cmdline frontend/language i.e. "remake" or "sir" or "bx"
   [_] RENAME? "./testsuite" -> "./self-testing" because compiled "testsuite" app will be used for C++ tests...
   [_] ALT: create :/self/mod.mk to facilitate testing of current project's build system glue
     ALSO: place there other control-related features intended for overridement by user

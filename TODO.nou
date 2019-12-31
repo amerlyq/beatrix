@@ -14,7 +14,18 @@ WARN! it seems pj root Makefile is so messy because *beatrix* purpose is unclear
 
 
 Module
-  structure
+  [_] ARCH: we have matrix of <purpose/level> x <mod/feature>, not plain list of components
+    ? why group around <mod> instead of splitting to independent projects by <purpose> i.e. "beatrix-ide" and "beatrix-mod" ?
+      ?? interdependency integration -- same feature (mod) has *reflections* on all levels (purposes)
+        <= you can't use high-level IDE features without tightly integrating with project low-level ones first
+      !! dataflow channels -- these *reflections* directly interact between themselves
+      ~~ capability discovery -- folder of *mod* enlists all available reflections on all levels you can learn and use
+  ARCH:(naming chain): [purpose + app-concept/variant + app-lang + test-frwk/fmt + test-lang/binding]
+    e.g. [ide + my-cli + make + cmdline + zsh] => ./t/ide-my.mk.zsh BUT:BET: ./t/ide
+    test-frwk/fmt :: group different kinds of test
+      cmdline "t", unit "test", integration "integ", fuzzy "fzy",
+      usecase "usage", workflow "demo", REST API "rest", ...
+  ARCH: structure (naming scheme)
     :/version/mod.mk
       + STD ifc
       - multiple mod files opened in vim -- all have the same name (hard to navigate)
