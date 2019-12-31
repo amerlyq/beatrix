@@ -43,13 +43,14 @@ rr-record: $(_RR_TRACE_DIR)/ run
 
 
 
-#%SUM: rr automatically spawns a gdb client and connects it to the replay server
+#%SUMMARY: rr automatically spawns a gdb client and connects it to the replay server
+#%USAGE: $ rr ... [some-other-trace-dir | -p PID | -f FORK | -g EVENT]
 #%INFO: restarted replay session will execute exactly the same sequence of instructions
 #%  * gdb's reverse-continue, reverse-step, reverse-next, and reverse-finish commands all work under rr
 #%WARN! use "rr pack" to copy all exe/lib into image -- otherwise you must keep "myexe" the same
 .PHONY: rr-gdb
 rr-gdb:
-	rr --mark-stdio replay --debugger-option='-quiet'  # some-other-trace-dir | -p PID | -f FORK | -g EVENT
+	rr --mark-stdio replay --debugger-option='-quiet'
 
 
 
