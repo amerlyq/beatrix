@@ -27,8 +27,6 @@ cmake    -S'$d_btrx/t' -B'_build-clang-Debug' \\
   -DUSE_SANITIZERS='' \\
 
 touch -- '_build-clang-Debug/--configure--'
-install -vCDm755 -t '$d_git/hooks' \\
-  -- '$d_btrx/hooks/pre-push' '$d_btrx/hooks/pre-commit'
 cmake --build '_build-clang-Debug' \\
    \\
    \\

@@ -20,8 +20,8 @@ include coverage.mk
 include ctags/mod.mk
 include doxygen/mod.mk
 include gdb/mod.mk
-include git.mk
 include graphviz/mod.mk
+include hooks/mod.mk
 include install.mk
 include log.mk
 include pkgbuild.mk

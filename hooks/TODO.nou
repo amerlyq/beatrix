@@ -8,3 +8,12 @@ ADD local hooks to affect all your local repos
   $ git config --global init.templatedir '~/.git-templates'
   $ mkdir -p ~/.git-templates/hooks
   $ chmod a+x ~/.git-templates/hooks/prepare-commit-msg
+
+
+Install
+  [_] WTF: why hook installed on "run" ?
+    ... because it calls underlying "build", ugh!
+    ?? TRY: install hook based on user's explicit MAKECMDGOALS instead of intermediate targets
+    !! "commit" and "push" hooks must not interfere when you simply "download and build"
+    [_] BET: provide "make init" command to prepare new project for beatrix or upgrade integ/configs to latest beatrix
+      <= use *mod* "init" OR temp place into "all" together with batch.mk (because "make init" is an aggregative)
