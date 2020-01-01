@@ -46,10 +46,11 @@ $(if $(G),$(eval run.args := --gtest_filter='$(G)'))
 
 ### --- Arguments ---
 
+# RENAME? "bcfg" -> ".cfg", "brun=" -> ".run="
 # FIXME: treat separately cmdline args $(p|pfx) from global vars $(bpfx|gpfx),
 #   optional recipe keys $(opfx) and temporary internals-override only $(_pfx)
 # i.e. use {pfx -> gpfx -> _pfx -> opfx} to prevent parasitic overrides
-# ALSO:DEV(shortcuts): @b=build.args, @c=cmake.args, A=@r=run.args W=@w=run.wrap G=@g=gtest.args X=brun T=g_tgts
+# ALSO:DEV(shortcuts): @b=build.args, @c=cmake.args, A=@r=(run|self).args W=@w=run.wrap G=@g=gtest.args X=brun T=g_tgts
 bcfg ?= Debug
 bdir := _build-$(CC)-$(bcfg)
 # bgen := Unix Makefiles

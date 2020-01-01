@@ -9,6 +9,7 @@
 #%  $ CHECK [-"testname/description"] make_tgts <<< "EXPECTED unified output"
 #%
 set -o errexit -o noclobber -o nounset -o pipefail
+(( ${#functions[GenerateTestcase]-} )) || source ${0:h}/gen.zsh
 
 colorize=
 [[ -t 1 ]] && colorize=1
@@ -26,10 +27,11 @@ d_btrx=${${(%):-%x}:A:h:h}
 d_git=$(git rev-parse --git-dir)
 numpassed=0
 numfailed=0
+diffunified=1
 
 
 # NOTE: mock-like ifc -- expect all called cmds printed in determined order
-function DRYRUN {
+function DryrunTarget {
   # ALT: $make SHELL='printf' .SHELLFLAGS='%s\\n' $@ |& sed "s|$d_btrx|:|g"
   $make --dry-run --silent \
     --no-builtin-rules --no-builtin-variables --no-print-directory \
@@ -55,8 +57,13 @@ function CHECK { local nm expect output errcode=0 errdiff=0
     print -rf '[%s] $ %s\n' $nm "$make $*"
   fi
 
-  expect=$(cat)
-  output=$(DRYRUN -- $@ 2>&1) || errcode=$?
+  # REF:(<): http://www.zsh.org/mla/users/2006/msg00066.html
+  # REF:("): https://unix.stackexchange.com/questions/68694/when-is-double-quoting-necessary
+  # HACK:(.): strip only *single* newline instead of all of them
+  #   <= further "<<<" herestring operator will add that single newline back
+  #   ALT:TRY:(.): use trailing space "print ' '" and don't strip it -- allow diff(1) to ignore it
+  expect=${${"$(</dev/stdin; print .)"%.}%$'\n'}
+  output=${${"$(DryrunTarget -- $@ 2>&1; print .)"%.}%$'\n'} || errcode=$?
 
   # NOTE: showing diff in reversed order to highlight _what you must change_ to fix the problem
   #   ALSO: to highlight "output" output in RED and place it before "expected"
@@ -64,21 +71,22 @@ function CHECK { local nm expect output errcode=0 errdiff=0
   #   SRC: https://unix.stackexchange.com/questions/453144/functions-calling-context-in-zsh-equivalent-of-bash-caller
   # FIXME: if COLOR_ALWAYS==1 then use "diff --color=always" instead of colordiff (it has bug and unexpectedly disables color)
   # EXPL:(--ignore-trailing-space): trailing spaces are stripped from testfiles anyway
-  #   ALSO: --ignore-space-change --ignore-all-space --suppress-blank-empty
-  $diff --color=auto --unified=0 \
+  #   ALT: --ignore-space-change --ignore-all-space --suppress-blank-empty
+  #   BAD:(--ignore-blank-lines): totally ignores any empty lines in testdata
+  $diff --color=auto \
+    --unified=$diffunified \
     --ignore-tab-expansion \
     --ignore-trailing-space \
-    --ignore-blank-lines \
     --label "FAILED errcode=$errcode" \
     --label "EXPECT ${funcfiletrace[1]:A}" \
     -- /dev/fd/3  3<<<$output \
        /dev/fd/4  4<<<$expect \
     || { errdiff=$?
       # ENH: only print when VERBOSE=1 OR GENERATE=1
-      print -P '%F{10}'
-      print -r "CHECK $* <<'EOT'"
-      print -r $output
-      print -P "EOT\n%f\n---"
+      ((colorize)) && print -nP '%F{10}'
+      GenerateTestcase $1
+      ((colorize)) && print -nP '%f'
+      print "\n---"
     }
 
   # NOTE: global statistics for summary
@@ -95,7 +103,7 @@ function GROUP {
   testsys=${${testfile:t:r}#*-}     # VIZ: ctl, ide, mod
 }
 
-function SUMMARY {
+function PrintSummary {
   if ((colorize)); then
     print -Pf ' %s:SUMMARY:%s %s%d%s passed, %s%d%s failed\n' \
       '%{%F{62}%B%}' '%{%b%f%}' \
@@ -107,13 +115,13 @@ function SUMMARY {
   exit $(( !!numfailed ))
 }
 
-function PRETTY { sed -u "
-  s|$d_btrx|:|g
-  s|$HOME|~|g
-"; }
+function PrettyTerminal { declare -A vars
+  vars=( [$d_btrx]=':' [$HOME]='~' )
+  sed -u "$(for k v in ${(kv)vars}; do print "s|$k\\\\b|$v|g"; done)"
+}
 
 
 export TESTSUITE=1
-[[ -t 1 ]] && exec > >(PRETTY)
+[[ -t 1 ]] && exec > >(PrettyTerminal)
 GROUP ${1:-${ZSH_ARGZERO:A}}
-trap SUMMARY EXIT
+trap PrintSummary EXIT

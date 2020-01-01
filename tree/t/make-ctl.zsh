@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: MIT
 #
-(( $#functions[CHECK] )) || source ${0:A:h:h:h}/t/check.zsh
+(( ${#functions[CHECK]-} )) || source ${0:A:h:h:h}/t/check.zsh
 
 CHECK tree <<'EOT'
 tree --noreport -aAC --prune --matchdirs --dirsfirst \

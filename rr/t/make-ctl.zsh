@@ -4,7 +4,15 @@
 #
 # SPDX-License-Identifier: MIT
 #
-(( $#functions[CHECK] )) || source ${0:A:h:h:h}/t/check.zsh
+#%SUMMARY: "rr/make/ctl/zsh" testsuite
+#%USAGE:
+#%  $ ./$0
+#%  $ ./t/testsuite 'rr/*'
+#%  $ m ts A='rr/\*'
+#%  $ make test-self self.args='rr/\*'
+#%  $ m tS N='rr' A='rr,rr-record rg,rr-gdb rp,rr-play'
+#%
+(( ${#functions[CHECK]-} )) || source ${0:A:h:h:h}/t/check.zsh
 
 for x in rr rr-record
 CHECK $x <<EOT

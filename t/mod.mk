@@ -29,14 +29,15 @@ ctest:
 #    then run testsuite and append suggested "CHECK" blocks for broken tests
 #  B) ALT: pick all necessary targets and directly redirect generated output to file
 .PHONY: test-self-gen
-test-self-gen: self.mod := -
+test-self-gen: @args += -$(N)
 test-self-gen: test-self
 
 
 .PHONY: test-self
+test-self: @args += $(or $(self.args),$(A))
 test-self:
 
 ifneq (,$(wildcard $(&here)/testsuite))
 test-self: $(&here)/testsuite
-	'$<' $(self.mod) $(self.args)
+	'$<' $(@args)
 endif

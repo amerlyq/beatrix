@@ -11,18 +11,13 @@
 #%  $ ./$0 'b?s*'
 #%  $ ./$0 '*/12'
 #%
-(( $#functions[CHECK] )) || source ${0:h}/check.zsh 'beatrix/t/all-all'
+(( ${#functions[CHECK]-} )) || source ${0:h}/check.zsh 'beatrix/t/all-all'
 
-if [[ ${1-} == - ]]; then
-  shift
+if [[ ${1-} == -* ]]; then
   trap - EXIT
-  print '#!/usr/bin/env zsh'
-  print '(( $#functions[CHECK] )) || source ${0:A:h:h:h}/t/check.zsh'
-  for x {
-    print "\nCHECK $x <<'EOT'"
-    DRYRUN $x
-    print "EOT"
-  }
+  nm=${${1:1}:?NEED: testsuite name, use "$ make tS N=name A='...'"}
+  shift
+  GenerateTestsuite $nm $@
   exit
 fi
 

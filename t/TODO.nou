@@ -4,6 +4,10 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 -----
 %%%% Test-Suite Framework
 
+READ
+  [_] TUT/INFO: @/airy/zsh/doc/INFO.nou
+
+
 %% ARCH
   [_] THINK:DEV: parallel test execution
   [_] THINK:SEP: merge or split :: "test", "t" and "self" ("beatrix")
@@ -63,6 +67,13 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 
 CHANGELOG
+  2020-01-01 [X] DEV: full-fledged named testsuite generation with escaping and multitargets
+  2020-01-01 [X] IDEA: print suggested testbody on FAIL
+  2019-12-31 [X] USE: conditional ctl recipes on TESTSUITE=1
+  2019-12-31 [X] TRY: ignore trailing space in diff
+  2019-12-31 [X] FIX: trailing newlines consumed from command output before diff
+  2019-12-31 [X] RFC: centralize control of coloring
+  2019-12-31 [X] ENH: substitute path variables in test body
   2019-12-30 [X] reversed ordering of diff to show wrong new output in RED and right old one in GREN
   2019-12-30 [X] print cmd execution errcode ::: inside diff
   2019-12-30 [X] optionally specify testname
