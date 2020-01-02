@@ -8,6 +8,7 @@
 #%USAGE: $ source ./$0
 #%  $ GenerateTestsuite <nm> [[alias1,...]target1] ...
 #%  e.g: $ GenerateTestsuite run t,test,ctest r,run
+#%GENS:(zsh): $ f=run/t/make-ctl.zsh && mkdir -p $f:h && m tS N=run A='t,test,ctest r,run' > $f && chmod a+x $f
 #%
 set -o errexit -o noclobber -o nounset -o pipefail
 

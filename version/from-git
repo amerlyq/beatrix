@@ -7,7 +7,7 @@
 #%SUMMARY: get project version from git
 #%USAGE: $ ./$0 [/path/to/dir..]
 #%
-set -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
+set -r -o errexit -o errtrace -o noclobber -o noglob -o nounset -o pipefail
 
 d_git=${1-}
 onlynumbers=${2:+1}
@@ -21,7 +21,14 @@ onlynumbers=${2:+1}
 #  => makes it possible to reproduce the same build in the same controllable environment
 
 tag=$(git ${d_git:+-C "$d_git"} describe --always --dirty --tags --match '*.*.*')
+tag=${tag/-/.}
 
-((onlynumbers)) && exec > >(sed -rn '1s/^(^[0-9]+\.[0-9]+(\.[0-9]+)?([.-][0-9]+)?).*/\1/p')
+((onlynumbers)) && tag=$(<<<"$tag" sed -rn '1s/^(^[0-9]+\.[0-9]+(\.[0-9]+)?([.-][0-9]+)?).*/\1/p')
 
-echo "${tag/-/.}"
+if [[ -z $tag ]]; then
+  echo "Must have at least one symver tag for versioning to work" \
+    "( e.g. add tag by 'git tag 0.0.1' )"
+  exit 1
+fi
+
+echo "$tag"
