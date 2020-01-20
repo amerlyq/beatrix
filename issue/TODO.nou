@@ -1,0 +1,29 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+GITHUB issue template
+  [_] TODO: apply to @/miur
+  [_] ALSO:FIND: tmpl for review
+  autoclose issues
+    https://github.com/atar-axis/xpadneo/commit/4414f984997e38c40480790948f3a84bd75083fa
+  checklist for issue
+    https://github.com/urwid/urwid/issues/360
+  checklist for PR
+    https://github.com/urwid/urwid/pull/382
+
+
+FIND: store issues inside repo -- like any other documentation
+  ALSO: review comments, etc.
+
+  https://www.google.com/search?q=github%20store%20issues%20inside%20repo
+  https://github.com/dspinellis/git-issue
+  https://stackoverflow.com/questions/19938579/is-possible-to-store-repository-issues-in-the-git-repository
+    = no? "issues" can *trascend* revisions of project, but... they are still bound to history, aren't they?
+
+  REF
+    https://help.github.com/en/github/building-a-strong-community/manually-creating-a-single-issue-template-for-your-repository
+    https://help.github.com/en/github/managing-your-work-on-github/managing-your-work-with-issues
+    https://guides.github.com/features/issues/
