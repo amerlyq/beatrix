@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+# SPDX-FileCopyrightText: 2019-2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
 #
 # SPDX-License-Identifier: CC-BY-SA-4.0
 #
@@ -7,6 +7,9 @@
 # OR: alias ttime='command time --format "%ee %Uu %Ss ♏%MkB %F▲%R▼ %O↑%I↓kB/s %c⚙%w ε%x↵" -- '
 alias ttime='command time --format "%ee %Uu %Ss rss=%MkB flt=%F+%R io=%O+%IkB/s ctx=%c+%w err=%x" -- '
 alias mm='ttime m'
+
+# MAYBE:BET: makepp -- it supports multiple useful graphs visualizations
+#   http://makepp.sourceforge.net/gallery/
 if command -v remake >/dev/null 2>&1; then
   alias m='remake'
 else
