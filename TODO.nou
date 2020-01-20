@@ -1,4 +1,4 @@
-SPDX-FileCopyrightText: 2019 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+SPDX-FileCopyrightText: 2019-2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
 
 SPDX-License-Identifier: CC-BY-SA-4.0
 -----
@@ -10,6 +10,36 @@ WARN! it seems pj root Makefile is so messy because *beatrix* purpose is unclear
   ~~ for performance and flexibility we "directly source beatrix"
     <= not totally the same as "using as library"
     => clean compact interface is nowhere to be found
+
+
+ADD
+  [_] documentation pipeline -- doxygen/breathe/sphinx/plantuml
+  [_] presentation pipeline -- rst/sphinx/plantuml/reveal.js
+  [_] website-devblog pipeline -- nou/rst/sphinx/pelican
+
+  [_] jet-live edit-on-fly (there is too long road to *fleur*)
+  [_] gcc/clang folders with basic native toolchains and flags
+    BUT: gcc contains too much features -- profiling, LTO, qa-flags...
+      => impossible to contain inside single *mod* directory named "gcc"
+    ALSO: clang and gcc share many features between themselves ...
+    BET: *mod* per feature -- with separate "gcc.mk" and "clang.mk" inside
+  [_] MOVE:(seize): sir
+    ATT! *beatrix* contains not "ready-to-use" projects, but only !glue!
+      => you must extract and move everything beside glue into separate repos
+  [_] MOVE:(seize): old/mk-cvs-fetch
+  [_] MOVE:(seize): erian/cmakes
+  [_] INTG: kirie
+  [_] pretty / colorize / filter / tui-cli
+
+
+Pipeline
+  THINK: generate top-level graph how *mods* combine into pipelines and overall product
+  THINK: group low-level mods into layers used by high-level mods
+    BET: use library-like flat approach -- create *mod* per each pipeline and main mod "all" to show all pipelines at once
+  ARCH: main module name :: {main root beatrix all}
+    VIZ: we have conglomerate "beatrix-pj", innards "beatrix-glue", and installd product named "beatrix"
+    * "beatrix/beatrix" BAD: creates confusing indistinction between above and encourages recurrent naming scheme
+    * "beatrix/all" is rather good -- you can create alternative collections of modules in parallel e.g. "beatrix/minimal"
 
 
 
