@@ -11,6 +11,7 @@ Buildsystem plug-ins integrated with rudimentary IDE to control complex C/C++/D 
 .. note::
    Etymology: "beatrix" (/beɪətrɪks/) -- lat. "Beatus + Viatrix", en. "Blessed Traveller".
    Consonant: "beautiful tricks".
+   ALT: "bellatrix" i.e. "female warrior" star of Orion constellation
 
 Still, I must begrudgingly admit, I'm deeply aware how it will unavoidably transform
 into the collection of the ugly over-complicated crutches in the long while :(
