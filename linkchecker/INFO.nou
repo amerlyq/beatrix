@@ -1,0 +1,8 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+IDEA: verify all url in docs for existence
+  https://linkchecker.github.io/linkchecker/
+  https://github.com/linkchecker/linkchecker
