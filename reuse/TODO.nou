@@ -1,0 +1,10 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+TODO
+  [_] together with licenses for each changed file:
+    [_] check last <year> and update it automatically if file changed
+    [_] check file contributors and for one author set copyright to the same as commit history
+    [_] if multiple authors -- auto replace default author by "<author1> and contributors"
