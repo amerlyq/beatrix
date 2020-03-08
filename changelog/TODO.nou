@@ -1,0 +1,15 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+  Keep a Changelog
+    https://keepachangelog.com/en/1.0.0/
+
+[_] TODO: provide a way to check compliance and nag about necessity to describe changes
+
+[_] IDEA: optimize changelog for consumption .like. buildroot changelog
+  * same modifiers: NEW, ADD, DEL, CHG, etc.
+  * same order of modifiers in each post
+  * same importance threshold for changes to be unveiled/hidden
+    i.e. hide minor noise to easily spot major changes
