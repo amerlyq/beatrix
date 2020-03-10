@@ -1,0 +1,35 @@
+#
+# SPDX-FileCopyrightText: 2019-2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+########################################
+## Unignore global ignore
+# !*
+
+
+########################################
+## Generated build logs, local pkgs, etc.
+# /_*/
+_build*/
+
+
+########################################
+## Local-only reference materials, temporary cloned repos, etc.
+#   e.g. ./&/, ./&web/, ./&books/, ./&refs/ (symlinks)
+&*/
+
+
+########################################
+## Ctags and xtrefs db
+tags
+*.tags
+
+
+########################################
+## IDE (for others)
+.idea/
+.kdev4/
+.vscode
+*.user
