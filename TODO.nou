@@ -30,6 +30,10 @@ ADD
   [_] MOVE:(seize): erian/cmakes
   [_] INTG: kirie
   [_] pretty / colorize / filter / tui-cli
+  [_] SEE: generate and maintain reports for each language in codebase
+    https://github.com/ahamilton/eris
+  [_] USE:RFC: facebookincubator/fastmod: A fast partial replacement for the codemod tool
+    https://github.com/facebookincubator/fastmod
 
 
 Pipeline
