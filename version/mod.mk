@@ -27,6 +27,7 @@ version-full:
 
 # NOTE: dedicated file is better than project(... <VERSION>)
 #   <= because you can use it even without CMakeLists.txt
+# MAYBE:BET: generate it inside build dir root (as dep of other artf) -- to not pollute the repo
 .PHONY: VERSION
 VERSION:
 	'$(.ver)' '$(d_pj)' > '$@.tmp'

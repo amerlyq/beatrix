@@ -14,7 +14,7 @@
 .PHONY: codespell
 codespell: $(&here)/codespell.ignore
 	@codespell --check-filenames --check-hidden \
-	  --skip='*/.git,./_*' --ignore-words '$<' \
+	  --skip='*/.git,*/_*,*/&*' --ignore-words '$<' \
 	  $(if $(VERBOSE),--summary) \
 	  $(if $(INPLACE),--write-changes) \
 	  $(if $(INTERACTIVE),--interactive 3)

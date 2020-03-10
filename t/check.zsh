@@ -24,7 +24,7 @@ colorize=
 # BUT: "$0" inside sourced script -- is path to that script, not main executable ?
 #   ??? FIND: what the difference between "$0" and "${(%)}"
 d_btrx=${${(%):-%x}:A:h:h}
-d_git=$(git rev-parse --git-dir)
+d_git=$(git -C "$d_btrx" rev-parse --git-dir)
 numpassed=0
 numfailed=0
 diffunified=1

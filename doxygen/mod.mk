@@ -25,7 +25,7 @@ doxy: doxygen
 # BAD:CMP: dep "$(.doxy)" is unnecessary for .PHONY and makes recipe transparency really bad
 .PHONY: doxygen
 doxygen: $(.doxy) | $(bdir)/_doxy/
-	'$<' . '$|' '$(&version)'
+	'$<' . '$|' '$(shell '$(.ver)' '$(d_pj)')'
 
 
 
