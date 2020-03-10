@@ -32,6 +32,7 @@ optdepends=(
   reuse
   rr
   cmake-format-airy-git
+  conan  # NEED: offline packages with local repo cache CHECK: conan support OR custom ExtPrj solution
 )
 
 package() {
