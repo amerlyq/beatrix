@@ -1,0 +1,57 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+# MOVE: to qemu and kernel
+Low-level
+  2020-03-29 [X] Linux для ARM в эмуляторе qemu / Хабр ⌇⡞⡿⣯⣧
+    https://habr.com/ru/post/143808/
+      + how to build minimally required zImage from hand-picked list of sources
+      + how exactly zImage is created from vmlinux
+  2020-03-29 [X] ARM Linux Kernel early startup code debugging – yet another tech blog ⌇⡞⢀⢢⠒
+    https://blog.printk.io/2019/06/arm-linux-kernel-early-startup-code-debugging/
+      + how to debug uncompression code in gdb -- typical session and qemu hacks
+    Debugging Linux Kernel using GDB in qemu unable to - 码农岛 ⌇⡞⢀⢶⢬
+      https://www.manongdao.com/q-570269.html
+  [~] Setting up Qemu-kvm for x86_64 kernel development · Frédéric Dalleau ⌇⡞⢀⢰⠕
+    http://dalleau.re/post/qemu_vm_using_debootstrap/
+  2020-03-29 [X] QEMU: ARM: boot: Load kernel at an Image friendly address - Patchwork ⌇⡞⢀⢴⠀
+    https://patchwork.kernel.org/patch/3885131/
+    private patch $ qemu-system-foo -device loader,image=/path/to/file[,addr=0xdeadbeef][,cpunr=X]
+      * you can BYO secondary bootloops
+      * run multiple guests of different CPUs
+      * boot on CPU1 instead of CPU0
+      * you can place raw images wherever you want (the issue in this thread)
+      * can also load in firmware to ROMs
+  [_] Qemu-Arm Is stuck with black screen - running vanilla kernel - linux-kernel ⌇⡞⢀⢵⡴
+    https://jquery.developreference.com/article/13129230/Qemu-Arm+Is+stuck+with+black+screen+-+running+vanilla+kernel
+  [_] Aircrack-ng: To BE or not to BE? Using Qemu to run a Big Endian Debian system ⌇⡞⢀⢵⢧
+    https://aircrack-ng.blogspot.com/2018/10/to-be-or-not-to-be-using-qemu-to-run.html
+  [_] Cross debugging for ARM / MIPS ELF with QEMU/toolchain ⌇⡞⢀⢻⢋
+    https://ipfs-sec.stackexchange.cloudflare-ipfs.com/reverseengineering/A/question/8829.html
+  [_] Linux: the first second ⌇⡞⢀⢼⡍
+    https://www.slideshare.net/chaiken/linux-the-first-second-93896591
+      + booting in details
+  [_] QEMU notes ⌇⡞⢀⢼⣬
+    https://people.linaro.org/~alex.bennee/org/qemu.html
+  [_] EE382V: SoC, QEMU/SystemC Tutorial ⌇⡞⢀⢽⠐
+    http://users.ece.utexas.edu/~gerstl/ee382m_f18/labs/QEMU_SystemC_Tutorial.htm
+  [_] Linux on ARM emulator bringup: Building, configuring, debugging and troubleshooting a simple busybox embedded Linux system for ARM over QEMU | ronubo TechStuff ⌇⡞⢀⢽⡘
+    http://ronubo.blogspot.com/2016/02/linux-on-arm-emulator-bringup-building.html
+  [_] Kernel GDB live Debugging with KVM - Lustre Network (LNet) - Whamcloud Community Wiki ⌇⡞⢀⣀⡷
+    https://wiki.whamcloud.com/display/LNet/Kernel+GDB+live+Debugging+with+KVM
+  [_] A flexible software development and emulation framework for ARM TrustZone .pdf
+    https://online.tugraz.at/tug_online/voe_main2.getvolltext?pCurrPk=60741
+  [_] How to connect ARM-DS debugger to Qemu - Arm Development Studio forum - Software Tools - Arm Community ⌇⡞⢀⣃⣪
+    https://community.arm.com/developer/tools-software/tools/f/armds-forum/2851/how-to-connect-arm-ds-debugger-to-qemu
+  [_] BOOK: Embedded Systems Architecture: Explore architectural concepts, pragmatic design patterns, and best practices to produce robust systems
+    by Daniele Lacamera 2018 р. - 324 стор. -- Learn to design and develop safe and reliable embedded systems
+  [_] Using QEMU for Embedded Systems Development, Part 1 - LINUX For You ⌇⡞⢀⣄⢼
+    https://opensourceforu.com/2011/06/qemu-for-embedded-systems-development-part-1/
+  + [_] cpu - Emulation of a ARM Cortex M4 processor - Super User ⌇⡞⢀⣅⠝
+    https://superuser.com/questions/1403057/emulation-of-a-arm-cortex-m4-processor
+  [_] NEWS: QEMU 4 arrives with toys for Arm admirers, RISC-V revolutionaries, POWER patriots... you get the idea • The Register ⌇⡞⢀⣅⡦
+    https://www.theregister.co.uk/2019/04/25/qemu_4/
+  [_] Build the Linux Kernel and Busybox for ARM and run them on QEMU ⌇⡞⢀⣆⠳
+    https://www.centennialsoftwaresolutions.com/post/build-the-linux-kernel-and-busybox-for-arm-and-run-them-on-qemu

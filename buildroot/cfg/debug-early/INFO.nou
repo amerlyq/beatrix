@@ -1,0 +1,8 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+---
+
+SUMMARY: Qemu UART for early startup printk debug from uncompressing code
+SRC: ※⡞⢀⢢⠒ https://blog.printk.io/2019/06/arm-linux-kernel-early-startup-code-debugging/
+NEED: build kernel for "qemu -M virt"

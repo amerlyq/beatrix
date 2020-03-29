@@ -1,0 +1,29 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+READ / SEIZE
+  Complete infrastructure ideas, etc.
+    Developing for non-x86 targets using QEMU ⌇⡞⢀⢼⢴
+      https://landley.net/aboriginal/presentation.html
+    Embedded Linux Development ⌇⡞⢀⣅⠼
+      https://www.cnx-software.com/how-tos-training-materials/embedded-linux-development/
+  Kernel development
+    !!! [_] NICE:READ: Linux Kernel Module Cheat ⌇⡞⢀⢻⢢
+      https://cirosantilli.com/linux-kernel-module-cheat/
+  Host kernel development
+    Emulating ARM with QEMU on Debian/Ubuntu ⌇⡞⢀⢉⡔
+      https://gist.github.com/luk6xff/9f8d2520530a823944355e59343eadc1
+  Qemu setup
+    cirosantilli/linux-kernel-module-cheat at 762bb78d89d1359c01a7ecee37e3f8132a48c1ce ⌇⡞⡿⣯⡥
+      https://github.com/cirosantilli/linux-kernel-module-cheat/tree/762bb78d89d1359c01a7ecee37e3f8132a48c1ce#qemu-buildroot-setup
+    +++ [_] ARM and MIPS emulated lab setup for IoT security in Qemu :: Chirag Jariwala — Cyber security analyst and IoT security researcher ⌇⡞⢀⢴⣢
+      https://cjhackerz.net/posts/arm-emulated-environment-iotsec-qemu/
+        + qemu setup for ARM and MIPS
+        + network setup for bridge/tap and forwarding
+    +++ [_] READ: Linux Kernel Exploit development - Environment — NullByte ⌇⡞⢀⢹⠠
+      https://www.nullbyte.cat/post/linux-kernel-exploit-development-environment/#snapshots
+        + snapshots setup
+        + ...
