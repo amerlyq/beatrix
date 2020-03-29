@@ -34,6 +34,9 @@ ADD
     https://github.com/ahamilton/eris
   [_] USE:RFC: facebookincubator/fastmod: A fast partial replacement for the codemod tool
     https://github.com/facebookincubator/fastmod
+  [_] TRY: "Ainize" -- Deploy and use Opensource-as-a-Service
+    kmswlee/UGATIT: Official Tensorflow implementation of U-GAT-IT: Unsupervised Generative Attentional Networks with Adaptive Layer-Instance Normalization for Image-to-Image Translation (ICLR 2020) ⌇⡞⡿⡚⣋
+      https://github.com/kmswlee/ugatit?utm_medium=social&utm_source=youtube&utm_campaign=weekly&utm_content=ugatit
 
 
 Pipeline

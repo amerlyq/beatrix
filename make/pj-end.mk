@@ -9,6 +9,7 @@
 
 include help.mk
 
+# MAYBE:ALSO: .PHONY: $(MAKEFILE_LIST)
 # NOTE: skip rebuilding of all included files
 $(MAKEFILE_LIST):: ;
 

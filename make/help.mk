@@ -15,7 +15,7 @@ ha: list-aliases        # short aliases to long commands with comments
 hc: list-commands-paged # list all commands in multiple columns
 hl: list-commands       # list all commands in single sorted column
 
-
+# ALT: use "&tgts =" function
 _tgts := $(shell sed -rn 's/^([a-z][-a-z0-9.]*):(\s.*|$$)/\1/p' $(MAKEFILE_LIST) | sort -u)
 # _phony:= $(shell sed -rn '/^\.PHONY: (.*)/{s//\1/;s/\s+/\n/g;p}' '$(MAKEFILE_LIST)'|sort -u)
 # ifeq ($(ALLPHONY),1)
@@ -33,9 +33,15 @@ help: help-main list-aliases
 
 
 
-.PHONY: list-commands
-list-commands:
+.PHONY: help-cmd list-commands
+help-cmd list-commands:
 	@:$(foreach t,$(_tgts),$(info $t))
+
+
+
+help-env:
+	@sed -rn '/^.*(BTRX_\w+).*/s//\1/p' $(MAKEFILE_LIST) | sort -u \
+	| awk '{v=$$0}(v in ENVIRON){v=v" = "ENVIRON[v]}{print v}'
 
 
 

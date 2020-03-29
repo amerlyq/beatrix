@@ -7,6 +7,14 @@
 #%
 $(call &AssertVars,here)
 
+## ALT:BET? Configuration Layers
+# define deflayer =
+# include $(sort $(wildcard $(btrx)/*/$(nm).mk))
+# endef
+# @fragments := cfg env gen mod use zen
+# $(foreach nm,$(@fragments),$(eval $(call deflayer,$nm)))
+
+
 include aspell/mod.mk
 include batch.mk
 include build.mk
