@@ -26,6 +26,7 @@ include hooks/mod.mk
 include install.mk
 include log.mk
 include pkgbuild.mk
+include qemu/mod.mk
 include reuse/mod.mk
 include r2/mod.mk
 include rr/mod.mk
