@@ -1,0 +1,29 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+  debuggers - How to debug (like gdb) with radare2? - Reverse Engineering Stack Exchange ⌇⡞⡻⡽⡖
+    https://reverseengineering.stackexchange.com/questions/11207/how-to-debug-like-gdb-with-radare2
+  Using radare2 for analysis ⌇⡞⡻⡽⡻
+    https://www.magiclantern.fm/forum/index.php?topic=22385.0
+
+  Show entropy bars from rahash2 · Issue #9871 · radareorg/radare2 ⌇⡞⡻⡽⢓
+    https://github.com/radareorg/radare2/issues/9871
+  Cheatsheet - r2wiki ⌇⡞⡻⡽⢳
+    https://r2wiki.readthedocs.io/en/latest/home/misc/cheatsheet/
+    https://gist.github.com/williballenthin/6857590dab3e2a6559d7
+
+  index-of.es/ ⌇⡞⢀⣓⣘
+    http://index-of.es/
+    http://index-of.es/Cracking/Practical%20Reverse%20Engineering.pdf
+
+
+USAGE
+  https://radare.gitbooks.io/radare2book/debugger/migration.html
+    Introduction to Reverse Engineering and Radare2 - Loginsoft - Cybersecurity, Software Development, Offshore Services ⌇⡞⢀⣖⡈
+      https://www.loginsoft.com/blog/2018/09/11/introduction-to-reverse-engineering-and-radare2/
+  (gdb) list
+    gdb list command ? · Issue #1783 · radareorg/radare2 ⌇⡞⢀⣕⣍
+      https://github.com/radareorg/radare2/issues/1783
