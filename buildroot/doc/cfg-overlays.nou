@@ -1,0 +1,16 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+Configuring
+  [_] THINK: maybe these overlay fragments will allow to simulate multiple merge-overlays \
+    which I expected to implement in ./board/ or ./cfg/
+    2020-03-21 [X] CHG: replace busybox cfg by using default minimal config and overlay fragments
+      BR2_PACKAGE_BUSYBOX_CONFIG="$(BTRX_BR2_SET_DIR)/busybox.config"
+    2020-03-21 [X] CHG: same for linux
+    [_] BUT: how can we save only fragment back ?
+      [_] READ manual.pdf
+      [_] READ buildroot sources
+  [_] UNUSED ./ext/board/qemu-arm/kernel.unused

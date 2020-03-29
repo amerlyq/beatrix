@@ -1,0 +1,17 @@
+#
+# SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY:RQ: list of additional packages for menuconfig
+#%TMPL: source "$BR2_EXTERNAL_BTRX_PATH/package/<private-pkg>/Config.in"
+#
+#%OFF:
+# source "$BR2_EXTERNAL_BTRX_PATH/toolchain/toolchain-external-mine/Config.in.options"
+# source "$BR2_EXTERNAL_BTRX_PATH/package/pkg-1/Config.in"
+# source "$BR2_EXTERNAL_BTRX_PATH/package/pkg-2/Config.in"
+# source "$BR2_EXTERNAL_BTRX_PATH/package/my-jpeg/Config.in"
+#
+# config BTRX_FLASH_ADDR
+#     hex "my-board flash address"
+#     default 0x10AD

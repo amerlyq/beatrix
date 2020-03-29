@@ -1,0 +1,20 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+WARN: build root must be outside of project
+  * _build/ ccache/ dirs must be excluded from BTRFS snapshotting (prevent from pollution)
+    NEED: ccache directory somewhere on the same BTRFS partition -- for fast CoW
+      MAYBE: use general ~/.ccache which has BTRFS exclusions in ./layout-2019-06
+      BUT: will CoW work between different BTRFS volumes of same partition e.g. ~/.ccache/ and ~/.cache/ ?
+    TRY: use disk-backed RAM if possible
+    DEV:(option): use default TMPDIR
+  * dl/ dir must be either excluded from snapshotting OR kept in another repo (and therefore snapshotted)
+    BUT: it must be outside of main repo anyway
+  * RQ: reproducible builds are only possible if real build dir is strictly the same (not symlink)
+    FIXME: you must never play with suffix-prefix of *production* builds BET: mount to root /output or /build
+  * FAIL: you must use different prefixes for semi-persistent cache depending on external/internal root dir
+    - $(BTRX_CACHE_PREFIX)dl -> $(d_pj)/_dl
+    - $(BTRX_CACHE_PREFIX)dl -> $(HOME)/.cache/beatrix/dl

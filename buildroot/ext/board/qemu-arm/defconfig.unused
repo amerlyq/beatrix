@@ -1,0 +1,81 @@
+#
+# SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+
+
+## BAD~~ questionable usability
+#  + parallel builds for multiple packages
+#  + enforces correct deps graph in package configs
+#  ~ we still have empty ./output/target/ of ambiguous utility with only skeleton installed
+#  - install size -- host and target deps are installed multiple times per each dependee (through hardlinks)
+#    e.g. each ./output/per-package/*/host/ will contain toolchain
+#    e.g. each ./output/per-package/*/target/ will contain skeleton and all own deps
+#  - build time for per-pkg=[new-cold=30min ccache-warm=10min] .vs.
+#  - idle "make build-all" is slow due to shear number of files timestamps to check
+BR2_PER_PACKAGE_DIRECTORIES=y
+
+
+## BAD: must not touch it
+# BR2_STRIP_none=y
+## ALT: pass -g4 in different way from BR2_OPTIMIZE_3=y
+# BR2_TARGET_OPTIMIZATION="-pipe -g4"
+
+
+BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_EUDEV=y
+# BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_MDEV=y
+
+
+## FIND: is there a way to change it to familiar ttyS0 ?
+## CHECK: it seems we must specify it for older buildroot 2014.11 but don't need for 2020.02
+# BR2_TARGET_GENERIC_GETTY=y
+BR2_TARGET_GENERIC_GETTY_PORT="ttyAMA0"
+
+
+## CHECK: do we really need these or not -- maybe they affect installation of gconv pkg, which I don't need
+# BR2_ENABLE_LOCALE_PURGE=y
+# BR2_ENABLE_LOCALE_WHITELIST="C"
+
+# BR2_ROOTFS_POST_BUILD_SCRIPT="$(BTRX_DIR)/debuginfo/extract"
+# BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BTRX_DIR)/debuginfo/archive"
+# BR2_LINUX_KERNEL_CUSTOM_LOCAL=y
+# BR2_LINUX_KERNEL_CUSTOM_LOCAL_PATH="$(BTRX_TOP_DIR)/linux-kernel"
+## DEPRECATED~(BR2_GLOBAL_PATCH_DIR): BR2_LINUX_KERNEL_PATCH="$(BTRX_BR2_SET_DIR)/patch-linux"
+
+
+## TEMP:PERF: 2nd-pass compression is totally useless for active local rebuilding
+##   => use DFL=XZ only on jenkins, and locally use something fast like DFL=lz4/etc.
+# BR2_TARGET_ROOTFS_TAR=y
+# BR2_TARGET_ROOTFS_TAR_XZ=y
+BR2_TARGET_ROOTFS_SQUASHFS=y
+BR2_TARGET_ROOTFS_SQUASHFS4_LZ4=y
+# BR2_TARGET_ROOTFS_EXT2=y
+
+## CHECK: need for NFS ?
+# BR2_SYSTEM_DHCP="eth0"
+
+
+## CHECK: seems unneeded if you use local kernel sources
+# BR2_KERNEL_HEADERS_VERSION=y
+# BR2_DEFAULT_KERNEL_VERSION="3.16.42"
+# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_3_16=y
+
+
+## FAIL:CHECK: can't directly boot in qemu
+## BAD: zImage is built anyway inside ./output/build/linux-*/arch/arm/boot
+# BR2_LINUX_KERNEL_VMLINUX=y
+
+
+## FUTURE: create custom simplified qemu-devtree and use it instead of BR2_LINUX_KERNEL_INTREE_DTS_NAME
+# BR2_LINUX_KERNEL_USE_CUSTOM_DTS
+# BR2_LINUX_KERNEL_CUSTOM_DTS_PATH
+# BR2_LINUX_KERNEL_APPENDED_DTB=y
+
+
+## BUG: don't work for buildroot=2014.11
+# BR2_PACKAGE_QEMU=y
+# BR2_PACKAGE_QEMU_CUSTOM_TARGETS="arm-softmmu"
+# BR2_PACKAGE_QEMU_SDL=y
+# BR2_PACKAGE_QEMU_FDT=y
+# BR2_PACKAGE_GDB=y

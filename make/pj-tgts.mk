@@ -10,6 +10,7 @@ $(call &AssertVars,here)
 include aspell/mod.mk
 include batch.mk
 include build.mk
+include buildroot/mod.mk
 include clang-format/mod.mk
 include clang-tidy/mod.mk
 include clean.mk

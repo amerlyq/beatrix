@@ -1,0 +1,12 @@
+#
+# SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+#
+# SPDX-License-Identifier: MIT
+#
+#%SUMMARY:RQ: unique identifier for external overlay
+#%USAGE: VAR in Kconfig, Makefile, ENV for scripts
+#%  * BR2_EXTERNAL_$(NAME)_PATH
+#%  * BR2_EXTERNAL_$(NAME)_DESC
+
+name: BTRX
+desc: beatrix native configuration for external buildroot

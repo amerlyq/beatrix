@@ -1,0 +1,13 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+Reduce build time
+  [_] TRY: unpack all dl/ archives into ~/.cache/beatrix/src/*
+    [_] NEED: setup ./local.mk for all these archives (hard to automate)
+    [_] ALSO:TRY: rsync CoW flags when copying sources
+    [_] IDEA: two separate configurations
+      - massively cached (big fs-space overhead)
+      - ultimately contained (big build-time ovehead)

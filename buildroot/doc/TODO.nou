@@ -11,5 +11,14 @@ SPDX-License-Identifier: CC-BY-SA-4.0
     TARG: checkout tag into worktree inside ignored ./&otbs folder
       $ git fetch origin tag otbs/buildroot/release
       $ aura otbs-fetch buildroot/release
+    OR:(top-dir):
+      $ mkdir -p '_src-buildroot'
+      $ git cat-file -p "otbs/buildroot/release:buildroot-2020.02.tar.gz" | tar -C '_src-buildroot' -xzf- --strip-components=1
+    ALT:BET? directly tag blob to ignore filename on upgrade :: otbs/buildroot/release/blob
   2020-03-11 [$] OR:ARCH: use github mirror submodule FAIL: unnecessary overhead on cloning
   2020-03-11 [$] OR:PERF: directly use subtree FAIL: polluted history by 12.000 files
+
+
+[_] TODO: read manual for buildroot 2020.02 and compare to 2014.11
+  2020-03-21 [X] CHECK: if recommended file structure for BR2_EXTERNAL= had changed
+    ::: NEED: ./external.desc and CHG BR2_EXTERNAL_$(NAME)_PATH=

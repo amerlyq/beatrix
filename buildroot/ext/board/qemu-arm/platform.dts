@@ -1,0 +1,14 @@
+//
+// SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+//
+// SPDX-License-Identifier: MIT
+//
+//%SUMMARY:TODO: device-tree config resembling real embedded hardware but specifically tailored for qemu
+//%USAGE:CHECK: buildroot don't rebuild image when DTS has been changed
+//%  ::: FIXED: rebuild whole kernel $ make linux-rebuild all
+//%
+
+/ {
+    chosen {
+        bootargs = "quiet loglevel=0 console=ttyS0,115200n8 rootfstype=squashfs ro root=/dev/mmcblk0p1 rootwait init=init slram=mtd0,0x10000000,+0x00800000 blkdevparts=mmcblk0:192M@0x21100000(rootfs),1024M@0x7F600000(data),-(custom)";
+    };

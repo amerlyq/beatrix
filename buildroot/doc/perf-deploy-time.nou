@@ -1,0 +1,15 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+
+NFS
+  [_] SEE: CONFIG_NETWORK_FILESYSTEMS=y
+  [_] pre-generated dropbear key (and shell prompt config)
+    + reduce startup time
+    + keep the same known key -- and no need to disable SECU checks
+    IDEA: generate key once per user system NICE: add to known keys only once
+      [_] add generation commands into mod.mk
+      [_] generate into /$(BTRX_CACHE_PREFIX)overlay/etc/sshd/?
+      [_] append overlay to list of rootfs overlays in BR2_EXTERNAL=
