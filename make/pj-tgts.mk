@@ -32,5 +32,6 @@ include r2/mod.mk
 include rr/mod.mk
 include run.mk
 include sanitizers.mk
+include ssh/mod.mk
 include t/mod.mk
 include tree/mod.mk
