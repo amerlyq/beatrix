@@ -1,0 +1,70 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+READ
+  [_] crosstool-NG Internals ⌇⡞⢂⡻⢦
+    https://crosstool-ng.github.io/docs/internals/
+  [_] How a toolchain is constructed ⌇⡞⢂⡻⣆
+    https://crosstool-ng.github.io/docs/toolchain-construction/
+  [_] Notes on specific toolchain features ⌇⡞⢂⡼⢡
+    https://crosstool-ng.github.io/docs/caveats-features/
+
+2020-04-01
+  [_] FIXME: it seems for our toolchain linker is also broken -- because linker scripts are installed differently with hardcoded path
+    /data/beatrix/_build-crosstool-ng/install/arm-beatrix-linux-gnueabihf/lib/ldscripts
+    ? CHECK: maybe jenkinks is not that much bad and accidentally installed correctly
+    BUT: even if ldscripts are fixed -- .exe and .so will have some hardcoded paths to original location!
+
+
+TODO
+  2020-04-16 [X] SEE:SEIZE: ct-ng already has Dockerfile inside testing/
+    https://crosstool-ng.github.io/docs/os-setup/
+  [_] WARN: maybe I also need correct kconfig inside ./sample/
+  [_] HACK:TRY: use CT_SHARED_LIBS=y when building fully-static elfs for qemu to run w/o kernel
+  [_] SEE: Cross-building — conan 1.23.0 documentation ⌇⡞⢂⠾⡏
+    https://docs.conan.io/en/latest/systems_cross_building/cross_building.html
+  [_] TRY: use gdbserver with tracepoints CT_GDB_NATIVE_BUILD_IPA_LIB=y
+    BUT! gdbserver must be dynamically linked
+    => not supported by "arm-linux", only "aarch64-linux"
+    [_] TRY: at least on host x86_64
+  [_] TRY:(once):WARN:(very long): verify companion libraries and compiler self-test
+    CT_COMPLIBS_CHECK=y CT_TEST_SUITE_GCC=y
+  [_] BAD:FIND: ./_install in host now .vs. run from /opt/ in docker
+    BUT! there is option "remove the prefix prior to building"
+    CT_PREFIX_DIR="${CT_TOP_DIR}/install"
+  [_] ALSO: enable CT_FORBID_DOWNLOAD=y if you keep cache in local backup
+  [_] TRY: musl CT_LIBC_MUSL=y for target NEED: CT_EXPERIMENTAL=y MAYBE: use @/beatrix/docker/cfg/alpine
+  [_] FIND: what are benefits of using CT_GLIBC_KERNEL_VERSION_NONE=y
+  2020-04-01 [$] CHECK: if CT_GDB_CROSS_STATIC=y by default builds CT_GDB_CROSS_PYTHON=y with static libpython.a for gdb>=7.3
+    ::: don't build gdb-multiarch at all -- install native available version into docker devtools
+  2020-04-01 [X] FIXME: https://longervision.github.io/2019/09/06/OperatingSystems/crosstool-ng/
+    + unset LD_LIBRARY_PATH before building. Otherwise, you’ll meet some ERROR messages.
+    + mkdir ~/src before building. Otherwise, whenever you tried to rerun ct-ng build, you’ll have to download ALL required packages from scratch.
+
+  [_] ADD: default flags when compiling GCC
+    Spec Files (Using the GNU Compiler Collection (GCC)) ⌇⡞⢂⡐⣼
+      https://gcc.gnu.org/onlinedocs/gcc/Spec-Files.html
+    g++ - Add some flags by default to gcc (preferably using specs file) - Stack Overflow ⌇⡞⢂⡑⢥
+      https://stackoverflow.com/questions/10201192/add-some-flags-by-default-to-gcc-preferably-using-specs-file
+    E.G. Hardened/Toolchain - Gentoo Wiki ⌇⡞⢂⡠⣎
+      https://wiki.gentoo.org/wiki/Hardened/Toolchain#Toolchain_modifications_for_default_RELRO
+    c++ - how to specify alternate linker command when linking with 'cc' - Stack Overflow ⌇⡞⢂⡳⣇
+      https://stackoverflow.com/questions/40470931/how-to-specify-alternate-linker-command-when-linking-with-cc
+
+  [_] FIND: what is "default" for "ld,gold" CT_BINUTILS_LD_WRAPPER=y
+    c++ - how to specify alternate linker command when linking with 'cc' - Stack Overflow ⌇⡞⢂⡳⣇
+      https://stackoverflow.com/questions/40470931/how-to-specify-alternate-linker-command-when-linking-with-cc
+    binutils/binutils: add wrapper to gold and ld (2841bb7a) · Commits · open-source / crosstool-ng · GitLab ⌇⡞⢂⡴⡆
+      https://spacegit.unibe.ch/open-source/crosstool-ng/commit/2841bb7a35cbdaa7ed68d078880f199319b083c8
+    1455767 - --enable-gold doesn't work with GCC ≥7 ⌇⡞⢂⡴⡏
+      https://bugzilla.mozilla.org/show_bug.cgi?id=1455767
+
+  [_] Packaging toolchain into archive
+    Feature request: build redistributable tarballs · Issue #1262 · crosstool-ng/crosstool-ng ⌇⡞⢃⢾⢦
+      https://github.com/crosstool-ng/crosstool-ng/issues/1262
+      + use docker with same prefix to install -- due to ld scripts paths
+      + tar transform options are complicated
+    Allow for reproducible builds by bmwiedemann · Pull Request #784 · crosstool-ng/crosstool-ng ⌇⡞⢃⢿⠊
+      https://github.com/crosstool-ng/crosstool-ng/pull/784

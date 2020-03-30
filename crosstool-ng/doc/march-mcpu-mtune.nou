@@ -1,0 +1,21 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+CMP: -march= -mcpu= -mtune= | e.g. BR2_cortex_a9=y
+
+  2020-03-30 [X] It is more complicated than I thought: -mtune, -march in GCC – Daniel Lemire's blog ⌇⡞⢂⠳⢶
+    https://lemire.me/blog/2018/07/25/it-is-more-complicated-than-i-thought-mtune-march-in-gcc/
+    ::: prefer using -mcpu= to be able to override on cmdline
+    INFO
+      -march=armv7-a -- support only one BUT! optimize -mtune=generic (if CPU is not detected correctly)
+      -mtune=cortex-a9 -- optimize and prefer one but support all
+      -mcpu=cortex-a9 -- fallback when some of -march= OR -mtune= not present
+    DEBUG
+      $ gcc -march=native -Q --help=target | grep -- '-mtune=' | cut -f3
+      $ gcc -march=native -Q --help=target | grep -- '-march=' | cut -f3
+
+  NOTE: you can use Cortex-A15 to run code compiled with -mcpu=cortex-a9
+    ::: they are backward compatible on HW-level :: ./cortex-A9-vs-A15.nou
+      ALSO: cortex-A7 is very similar to A15, but I'm still dubious:
+        ~ you may get SIGILL with A7 if it has less regs than A9

@@ -1,0 +1,44 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+%%%% Linaro %%%% .vs. Crosstool-ng .vs. Buildroot-native
+
+::: SUMMARY:
+  From the talk in irc:#linaro/freenode 2020-03-31 18:42:07 @hrw SUM: "what toolchain to use nowadays for ARM"
+    = То что меня беспокоило -- не начнёт ли что-то рендомно ломаться на таргете, если мы НЕ будем использовать тулчейн от Linaro
+      ::: Ответ -- всё будет ОК.
+    1) Linaro releases by itself are not appealing anymore -- you can use even default GCC/glibc/Kernel "apt install gcc-arm-linux-gnueabi".
+    2) Everything was sent upstream (7-8 years ago for Cortex-a9, end of 2012 was mass move to Cortex-A15).
+    3) Even not-so-recent GCC/Kernel/Glibc already has most of the ARM Linaro stuff merged and will work OK.
+    4) We don't need even crosstool-ng: buildroot by itself will suffice to build good enough toolchain for armv7 (and keep your sanity).
+    5) we don't need Linaro-branded toolchain even for 64bit armv8, due to their main focus on upstreaming 64bit in last 5+ years.
+    6) OpenEmbedded took over the world, devouring long list of the vendor competitors under his eyes: to the better (consolidation of efforts), or to the worse (big blob of mess).
+    7) hrw: we did not ceased all development (we have Linaro devs hired working in many upstreams directly).
+    8) hrw: we ceased all release work (now it's done by https://developer.arm.com/ instead of Linaro, because somebody don't want to build toolchains themselves)
+
+
+WARN
+  gcc - Linaro compilation speed - Stack Overflow ⌇⡞⢃⢼⣔
+    https://stackoverflow.com/questions/12435005/linaro-compilation-speed
+
+
+REF:
+  Linaro Releases ⌇⡞⢃⡖⣵
+    NEW: https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads
+    OLD: https://releases.linaro.org/components/toolchain/binaries/
+    SRC: http://git.linaro.org/toolchain
+    NEED: ABE build-system
+  Toolchains - eLinux.org ⌇⡞⢃⢝⣝
+    https://elinux.org/Toolchains#Toolchain_building_systems
+
+
+BUILD: Linaro yourself
+
+  Build from source an official release of Linaro toolchain – Vivin Uthappa ⌇⡞⢃⡹⢌
+    https://vivinuthappa.wordpress.com/articles/build-from-source-an-official-release-of-linaro-toolchain/
+  Linaro-toolchain-builds rebuilding sysroot ⌇⡞⢃⡹⡭
+    https://lists.linaro.org/pipermail/linaro-toolchain/2013-May/003435.html
+
+  [_] FIND: correct config for linaro toolchain
+    https://github.com/Christopher83/linaro_crosstool-ng/blob/master/samples/linaro-aarch64-none-elf/crosstool.config

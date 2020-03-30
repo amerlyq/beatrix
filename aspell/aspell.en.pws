@@ -1,4 +1,4 @@
-personal_ws-1.1 en 112 utf-8
+personal_ws-1.1 en 124 utf-8
 ArchLinux
 Beatus
 Busybox
@@ -7,6 +7,7 @@ CMP
 CMake
 CXX
 CodeChecker
+Crosstool
 DEV
 DSO
 Dmytro
@@ -23,6 +24,7 @@ JIT
 Kolomoiets
 LicenseRef
 MacOS
+NG
 Pre
 Precompile
 RQ
@@ -62,25 +64,31 @@ coredump
 cp
 cpp
 cpplint
+crosstool
 ctx
 customizations
 debuginfo
 defconfig
 deps
 dev
+dir
 disfunct
+eglibc
 filesystem
 func
 gdb
 gitmodules
+gnueabihf
 init
 io
 jekyll
+kconfig
 kirie
 lfs
 libexec
 libs
 lifecycle
+linaro
 linux
 llvm
 menuconfig
@@ -88,7 +96,9 @@ middleware
 mk
 mortem
 nconfig
+ng
 oneline
+patchset
 pseudoxml
 qemu
 rebase
@@ -99,6 +109,7 @@ repos
 rootfs
 rst
 runtime
+saveSample
 savedefconfig
 src
 submodule
@@ -108,5 +119,6 @@ symlink
 symlinks
 ttime
 txt
+upgradeconfig
 usr
 vexpress

@@ -1,0 +1,35 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+%%%% Cortex-A9 .vs. Cortex-A15 ⌇⡞⢗⡭⢒
+
+FAIL: incompatible options $ qemu-system-arm -M virt -cpu cortex-a9
+  ERR: qemu-system-arm: mach-virt: CPU type cortex-a9-arm-cpu not supported
+  2020-04-15 [X] CHECK: only cortex-a7 and cortex-15 supported
+  REQ: irc:#qemu/oftc 2020-04-14 22:00:02
+    @pm215: Reason you can't use a cortex-a9 with -M virt is because the A9 has builtin devices (timers etc),
+      and virt.c would need special code to handle creating those devices.
+  INFO: qemu can't emulate
+
+
+CMP:(diff asm code): A7/A15 vs A9
+  * VFPv4 vs VFPv3      | VFPv4 is a very minor upgrade from VFPv3 (new fused multiply-accumulate I think)
+  * FPU 16 vs 32 regs   | qemu's a9 has 32 FPU
+  * NEON 64 vs 128 bit
+  ::: A15 can run A9 code just fine (always more registers and bits, and more mature FPU) due to backward compatibility
+    @pm215: production binaries for userspace for the A9 should run fine on either A7 or A15 (they are basically the same)
+      + a15 and a7 don't have those builtin devices (they have an interrupt controller, but virt has code to create that)
+    ALSO: userspace exe are OK, but kernel must be recompiled -- which you will do anyways for Qemu
+    @pm215: I would expect that anything the compiler produces with -mcpu=cortex-a9 will run on the a7/a15,
+      as it happens (the bits that are not compatible are the stuff you need to hand-roll asm for)
+    ALSO: ~~ if gcc generates code using regs 17..32 -- then it will SIGILL on A7, won't it?
+
+
+CMP:(power consumption): A9 is the best to prolong battery life on devices (efficiency of power consumption)
+  ARM Cortex A9 vs ARM Cortex A15 - What to expect, and what's the difference? - Android Authority ⌇⡞⢖⠗⣴
+    https://www.androidauthority.com/arm-a9-vs-arm-a15-87559/
+  The final ISA showdown: Is ARM, x86, or MIPS intrinsically more power efficient? - ExtremeTech ⌇⡞⢖⠜⠏
+    https://www.extremetech.com/extreme/188396-the-final-isa-showdown-is-arm-x86-or-mips-intrinsically-more-power-efficient
+  Intel dismisses 'x86 tax', sees no future for ARM or any of its competitors - ExtremeTech ⌇⡞⢖⠝⣓
+    https://www.extremetech.com/computing/130552-intel-dismisses-x86-tax-sees-no-future-for-arm-or-any-of-its-competitors

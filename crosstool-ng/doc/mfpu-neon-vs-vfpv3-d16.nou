@@ -1,0 +1,22 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+NOTE: ‘neon’ это тоже самое что и ‘neon-vfpv3’ (но похоже != ‘vfpv3-d16’)
+  Почти все, что вы хотели знать про плавающую точку в ARM, но боялись спросить / Блог компании Embox / Хабр ⌇⡞⢂⣾⢑
+    https://habr.com/ru/company/embox/blog/418295/
+  e.g. Zynq Z-7020 :: Dual Arm "Cortex A9MP" hard cores at up to 667MHz with Neon FPU
+
+
+CMP:(when to use): NEON .vs. VFPv3-D16
+  REQ: irc:#qemu/oftc 2020-04-14 22:17:32 @pm215
+  * if you generate code for VFP-D32 and your CPU has -D16 then it won't work
+  * but the A7 has both -D16 and -D32 flavours, and QEMU's version is the -D32
+  * and similarly the A9 comes in both -D16 and -D32 flavours, and QEMU's version is the -D32
+    = (the A7 and A15 were designed to work together in a big-LITTLE configuration, so they can run exactly the same code)
+  BUT: @me: why we use "-mfpu vfpv3-d16" instead of "-mfpu neon"
+    ~ real h/w Cortex-A9 configs have no neon and only D16
+    a) they know must run on that config
+    b) they want to be portable to that kind of system will build for vfpv3-d16
+    == distros building userspace binaries converged on vfpv3-d16 as a reasonable least-common-denominator for armv7 code

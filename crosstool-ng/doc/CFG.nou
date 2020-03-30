@@ -1,0 +1,121 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+%%%% Configuration
+
+  DEBUG:(important): tweak flags in sources
+    !!always!! add flags to ct-ng to have intermediate point to continue from
+    !something will *surely* break! if you change any of flags, versions, or ct-ng revision
+    ::make
+      CT_DEBUG_CT=y
+      CT_DEBUG_CT_SAVE_STEPS=y
+
+  2020-03-31 [X] look through all usages of CT_EXPERIMENTAL= flag inside ./config/
+    ::: you only reasonably need it for CT_LIBC_MUSL=y
+
+
+CFG
+  WARN: hardcoded install path -- must use same path on target
+    = SEARCH_DIR("=/data/beatrix/_build-crosstool-ng/install/arm-beatrix-linux-gnueabihf/arm-beatrix-linux-gnueabihf/lib"); SEARCH_DIR("=/usr/local/lib"); SEARCH_DIR("=/lib"); SEARCH_DIR("=/usr/lib");
+    linux - Can not hardcode library search path of binutils - Unix & Linux Stack Exchange ⌇⡞⢄⡖⡪
+      https://unix.stackexchange.com/questions/350944/can-not-hardcode-library-search-path-of-binutils
+    MAYBE:
+      CT_BINUTILS_EXTRA_CONFIG_ARRAY="--with-lib-path==/usr/local/lib/arm-linux-gnueabihf:=/usr/local/lib:=/lib/arm-linux-gnueabihf:=/lib:=/usr/lib/arm-linux-gnueabihf:=/usr/lib"
+    binutils with-lib-path - Google Search ⌇⡞⢄⣆⢕
+      https://www.google.com/search?q=binutils%20with-lib-path
+    linux - Can not hardcode library search path of binutils - Unix & Linux Stack Exchange ⌇⡞⢄⣆⢠
+      https://unix.stackexchange.com/questions/350944/can-not-hardcode-library-search-path-of-binutils
+
+  WARN: CT_STATIC_TOOLCHAIN=y .vs. CT_BINUTILS_LINKER_LD_GOLD=y
+    + NICE: static toolchain can be relocated to another host w/ different distributive
+    ! BUT: static toolchain prevents using Gold linker
+      + can link in parallel
+      + can use LTO-plugin from gcc
+    ::: BET: use Gold, instead of static
+      NEED: build inside docker identical to whatever will be used in development
+
+  ./march-mcpu-mtune.nou
+  ./mfpu-neon-vs-vfpv3-d16.nou
+  ./cortex-A9-vs-A19.nou
+
+  CFG:NOT: cloog
+    //buildroot/package/gcc/gcc.mk:158
+      # gcc 5 doesn't need cloog any more, see
+      # https://gcc.gnu.org/gcc-5/changes.html and we don't support graphite
+      # on GCC 4.9.x, so only isl is needed.
+
+  SECU: "-z relro" in linker CT_BINUTILS_RELRO=m
+    WHY: Secure-PLT - supporting RELRO binaries ⌇⡞⢂⡡⢒
+      https://wiki.netbsd.org/projects/project/secureplt/
+    TUT: Hardened/Toolchain - Gentoo Wiki ⌇⡞⢂⡠⣀
+      https://wiki.gentoo.org/wiki/Hardened/Toolchain#Rationale_for_enabling_RELRO_globally
+    SRC: 2016-06-22 [Bug ld/20283] Make -z relro the default if possible ⌇⡞⢂⡡⠅
+      https://lists.gnu.org/archive/html/bug-binutils/2016-06/msg00186.html
+
+  WTF: even if CT_LOCAL_TARBALLS_DIR=/path/to/dl is set
+    => tarballs are downloaded to ${CT_TOP_DIR}/build/tarballs OR symlinked to found in dir above
+    ::: ct-ng vars .like. CT_LOCAL_TARBALLS_DIR= can't be overwritten from env or cmdline (comparing to buildroot)
+      ! must create directory beforehand
+    ALSO: manipulating env vars is too opaque for maintenance
+    BET: use single working dir and create symlinks to desired locations (or copy artifacts by wrapper)
+    ::make
+      CT_LOCAL_TARBALLS_DIR="${CT_TOP_DIR}/dl"
+      CT_LOCAL_PATCH_DIR="${CT_TOP_DIR}/patches"
+      CT_PREFIX_DIR="${CT_TOP_DIR}/install/${CT_HOST:+HOST-${CT_HOST}/}${CT_TARGET}"
+      CT_WORK_DIR="${CT_TOP_DIR}/build"
+
+  2020-04-01 [$] grep BINUTILS_USE_LINARO= GCC_LINARO_VERY_NEW=
+    MAYBE it's not needed anymore .because. of depends on OBSOLETE + depends on EXPERIMENTAL
+    https://git.linaro.org/toolchain/binutils-gdb.git
+    ::: Linaro devs already had integrated most of Linaro-branded parts into upstream
+
+
+BUG
+  ERR: ./_build-crosstool-ng/build/arm-beatrix-linux-gnueabihf/src/gdb/gdb/gdbsupport/gdb-dlfcn.c:65:
+    warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+      ~~~ but it still builds gdbserver
+    = it seems Linaro dropped support for -static gdbserver w/o deep investigation
+      3344 – gdbserver broken in Linaro 2017.02 ⌇⡞⢃⢞⢮
+        https://bugs.linaro.org/show_bug.cgi?id=3344
+        https://releases.linaro.org/components/toolchain/binaries/latest-7/
+    ALSO: NEWS - Glibc source code (glibc-2.31.9000) - Bootlin ⌇⡞⢃⢠⠓
+      https://elixir.bootlin.com/glibc/latest/source/NEWS
+      glibc=2.27 ::
+        Support for statically linked applications which call dlopen is deprecated
+        and will be removed in a future version of glibc.  Applications which call
+        dlopen need to be linked dynamically instead.
+
+  ERR: /usr/bin/ld: cannot find -lsource-highlight
+    = it seems gdb ./configure is buggy -- it had found libsource-highlight on my host outside of ct-ng prefix
+      ::: don't build static gdb-multiarch OR:BET: don't build gdb-multiarch at all
+        i.e. use native pkg for host, or use latest docker,
+          or build gdb by separate buildroot to create host prefix
+    * ATT: source highlight is incompatible with -static-libstdc++
+      SRC: https://github.com/koreader/koxtoolchain/blob/master/refs/x-compile.sh
+
+  ERR: configure: error: inprocess agent not supported for this target
+    ::: only VIZ: "{aarch64,x86_64,i386,powerpc,s390}-linux" NOT! no support for "arm-linux"
+    //scripts/build/debug/300-gdb.sh:121
+      if [ "${CT_GDB_NATIVE_BUILD_IPA_LIB}" = "y" ]; then
+          native_extra_config+=("--enable-inprocess-agent")
+    //arm-beatrix-linux-gnueabihf/build/build-gdb-native/gdb/gdbserver/config.log:3807
+      gdbsrv_cv_have_sync_builtins=yes
+      gdbsrv_cv_have_visibility_hidden=yes
+    //arm-beatrix-linux-gnueabihf/src/gdb/gdb/gdbserver/configure.srv:36
+      aarch64*-*-linux*)
+        ipa_obj="linux-aarch64-ipa.o"
+        ipa_obj="${ipa_obj} linux-aarch64-tdesc-ipa.o"
+        ipa_obj="${ipa_obj} arch/aarch64-ipa.o"
+    SEE:USAGE:
+      Pedro Alves - Re: GDBserver fast tracepoints support ⌇⡞⢃⣜⣒
+        https://sourceware.org/legacy-ml/gdb-patches/2010-06/msg00002.html
+
+  ERR: ./arm-beatrix-linux-gnueabihf/src/gcc/libsanitizer/sanitizer_common/sanitizer_internal_defs.h:339:72:
+    error: narrowing conversion of '-1' from 'int' to 'unsigned int'
+    ::: import provided patch
+      708346 – sys-devel/gcc-9.2.0-r3[sanitize] fails to compile with sys-devel/glibc-2.31 ⌇⡞⢂⢁⢀
+        https://bugs.gentoo.org/708346
+    //sanitizer_internal_defs.h:338
+      #define IMPL_COMPILER_ASSERT(pred, line) \
+          typedef char IMPL_PASTE(assertion_failed_##_, line)[2*(int)(pred)-1]

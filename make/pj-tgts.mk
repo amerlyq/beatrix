@@ -26,6 +26,7 @@ include cmake-format/mod.mk
 include codespell/mod.mk
 include configure.mk
 include coverage.mk
+include crosstool-ng/mod.mk
 include ctags/mod.mk
 include doxygen/mod.mk
 include gdb/mod.mk

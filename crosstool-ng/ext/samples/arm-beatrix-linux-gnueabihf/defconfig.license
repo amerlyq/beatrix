@@ -1,0 +1,6 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: GPL-2.0-only
+
+NOTE: was initially based on the official "arm-cortexa9_neon-linux-gnueabihf"
+BUT: recreated from scratch -- with each option googled, considered if necessary, and tested to build
