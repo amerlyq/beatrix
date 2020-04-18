@@ -12,6 +12,7 @@ $(call &AssertVars,d_pj bdir &here)
 br2tag := otbs/buildroot/release
 br2tgz := buildroot-2020.02.tar.gz
 br2ext := $(&here)ext
+br2src := $(Ocache)/$(if $(filter $(d_pj)%,$(Ocache)/),_src-)buildroot
 
 br2dfl := qemu-arm
 br2cfg := $(or $(BTRX_BR2_CONFIG),$(br2dfl),default)
@@ -28,19 +29,21 @@ Oroot := $(or $(BTRX_O_ROOT),$(Ocache),$(d_pj),$(error),.)
 Opath := $(or $(BTRX_O_PATH),$(Oroot)/$(Odir))
 override O := $(or $(O),$(Opath))
 
-# br2src := $(d_pj)/_src-buildroot
-br2src := $(Ocache)/$(if $(filter $(d_pj)%,$(Ocache)/),_src-)buildroot
 
 # NOTE: populate kernel images vars for qemu and gdb
 include $(br2set)/gen.mk
 
-.PHONY: br brc
+.PHONY: br brc brs brx brz
 #%ALIAS: [buildroot]        #[buildroot]
 br: buildroot-all           # generate
 brc: buildroot-reconfigure  # reconfigure
-br-%: buildroot-% ;         # passthrough
+brs: buildroot-ccache-stats # ccache-stats
+brx: buildroot-pure         # clean build artifacts (but keep /_*/ matching custom dirs)
+brz: buildroot-remove       # remove everything together with build folder itself
+br-%: buildroot-% ;         # passthrough suffix options to buildroot itself
 
 
+# FAIL: can't easily clean-up $(Ocache) dir due to read-only sources
 $(br2src)/Makefile: | $(br2src)/
 	git -C '$(btrx)' cat-file -p '$(br2tag):$(br2tgz)' \
 	| tar -C '$(br2src)' -xzf- --strip-components=1
@@ -54,6 +57,9 @@ $(br2src)/Makefile: | $(br2src)/
 # FAIL:(buildroot-btrx_$(br2cfg)_defconfig): unexpected when running $ menu savedefconfig
 #   !! overwrites symlink in configs/ by actual file
 #   BAD:ALSO: must create symlinks to appropriate configs licenses
+#   ALT: add to config BR2_DEFCONFIG="$(BTRX_BR2_SET_DIR)/defconfig"
+#     NICE: configs are written to correct location by "savedefconfig"
+#     BAD: options itself is stripped -- so you must insert this line each time again
 .PHONY: buildroot-reconfigure
 buildroot-reconfigure: buildroot-btrx_$(br2cfg)_defconfig
 
@@ -78,6 +84,17 @@ buildroot-ccache-stats: buildroot-ccache-options
 .PHONY: buildroot-ccache-reset
 buildroot-ccache-reset: export CCACHE_OPTIONS = --zero-stats
 buildroot-ccache-reset: buildroot-ccache-options
+
+
+.PHONY: buildroot-pure
+buildroot-pure:
+	if test -d '$(O)'; then find -H '$(O)' -mindepth 1 -maxdepth 1 \
+	  -xtype d -name '_*' -prune -o -exec rm -rf {} +; fi
+
+
+.PHONY: buildroot-remove
+buildroot-remove:
+	rm -rf --preserve-root '$(O)/'
 
 
 .PHONY: buildroot-%
