@@ -1,0 +1,11 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+  2020-04-16 [X] FIND: kernel defconfig for "qemu -M virt" -- or whatever is the best for arm dev nowadays
+    [v2,2/4] RISC-V: Enable QEMU virt machine support in defconfigs - Patchwork ⌇⡞⢀⢱⢛
+      https://lore.kernel.org/patchwork/patch/1161460/
+    ::: NEW:(linux=5.4): simple defaults -- works for newer kernels $ make defconfig ARCH=arm
+      DFL: result is very similar to multiplatform $ make multi_v7_defconfig ARCH=arm
+      OLD:(linux=3.14.79): don't work with "virt" platform (it was developed only 5 months prior 3.14 merge window)

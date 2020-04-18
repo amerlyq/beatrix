@@ -7,10 +7,19 @@ SPDX-License-Identifier: CC-BY-SA-4.0
   ? What configuration hierarchy do we really need ?
     ::: composition of flat components == use docker only as simple script (with deps)
 
+  SDK
+    * output/build has file lists of each package -- your can delete files from squashfs
+
   [_] FIND: run docker from IDE / CLion
     => otherwise you must configure CMake on host to use docker wrappers
       !! i.e. you can't use cmake from inside docker too ??
       OR:CHECK: only replacing /path/to/cmake cmdline by docker prefix will be enough ?
+    VSCode:
+      Developing inside a Container using Visual Studio Code Remote Development ⌇⡞⢁⣇⣦
+        https://code.visualstudio.com/docs/remote/containers
+
+  [_] THINK: Configs in sdk or in sources ※⡞⢌⡮⢺
+
 
 
 %% ARCH:(low-level): Integration
@@ -58,6 +67,8 @@ SPDX-License-Identifier: CC-BY-SA-4.0
     - isolated = all your tools are inside docker and you work *exclusively* from inside its shell
       = to have not only build but also all required tools available
       ~ or because you can't do anything outside of docker
+      ++ you can migrate your personal working environment between different build servers and personal PC
+        $ docker commit <container> [<repo>:<tag>]
 
 
 %% USAGE:(high-level): usecases

@@ -1,0 +1,31 @@
+⌇⡞⢚⣲⣺
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+2020-04-16 [X] FIND: what determines ttyAMA0 or ttyS0 is default console for kernel + qemu ? Can I change it ?
+
+  tty - What is the difference between ttys0, ttyUSB0 and ttyAMA0 in Linux? - Unix & Linux Stack Exchange ⌇⡞⢘⢣⢩
+    https://unix.stackexchange.com/questions/307390/what-is-the-difference-between-ttys0-ttyusb0-and-ttyama0-in-linux
+    $ qemu -device isa-serial
+    SRC: https://github.com/torvalds/linux/blob/v4.16/drivers/tty/serial/amba-pl011.c#L2488
+      = special ARM-licensed implementation of UART, hardcoded name into PL011 driver
+
+  linux - What is the TTY major number of your Unix? - Unix & Linux Stack Exchange ⌇⡞⢘⢤⡩
+    https://unix.stackexchange.com/questions/127259/what-is-the-tty-major-number-of-your-unix/127260#127260
+
+  HACK: symlink serial port name
+  /etc/udev/rules.d/80-serialnames.rules ::
+    KERNEL=="ttyAMA0",SYMLINK+="ttyS0" GROUP="dialout"
+    KERNEL=="ttyACM0",SYMLINK+="ttyS1" GROUP="dialout"
+
+  +++ [30%] The Raspberry Pi UARTs - Raspberry Pi Documentation ⌇⡞⢘⢧⢴
+    https://www.raspberrypi.org/documentation/configuration/uart.md
+    = In Linux device terms, by default, /dev/ttyS0 refers to the mini UART, and /dev/ttyAMA0 refers to the PL011
+    + how to use DTS overlays
+    + 250 Hz, CPU speed/turbo and fixed UART speed relations
+    + BET=PL011 .vs. BAD=UART
+
+  firmware replaces console=ttyAMA0 with console=ttyS0 even when ttyS0 is disabled · Issue #752 · raspberrypi/firmware ⌇⡞⢘⢯⠇
+    https://github.com/raspberrypi/firmware/issues/752

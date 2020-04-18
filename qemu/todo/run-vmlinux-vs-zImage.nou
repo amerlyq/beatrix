@@ -1,0 +1,27 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+  [_] FIND: run in qemu directly vmlinux instead of zImage or vmlinuz
+    G: "qemu" "boot" "vmlinux"
+    linux - Booting an uncompressed vmlinux kernel in QEMU instead of bzImage - Super User ⌇⡞⡿⣯⢛
+      https://superuser.com/questions/1451568/booting-an-uncompressed-vmlinux-kernel-in-qemu-instead-of-bzimage
+    https://xenbits.xen.org/docs/unstable/misc/pvh.html ⌇⡞⢀⢿⡬
+      https://xenbits.xen.org/docs/unstable/misc/pvh.html
+    [PATCH 0/2] tests/acceptance: Add boot vmlinux test ⌇⡞⢀⢾⣊
+      https://lore.kernel.org/qemu-devel/20191206164204.GB23522@dhcp-17-72.bos.redhat.com/T/
+      ::
+        QEMU 4.0 onward is able to boot an uncompressed kernel
+        image by using the x86/HVM direct boot ABI. It needs
+        Linux >= 4.21 built with CONFIG_PVH=y.
+      BUT: what about ARM ?
+    [PATCH v7 7/7] KVM: x86: Allow Qemu/KVM to use PVH entry point — Linux KVM ⌇⡞⢀⢿⡁
+      https://www.spinics.net/lists/kvm/msg167572.html
+    [Qemu-devel] [RFC 0/3] QEMU changes to do PVH boot ⌇⡞⢀⣀⢠
+      https://lists.nongnu.org/archive/html/qemu-devel/2018-12/msg00957.html
+      + boot time latency comparison and measurements scripts
+        https://github.com/intel/nemu/wiki/Measuring-Boot-Latency
+        https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg00200.html
+    Support load kernel(vmlinux)/dtb/initrd separately for Boston in QEMU. — sourcehut lists ⌇⡞⢀⣂⣍
+      https://lists.sr.ht/~philmd/qemu/patches/4399

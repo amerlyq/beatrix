@@ -1,0 +1,16 @@
+SPDX-FileCopyrightText: 2020 Dmytro Kolomoiets <amerlyq@gmail.com> and contributors.
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-----
+
+TRY: build whole target by clang
+  [Buildroot] [PATCH 00/11] Add the support for Clang cross-compiler ⌇⡞⢒⣻⣋
+    http://lists.busybox.net/pipermail/buildroot/2019-September/258744.html
+  buildroot/clang.mk at master · buildroot/buildroot ⌇⡞⢒⣻⣆
+    https://github.com/buildroot/buildroot/blob/master/package/clang/clang.mk
+  Embedded Recipes 2019 - LLVM / Clang integration ⌇⡞⢒⣻⣫
+    https://www.slideshare.net/ennael/embedded-recipes-2019-llvm-clang-integration
+    https://paris-embedded.fr/files/NAOUR-Meetup-11.pdf
+
+
+ALT:IDEA: build only host by clang on top of gcc-built sdk
